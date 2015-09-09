@@ -1,0 +1,178 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pou="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition>
+        <h:form id="formEditP">
+
+            <h:panelGrid columns="1" width="100">
+                <h:panelGrid id="odonto" columns="2">
+                    <p:panel >
+                        <h:graphicImage value="#{resource['imagenSistema/titulo_sup_1.png']}" width="275" height="20"/>
+                        <h:panelGrid columns="8">
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()" title="18">
+                                <h:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv18}" style="width: 30px; height:30px"/>
+                                <p:effect type="pulsate" event="click" />
+                                <f:param name="diente" value="18"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv17}" style="width: 30px; height:30px"/>
+                                <p:effect type="pulsate" event="click" />
+                                <f:param name="diente" value="17"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv16}" style="width: 30px; height:30px"/>
+                                <p:effect type="pulsate" event="click" />
+                                <f:param name="diente" value="16"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv15}" style="width: 30px; height:30px"/>
+                                <p:effect type="pulsate" event="click" />
+                                <f:param name="diente" value="15"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv14}" style="width: 30px; height:30px"/>
+                                <p:effect type="pulsate" event="click" />
+                                <f:param name="diente" value="14"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv13}" style="width: 30px; height:30px"/>
+                                <p:effect type="pulsate" event="click" />
+                                <f:param name="diente" value="13"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv12}" style="width: 30px; height:30px"/>
+                                <p:effect type="pulsate" event="click" />
+                                <f:param name="diente" value="12"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv11}" style="width: 30px; height:30px"/>
+                                <p:effect type="pulsate" event="click" />
+                                <f:param name="diente" value="11"/>
+                            </p:commandLink>
+                        </h:panelGrid>
+                    </p:panel>
+                    <p:panel >
+                        <h:graphicImage value="#{resource['imagenSistema/titulo_sup_2.png']}" width="275" height="20"/>
+                        <h:panelGrid columns="8">
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv21}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="21"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv22}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="22"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv23}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="23"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv24}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="24"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv25}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="25"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv26}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="26"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv27}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="27"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv28}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="28"/>
+                            </p:commandLink>
+                        </h:panelGrid>
+                    </p:panel>
+                    <p:panel >
+                        <h:panelGrid columns="8">
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv48}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="48"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv47}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="47"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv46}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="46"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv45}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="45"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv44}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="44"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv43}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="43"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv42}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="42"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv41}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="41"/>
+                            </p:commandLink>
+                        </h:panelGrid>
+                        <h:graphicImage value="#{resource['imagenSistema/titulo_inf_1.png']}" width="275" height="20"/>
+                    </p:panel>
+                    <p:panel >
+                        <h:panelGrid columns="8">
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv31}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="31"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv32}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="32"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv33}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="33"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv34}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="34"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv35}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="35"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv36}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="36"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv37}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="37"/>
+                            </p:commandLink>
+                            <p:commandLink update=":form5:oPanel5" action="#{odonto.paramEdit(ae)}" oncomplete="PF('dlg5').show()">
+                                <p:graphicImage value="/resources/imagenSistema/#{odonto.odontograma.odoPdentalv38}" style="width: 30px; height:30px"/>
+                                <f:param name="diente" value="38"/>
+                            </p:commandLink>
+                        </h:panelGrid>
+                        <h:graphicImage value="#{resource['imagenSistema/titulo_inf_2.png']}" width="275" height="20"/>
+                    </p:panel>
+                </h:panelGrid>
+
+            </h:panelGrid>
+            <h:panelGrid columns="3">
+                <p:commandButton id="btnGrabar" value="Grabar" icon="ui-icon-disk" ajax="false"
+                                 process="@this" style="margin:0; font-size: 14px" disabled="#{odonto.flagBtnGrabarEdit}"
+                                 actionListener="#{odonto.btnGrabarEdicion()}" update="@form"/>
+            </h:panelGrid>
+        </h:form>
+    </ui:composition>
+</html>

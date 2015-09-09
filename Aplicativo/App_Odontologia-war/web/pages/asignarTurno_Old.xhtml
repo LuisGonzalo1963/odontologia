@@ -1,0 +1,175 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/template.xhtml">
+    <ui:define name="content">
+         <style type="text/css">
+            .colored {
+                background-color: #5882FA;
+                color: #FFFFFF;
+            }
+        </style>
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <h:panelGroup>
+                <center>
+                    #{asignarTurno.fechaActual}
+                </center>
+            </h:panelGroup>
+            <h:panelGrid columns="2">
+                <p:panel style="width: 300px;">
+                    <h:panelGrid style="font-size: 12px;" cellpadding="5">
+                        <p:outputLabel for="consultorio" value="Consultorios:" style="font-size: 14px;color: navy"/>
+                        <p:selectOneRadio id="consultorio" value="#{asignarTurno.codConsultorio}" layout="grid" columns="1">
+                            <f:selectItem itemValue="M642" itemLabel="C1 ODONTOPEDIATRIA" />
+                            <f:selectItem itemValue="M649" itemLabel="C7B ODONTOPEDIATRIA" />
+                            <f:selectItem itemValue="M648" itemLabel="C7A DIAG. ODONTOLOG." />
+                            <f:selectItem itemValue="MA70" itemLabel="C7B DIAG. ODONTOLOG." />
+                            <p:ajax event="change" listener="#{asignarTurno.ajaxChangeConsultorio()}" update=":form"/>
+                        </p:selectOneRadio>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel style="width: 350px;">
+                    <p:outputLabel value="Horario de atención:" style="font-size: 12px;color: navy" />
+                    <p:dataTable var="horario" value="#{asignarTurno.listaHorario}">
+                        <p:column headerText="Código" style="font-size: 12px;">
+                            <h:outputText value="#{horario.personal.codigo}" />
+                        </p:column>
+                        <p:column headerText="Hora inicia" style="font-size: 12px;">
+                            <h:outputText value="#{horario.horaInicial}">
+                                <f:convertDateTime pattern="HH:mm" timeZone="America/Guayaquil"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Hora finaliza" style="font-size: 12px;">
+                            <h:outputText value="#{horario.horaFinal}" >
+                                <f:convertDateTime pattern="HH:mm" timeZone="America/Guayaquil"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Turnos" style="font-size: 12px;text-align: center">
+                            <h:outputText value="#{horario.turnosPosibles}"/>
+                        </p:column>
+                        <p:column headerText="Atención" style="font-size: 12px;" width="50">
+                            <h:outputText value="#{horario.tiempo} mm." />
+                        </p:column>
+                    </p:dataTable> 
+                </p:panel>
+            </h:panelGrid>
+
+            <p:panel style="width: 900px;">
+                <p:commandButton value="Turno" icon="ui-icon-plusthick" update=":form :form:msgAsig :formAt :formAt:msgBtn :formAt:hc :formAt:edad" 
+                                 disabled="#{asignarTurno.flagBtnAsignar}"
+                                 onclick="PF('dlg1').show();"  style="font-size: 12px;" 
+                                 actionListener="#{asignarTurno.btnAsignar()}"/>
+
+                <h:outputLabel id="msgAsig" value="#{asignarTurno.msgGrabar}" rendered="#{asignarTurno.msgGrabar!=null}"  style="color: red"/>
+
+                <p:dataTable var="turno" value="#{asignarTurno.listaTurnos}" rowIndexVar="index"
+                             rowStyleClass="#{turno.estado eq 'A' ? 'colored' : null}">
+                    
+                    <p:column headerText="Ord." width="30" style="font-size: 12px;">
+                        <h:outputText value="#{index + 1}" />
+                    </p:column>
+                    <p:column headerText="H.C." style="font-size: 12px;" width="50">
+                        <h:outputText value="#{turno.pacientes.numeroHc}" />
+                    </p:column>
+
+                    <p:column headerText="Cédula" style="font-size: 12px;" width="70">
+                        <h:outputText value="#{turno.pacientes.cedula}" />
+                    </p:column>
+
+                    <p:column headerText="Apellidos" style="font-size: 12px;" width="150">
+                        <h:outputText value="#{turno.pacientes.apellidoPaterno} #{turno.pacientes.apellidoMaterno}" />
+                    </p:column>
+
+                    <p:column headerText="Nombres" style="font-size: 12px;" width="150">
+                        <h:outputText value="#{turno.pacientes.primerNombre} #{turno.pacientes.segundoNombre}" />
+                    </p:column>
+
+                    <p:column headerText="No." style="font-size: 12px;text-align: center" width="20">
+                        <h:outputText value="#{turno.numero}" />
+                    </p:column>
+                    <p:column headerText="Estado" style="font-size: 12px;">
+                        <h:outputText value="#{turno.estado=='R'?'Reservado':turno.estado=='P'?'Pagado':turno.estado=='N'?'Anulado':turno.estado=='F'?'No Atendido':turno.estado=='A'?'Atendido':''}" />
+                    </p:column>
+                    <p:column headerText="Tipo Consulta" style="font-size: 12px;">
+                        <h:outputText value="#{turno.tipo=='P'?'Cons. 1ra. Vez':'Cons. Subsecuente'}" />
+                    </p:column>
+
+                    <p:column style="text-align: center" width="30">
+                        <p:commandButton title="Cancelar turno" icon="ui-icon-contact" update=":formCt" rendered="#{turno.estado=='R'}"
+                                         oncomplete="PF('dlg2').show()" widgetVar="10">
+                            <f:setPropertyActionListener value="#{turno}" target="#{asignarTurno.selectTurnoCe}" />
+                        </p:commandButton>
+                    </p:column>
+                   
+                </p:dataTable>
+
+            </p:panel>
+
+        </h:form>
+
+        <p:dialog header="Asignar Turno" widgetVar="dlg1" minHeight="250" style="font-size: 12px;">
+            <h:form id="formAt">
+                <h:panelGrid >
+                    <p:selectOneRadio id="pvcUnid" value="#{asignarTurno.buscarPor}" style="font-size: 12px;">
+                        <f:selectItem itemLabel="No. H.C." itemValue="nhc" />
+                        <f:selectItem itemLabel="Nro. Cédula" itemValue="ced" />
+                        <f:selectItem itemLabel="Apellidos" itemValue="ape" />
+                        <p:ajax event="change"  listener="#{asignarTurno.selectedAjaxChange()}" update="hc, ape, nom, edad, msgBtn, btnGrabar"/>
+                    </p:selectOneRadio>
+
+                </h:panelGrid>
+                <p:panelGrid columns="2">
+                    <h:outputText value="H.C.:" />
+                    <p:inputText id="hc" value="#{asignarTurno.nroHc}" >
+                        <p:ajax event="blur" update="ape, nom, edad, msgBtn, btnGrabar" listener="#{asignarTurno.buscarAjaxBlur()}"/>
+                    </p:inputText>
+
+                    <h:outputText value="Apellidos:" />
+                    <h:outputText id="ape" value="#{asignarTurno.editPaciente.apellidoPaterno} #{asignarTurno.editPaciente.apellidoMaterno}" />
+
+                    <h:outputText value="Nombres:" />
+                    <h:outputText id="nom" value="#{asignarTurno.editPaciente.primerNombre} #{asignarTurno.editPaciente.segundoNombre}" />
+
+                    <h:outputText value="Edad:" />
+                    <h:outputText id="edad" value="#{asignarTurno.edadPaciente} años"  />
+
+                </p:panelGrid>
+                <h:outputText value="&#160;" />
+                <h:panelGroup>
+                    <center>
+                        <h:outputLabel id="msgBtn" value="#{asignarTurno.msgBuscar}" style="color: red"/>
+                    </center>
+                </h:panelGroup>
+                <h:outputText value="&#160;" />
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar" value="Grabar" icon="ui-icon-check" ajax="false" 
+                                         disabled="#{asignarTurno.flagBtnAceptar}" update=":form:msgAsig"
+                                         style="margin:0; font-size: 14px" actionListener="#{asignarTurno.btnGrabarTurno()}"/>
+                    </center>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+        
+        <p:dialog header="Cancelación de Turno" widgetVar="dlg2" minHeight="250" style="font-size: 12px;">
+            <h:form id="formCt">
+                 #{asignarTurno.selectTurnoCe.pacientes.apellidoPaterno}
+                 <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar" value="OK" icon="ui-icon-disk" ajax="false" 
+                                         disabled="#{asignarTurno.flagBtnAceptar}" update=":form"
+                                         style="margin:0; font-size: 14px" actionListener="#{asignarTurno.btnPagarTurno()}"/>
+                    </center>
+                </h:panelGroup>
+            </h:form>
+           
+        </p:dialog>
+        
+     
+             
+    </ui:define>
+</ui:composition>

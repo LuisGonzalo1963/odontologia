@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="templates/templateLogin.xhtml">
+
+            <ui:define name="west">
+
+            </ui:define>
+
+            <ui:define name="center">
+                <h:form>
+                    <p:growl id="growl" life="2000" />
+                    <p:growl  id="msgs" showDetail="true" />
+                    <p:outputLabel style="font-size: x-large"  value="Ingreso de Usuario"  />
+                    <br/>
+                    <br/>
+
+                    <table width="0%" border="0" align="center">
+                        <tr>
+                            <td style="text-align: right">
+                                <p:outputLabel value="Usuario:"  />
+                            </td>
+                            <td>
+                                <p:autoComplete style="font-size: 13px;"  id="usuario" value="#{login.usuario}" 
+                                                completeMethod="#{login.completeText}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right">
+                                <p:outputLabel value="Clave:"  />
+                            </td>
+                            <td>
+                                <p:password  style="font-size: 13px;"   value="#{login.password1}"  />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right">
+                               
+                            </td>
+                            <td>
+                                <p:spacer width="5" height="3" />
+                                <center>
+                                    <p:commandButton style="font-size: 13px;"  value="Ingresar" id="ajax" 
+                                                     update="growl" 
+                                                     actionListener="#{login.buttonActionPersonal}" action="#{login.accionIngresoPersonal()}" styleClass="ui-priority-primary" />
+                                </center>
+                            </td>
+                        </tr>
+                    </table>
+                
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

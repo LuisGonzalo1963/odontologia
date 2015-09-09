@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="msgs" showDetail="true" />
+            <p:panelGrid columns="2" >
+                <h:outputText value="H.C.:" />
+                <p:inputText id="hc1" value="#{migraTurnosProced.nroHC}"  >
+                </p:inputText>
+                <h:outputText value="Consultorio:" />
+                <p:inputText id="hc2" value="#{migraTurnosProced.consul}"  >
+                </p:inputText>
+                <p:outputLabel for="f1" value="Fecha:" />
+                <p:calendar id="f1" value="#{migraTurnosProced.fecha}" showOn="button" size="8" pattern="dd-MM-yyyy"/>
+                <h:outputText value="Número turno:" />
+                <p:inputText id="hc4" value="#{migraTurnosProced.nroTurno}"  >
+                </p:inputText>
+                <h:outputText value="Especialidad:" />
+                <p:inputText id="hc5" value="#{migraTurnosProced.espec}"  />
+                <h:outputText value="Estado:" />
+                <p:inputText id="hc55" value="#{migraTurnosProced.estado}"  />
+                <p:outputLabel for="f2" value="Fecha creación:" />
+                <p:calendar id="f2" value="#{migraTurnosProced.fechac}" showOn="button"  size="8" pattern="dd-MM-yyyy"/>
+                <h:outputText value="Usuario:" />
+                <p:inputText id="hc7" value="#{migraTurnosProced.user}"  >
+
+                </p:inputText>
+
+            </p:panelGrid>
+            <h:panelGroup>
+                <center>
+                    <p:commandButton id="btnGrabar" value="Grabar" ajax="false" 
+                                     update="msgs"
+                                     style="margin:0; font-size: 14px" 
+                                     actionListener="#{migraTurnosProced.btnGrabar()}"/>
+                </center>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>

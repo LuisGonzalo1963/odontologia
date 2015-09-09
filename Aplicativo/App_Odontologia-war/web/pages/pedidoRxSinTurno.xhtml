@@ -1,0 +1,162 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/templateAsignarReferido.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <h:form id="form1">
+            <h:outputLabel value="SOLICITUD DE RX SIN TURNO" style="color: blue"/>
+            <p:growl id="msgs" showDetail="true" />
+            <p:panel>
+                <h:panelGrid id="filtro" columns="3" style="font-size: 12px;">
+                    <h:outputLabel value="Nro. H.C.:"/>
+                    <h:inputText value="#{pedidoRxSinTurno.nroHC}" size="8"/>                   
+                    <p:commandButton icon="ui-icon-search"
+                                     process="@form"
+                                     update=":form1:msgs :form12:panelResultado"
+                                     style="width: 25px; height:25px"
+                                     action="#{pedidoRxSinTurno.btnBuscarHc}"/>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+        <h:form id="form12">
+            <p:panel id="panelResultado" header="Pedido de Rx sin turno" style="font-size: 12px;" >
+                <p:panel>
+                    <h:panelGrid columns="14" style="font-size: 12px;">
+                        <h:outputLabel value="H.C.:" />
+                        <h:outputLabel value="#{pedidoRxSinTurno.editPacientes.numeroHc}" style="color: #314396"/>
+                        <p:spacer width="5" height="5" />
+
+                        <h:outputLabel value="Cédula:"/>
+                        <h:outputLabel value="#{pedidoRxSinTurno.editPacientes.cedula}" style="color: #314396"/>
+                        <p:spacer width="5" height="5" />
+
+                        <h:outputLabel value="Apellidos:"/>
+                        <h:outputLabel value="#{pedidoRxSinTurno.editPacientes.apellidoPaterno} #{pedidoRxSinTurno.editPacientes.apellidoMaterno}" style="color: #314396"/>
+                        <p:spacer width="5" height="5" />
+
+                        <h:outputLabel value="Nombres:"/>
+                        <h:outputLabel value="#{pedidoRxSinTurno.editPacientes.primerNombre} #{pedidoRxSinTurno.editPacientes.segundoNombre}" style="color: #314396"/>
+                        <p:spacer width="5" height="5" />
+
+                        <h:outputLabel value="Afiliación:"/>
+                        <h:outputLabel value="#{pedidoRxSinTurno.editPacientes.idIssfaTitular}" style="color: #314396"/>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:spacer width="5" height="5" />
+
+                <h:panelGrid columns="2" width="990" style="font-size: 12px;">
+                    <p:panel header="Diagnósticos">
+                        <f:facet name="actions">
+                            <p:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
+                                           onclick="PF('dlgDx1').show();" disabled="#{pedidoRxSinTurno.flagBtnNuevoDiag}">
+                                <h:outputText styleClass="ui-icon ui-icon-circle-plus" />
+                            </p:commandLink>
+                        </f:facet>
+                        <p:dataTable id="listDxPcn" var="listDp" value="#{pedidoRxSinTurno.listDiagPaciente}"
+                                     selectionMode="single" selection="#{pedidoRxSinTurno.selectDiagPaciente}" rowKey="#{listDp.dgnpcnId}">
+                            <p:ajax event="rowSelect" listener="#{pedidoRxSinTurno.selectedAjaxChangeSelectDg()}" update=":form12"  />
+                            <p:column headerText="Código" style="font-size: 12px;" width="35">
+                                <h:outputText value="#{listDp.enfermedades.codigo}"  />
+                            </p:column>
+                            <p:column headerText="Descripción" style="font-size: 12px;">
+                                <h:outputText value="#{listDp.enfermedades.enfermedad}"  />
+                            </p:column>
+                        </p:dataTable>
+
+                    </p:panel>
+
+                    <p:panel>
+                        <h:panelGrid columns="2" style="font-size: 12px;">
+                            <p:outputLabel value="Procedimiento:" />
+                            <p:selectOneMenu id="som1" style="width:440px" disabled="#{pedidoRxSinTurno.flagPanelDatos}"
+                                             value="#{pedidoRxSinTurno.codCargoRx}" >
+                                <f:selectItem itemLabel="Seleccione..." itemValue="#{null}"  />
+                                <f:selectItems value="#{pedidoRxSinTurno.itemsListRayosX}" />
+                                <p:ajax event="change"  listener="#{pedidoRxSinTurno.selectedAjaxChangeRxPr()}" update="obs, val"/>
+                                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                            </p:selectOneMenu> 
+                            
+                             <h:outputLabel />
+                            <p:ajaxStatus>
+                                <f:facet name="start">
+                                    <p:graphicImage name="/images/ajax-loader.gif" />
+                                </f:facet>
+                            </p:ajaxStatus>
+
+                            <h:outputLabel value="Observacion ISSFA:" />
+                            <h:outputLabel id="obs" value="#{pedidoRxSinTurno.msgWebService}" style="color: red" />
+                           
+
+                            <h:outputLabel value="Valor:" />
+                            <h:outputLabel id="val" value=" $ #{pedidoRxSinTurno.valCargoRx}" style="color: red" />
+
+                            <h:outputLabel value="Cantidad:"/>
+                            <p:inputText id="can" value="#{pedidoRxSinTurno.cantRx}" size="1" disabled="#{pedidoRxSinTurno.flagPanelDatos}"
+                                         required="true" requiredMessage="Valor requerido">
+                                <p:ajax event="change"  listener="#{pedidoRxSinTurno.selectedAjaxChangeCantRx()}" update="vt, btnGrabarRx"/>
+                            </p:inputText>
+
+                            <h:outputLabel value="Valor Total:" />
+                            <h:outputLabel id="vt" value=" $ #{pedidoRxSinTurno.valTotalRx}" style="color: red"/>
+
+                            <h:outputLabel value="Descripción:"/>
+                            <p:inputTextarea id="des" rows="2" cols="70" value="#{pedidoRxSinTurno.descripcionRx}" disabled="#{pedidoRxSinTurno.flagPanelDatos}"
+                                             onblur="value = value.toUpperCase();" required="true" requiredMessage="Ingrese información..."/>
+                            <p:spacer width="5" height="5" />
+                            <h:panelGroup>
+                                <center>
+                                    <p:commandButton id="btnGrabarRx" value="Grabar" icon="ui-icon-disk" ajax="false" disabled="#{pedidoRxSinTurno.flagBtnGrabarRx}"
+                                                     update=":form:msgs"  style="margin:0; font-size: 14px" actionListener="#{pedidoRxSinTurno.btnGrabarRx()}"/>
+                                </center>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </p:panel>
+
+                </h:panelGrid>
+
+            </p:panel>
+            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                <p:graphicImage name="/images/ajax-loader.gif" />
+            </p:dialog>
+        </h:form>
+
+        <p:dialog header="Registrar Diagnóstico" widgetVar="dlgDx1" style="font-size: 12px;">
+            <h:form id="form2">
+                <p:outputPanel id="panelNewDiag" style="text-align:left;font-size: 12px">
+
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <h:outputLabel value="Buscar Dx:"/>
+                        <p:inputText id="lse" value="#{pedidoRxSinTurno.buscarEnf}">
+                        </p:inputText>
+                        <p:commandButton icon="ui-icon-search"
+                                         update=":form2:cieOneMenu"
+                                         style="width: 25px; height:25px"
+                                         action="#{pedidoRxSinTurno.selectedAjaxChangeBuscarEnf()}"/>
+
+                        <p:outputLabel for="cieOneMenu"  value="CIE:" />
+                        <p:selectOneMenu id="cieOneMenu" value="#{pedidoRxSinTurno.codDiag}"  
+                                         style="font-size: 12px; width: 100%" effect="fade">
+                            <f:selectItem itemLabel="Select..." itemValue="" />
+                            <f:selectItems value="#{pedidoRxSinTurno.itemsListEnfOdonto}"  />    
+                        </p:selectOneMenu>
+                        <p:message for="cieOneMenu" />
+
+                        <h:panelGroup>
+                            <center>
+                                <p:commandButton id="btnGrabarDg" value="Grabar" icon="ui-icon-disk" ajax="false"
+                                                 process="@this " style="margin:0; font-size: 14px" 
+                                                 actionListener="#{pedidoRxSinTurno.btnGrabarDiagPcn()}" 
+                                                 update=":form:msgs :form:ldgn :form:msgs"/>
+                            </center>
+                        </h:panelGroup>
+                    </h:panelGrid>
+
+
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

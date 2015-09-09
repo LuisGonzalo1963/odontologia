@@ -1,0 +1,184 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateFichaOdonto.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <p:panel header="10 PLANES DE DIAGNÓSTICO TERAPÉUTICO Y EDUCACIONAL" style="background-color: #c2dfef;font-size: 16px">
+                <h:panelGroup>
+                    <center>
+                        <h:panelGrid columns="8" style="font-size: 12px;" border="1">
+                            <h:outputLabel value="BIOMETRÍA"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{PlanDxTEd.paramPlanDx(ae)}" update=":form1">
+                                <f:param name="tipo" value="1"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="QUÍMICA SANGUÍNEA"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{PlanDxTEd.paramPlanDx(ae)}" update=":form1">
+                                <f:param name="tipo" value="2"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="RAYOS X"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{PlanDxTEd.paramPlanDx(ae)}" update=":form:msgs :form1">
+                                <f:param name="tipo" value="3"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="OTROS"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{PlanDxTEd.paramPlanDx(ae)}" update=":form1">
+                                <f:param name="tipo" value="4"/>
+                            </p:commandButton>
+
+                        </h:panelGrid>
+                    </center>
+                </h:panelGroup>
+            </p:panel>
+            <h:panelGroup>
+                <center>
+                    <h:outputLabel value="#{PlanDxTEd.msgDiag}" style="color: red"/>
+                </center>
+            </h:panelGroup>
+            <p:panel style="background-color: #F8F9FC;font-size: 16px">
+                <h:panelGroup>
+                    <center>
+                        <p:dataTable var="list" value="#{PlanDxTEd.listPlanDxTerEdu}">
+                            <p:column headerText="Fecha" style="font-size: 12px;" width="55">
+                                <h:outputText value="#{list.pdxFecha}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Procedimiento" style="font-size: 12px;">
+                                <h:outputText value="#{list.pdxTipo}). #{list.pdxProced} #{list.pdxDescripcion}" />
+                            </p:column>
+                            <p:column headerText="Restantes" style="font-size: 12px;">
+                                <h:outputText value="#{list.pdxRestante}" />
+                            </p:column>
+                            <p:column headerText="Editar" style="width:82px;text-align: center;font-size: 12px;">
+                                <p:commandButton update=":form2" oncomplete="PF('dlg2').show()" icon="ui-icon-pencil" widgetVar="10">
+                                    <f:setPropertyActionListener value="#{list}" target="#{PlanDxTEd.selectPlanDxTerEdu}" />
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="Eliminar" style="width:82px;text-align: center;font-size: 12px;">
+                                <p:commandButton update=":form3" oncomplete="PF('dlg3').show()" icon="ui-icon-trash" >
+                                    <f:setPropertyActionListener value="#{list}" target="#{PlanDxTEd.selectPlanDxTerEdu}" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </center>
+                </h:panelGroup>
+            </p:panel>
+        </h:form>
+
+        <p:dialog header="Registrar..." widgetVar="dlg1" minHeight="250" style="font-size: 12px;">
+            <h:form id="form1">
+                <h:panelGrid columns="2" style="font-size: 12px;" >
+                    <h:outputLabel value="Tipo:"/>
+                    <h:outputLabel value="#{PlanDxTEd.nroTipo=='1'?'BIOMETRÍA':PlanDxTEd.nroTipo=='2'?'QUÍMICA SANGUÍNEA':PlanDxTEd.nroTipo=='3'?'RAYOS - X':'OTROS'}"/>
+
+                    <h:outputLabel value="Nro. Afiliacion:" rendered="#{PlanDxTEd.nroTipo == '3'}"/>
+                    <h:outputLabel value="#{PlanDxTEd.selectHistOdonto.pacientes.idIssfa}" rendered="#{PlanDxTEd.nroTipo == '3'}"/>
+
+                    <p:outputLabel value="Diagnóstico:" rendered="#{PlanDxTEd.nroTipo == '3'}"/>
+                    <p:selectOneMenu id="ldgn" filter="true" filterMatchMode="contains" value="#{PlanDxTEd.codDiag}" rendered="#{PlanDxTEd.nroTipo == '3'}">
+                        <f:selectItem itemLabel="Seleccione..." itemValue="#{null}"  />
+                        <f:selectItems value="#{PlanDxTEd.itemsListDiagPcn}"  />
+                        <p:ajax event="change" listener="#{PlanDxTEd.selectedAjaxChangeDx()}"/>
+                    </p:selectOneMenu>  
+
+
+                    <p:outputLabel value="Procedimiento:" rendered="#{PlanDxTEd.nroTipo == '3'}"/>
+                    <p:selectOneMenu filter="true" filterMatchMode="contains" id="produc2" style="width:440px"
+                                     value="#{PlanDxTEd.codCargo}" rendered="#{PlanDxTEd.nroTipo == '3'}">
+                        <f:selectItem itemLabel="Seleccione..." itemValue="#{null}"  />
+                        <f:selectItems value="#{PlanDxTEd.itemsListCargos}" />
+                        <p:ajax event="change"  listener="#{PlanDxTEd.selectedAjaxChange()}" update="obs,val,prm"/>
+                    </p:selectOneMenu> 
+                    <p:outputLabel/>
+                    <p:ajaxStatus>
+                        <f:facet name="start">
+                            <p:graphicImage name="/images/ajax-loader.gif" />
+                        </f:facet>
+                    </p:ajaxStatus>
+                    <h:outputLabel value="Observacion ISSFA:" rendered="#{PlanDxTEd.nroTipo == '3'}"/>
+                    <h:outputLabel id="obs" value="#{PlanDxTEd.msgWebService}" style="color: red" rendered="#{PlanDxTEd.nroTipo == '3'}"/>
+
+                    <h:outputLabel value="Tipo Pcn:" rendered="#{PlanDxTEd.nroTipo == '3'}"/>
+                    <h:outputLabel id="prm" value="#{PlanDxTEd.prmPcn}" style="color: red" rendered="#{PlanDxTEd.nroTipo == '3'}"/>
+
+                    <h:outputLabel value="Valor:" rendered="#{PlanDxTEd.nroTipo == '3'}"/>
+                    <h:outputLabel id="val" value=" $ #{PlanDxTEd.valCargo}" style="color: red" rendered="#{PlanDxTEd.nroTipo == '3'}"/>
+
+                    <h:outputLabel value="Cantidad:" rendered="#{PlanDxTEd.nroTipo == '3'}"/>
+                    <p:inputText value="#{PlanDxTEd.cantRx}" size="1" rendered="#{PlanDxTEd.nroTipo == '3'}" 
+                                 required="true" requiredMessage="Valor requerido">
+                        <p:ajax event="change"  listener="#{PlanDxTEd.selectedAjaxChangeCant()}" update="vt, btnGrabar"/>
+                    </p:inputText>
+
+                    <h:outputLabel value="Valor Total:" rendered="#{PlanDxTEd.nroTipo == '3'}"/>
+                    <h:outputLabel id="vt" value=" $ #{PlanDxTEd.valTotal}" rendered="#{PlanDxTEd.nroTipo == '3'}"/>
+
+                    <h:outputLabel value="Descripción:"/>
+                    <p:inputTextarea rows="2" cols="100" value="#{PlanDxTEd.editPlanDxTerEdu.pdxDescripcion}" 
+                                     onblur="value = value.toUpperCase();" required="true" requiredMessage="Ingrese información..."
+                                     />
+                </h:panelGrid> 
+
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar" value="Grabar" icon="ui-icon-disk" ajax="false" disabled="#{PlanDxTEd.flagBtnDlg}"
+                                         style="margin:0; font-size: 14px" actionListener="#{PlanDxTEd.btnGrabar()}"/>
+                    </center>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+        <p:dialog header="Edición" widgetVar="dlg2" minHeight="250" style="font-size: 12px;">
+            <h:form id="form2">
+                <h:panelGrid columns="2" style="font-size: 12px;" >
+                    <h:outputLabel value="Tipo:"/>
+                    <h:outputLabel value="#{PlanDxTEd.selectPlanDxTerEdu.pdxTipo}"/>
+
+                    <h:outputLabel value="Descripción:"/>
+                    <p:inputTextarea rows="2" cols="100" value="#{PlanDxTEd.selectPlanDxTerEdu.pdxDescripcion}" 
+                                     onblur="value = value.toUpperCase();" required="true" requiredMessage="Ingrese información de antecedente"/>
+                </h:panelGrid> 
+
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar" value="Grabar" icon="ui-icon-disk" ajax="false" 
+                                         style="margin:0; font-size: 14px" actionListener="#{PlanDxTEd.btnGrabar()}"/>
+                    </center>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Eliminar" widgetVar="dlg3" minHeight="250" style="font-size: 12px;">
+            <h:form id="form3">
+                <h:panelGrid columns="2" style="font-size: 12px;" >
+                    <h:outputLabel value="Tipo:"/>
+                    <h:outputLabel value="#{PlanDxTEd.selectPlanDxTerEdu.pdxId}"/>
+
+                    <h:outputLabel value="Descripción:"/>
+                    <p:inputTextarea rows="2" cols="100" value="#{PlanDxTEd.selectPlanDxTerEdu.pdxDescripcion}" disabled="true"
+                                     onblur="value = value.toUpperCase();" required="true" requiredMessage="Ingrese información de antecedente"/>
+                </h:panelGrid> 
+
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar" value="Eliminar" icon="ui-icon-disk" ajax="false" 
+                                         style="margin:0; font-size: 14px" actionListener="#{antPersoFamil.btnGrabarDel()}"/>
+                    </center>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

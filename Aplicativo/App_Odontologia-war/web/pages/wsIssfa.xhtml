@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+    <ui:define name="content">
+        <h:form>
+            <h:panelGroup>
+                <center>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="afil" value="Nro. Afiliación:" />
+                        <p:inputMask id="afil" value="#{webService.nroAfiliacion}" mask="9999999999"/>
+
+                        <p:outputLabel for="date" value="Fecha: " />
+                        <p:inputText id="date" value="#{webService.fechaAtencion}"/>
+
+                        <p:outputLabel for="proced" value="Procedimiento:" />
+                        <p:inputMask id="proced" value="#{webService.procedimiento}" mask="999999"/>
+
+                        <p:outputLabel for="diag"  value="Diagnóstico: " />
+                        <p:inputText id="diag" value="#{webService.diagnostico}"/>
+                    </h:panelGrid> 
+                </center>
+            </h:panelGroup>
+            <p:spacer height="10"/>
+            <h:panelGroup>
+                <center>
+                    <h:commandButton value="Consultar" actionListener="#{webService.callWebService()}"/>
+                </center>
+            </h:panelGroup>
+            <p:spacer height="10"/>
+            <h:panelGrid columns="2" >
+                <p:outputLabel for="msgs" value="Numero de Atenciones Restantes: " style="text-align: right"/>
+                <p:outputLabel id="msgs" value="#{webService.mensaje}" style="color: red" />
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

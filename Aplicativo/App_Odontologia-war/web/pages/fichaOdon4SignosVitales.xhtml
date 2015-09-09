@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateFichaOdonto.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <p:panel header="4 SIGNOS VITALES" style="background-color: #F8F9FC;font-size: 16px">
+                <h:panelGroup>
+                    <center>
+                        <h:panelGrid columns="10" style="font-size: 12px;" border="1">
+                            <h:outputLabel value="Presión Arterial Sistólica"/>
+                            <h:inputText size="3" maxlength="3" value="#{SignosVitales.editSignosVitales.sviPArtSist}" 
+                                         validatorMessage="Sistólica Sólo números....">
+                               <f:validateRegex pattern="[0-9]+" />
+                            </h:inputText>
+
+                            <h:outputLabel value="Presión Arterial Diastólica"/>
+                            <h:inputText size="3" maxlength="3" value="#{SignosVitales.editSignosVitales.sviPArtDiast}"
+                                         validatorMessage="Diastólica Sólo números....">
+                               <f:validateRegex pattern="[0-9]+" />
+                            </h:inputText>
+
+                            <h:outputLabel value="Frecuencia Cardíaca min."/>
+                            <h:inputText size="3" maxlength="3" value="#{SignosVitales.editSignosVitales.sviFCardiaca}"
+                                         validatorMessage="Diastólica Sólo números....">
+                               <f:validateRegex pattern="[0-9]+" />
+                            </h:inputText>
+
+                            <h:outputLabel value="Temperatura ºC"/>
+                            <p:inputText size="3" maxlength="4" value="#{SignosVitales.editSignosVitales.sviTemperatura}"/>
+
+                            <h:outputLabel value="F.Respiratoria min."/>
+                            <p:inputText size="3" maxlength="3" value="#{SignosVitales.editSignosVitales.sviFRespiratoria}"/>
+                        </h:panelGrid>
+                    </center>
+                </h:panelGroup>  
+
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar" value="Grabar" icon="ui-icon-disk" ajax="false" 
+                                         style="margin:0; font-size: 14px" actionListener="#{SignosVitales.btnGrabar()}"/>
+                    </center>
+                </h:panelGroup>
+
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+               >
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <p:accordionPanel>
+                <p:tab title="Registro">
+                    <h:panelGroup>
+                        <center>
+                            <p:dock position="bottom">
+                                <p:menuitem value="Home" icon="/resources/demo/images/dock/home.png" url="#"/>
+                                <p:menuitem value="Music" icon="/resources/demo/images/dock/music.png" url="#"/>
+                                <p:menuitem value="Music" icon="/resources/demo/images/dock/music.png" url="#"/>
+                                <p:menuitem value="Music" icon="/resources/demo/images/dock/music.png" url="#"/>
+                                <p:menuitem value="Music" icon="/resources/demo/images/dock/music.png" url="#"/>
+                            </p:dock> 
+                        </center>
+                    </h:panelGroup>
+                </p:tab>
+
+            </p:accordionPanel>
+        </h:form>
+    </ui:define>
+</ui:composition>

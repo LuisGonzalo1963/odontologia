@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateFichaOdonto.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <p:panel style="background-color: #c2dfef;font-size: 16px">
+                <h:panelGroup>
+                    <center>
+                        <h:panelGrid style="font-size: 12px;" columns="2"> 
+                            <p:selectOneRadio id="enferm" value="#{fichaMotivo.rangoEdad}" required="true" requiredMessage="Seleccione edad"
+                                              layout="grid" columns="7" >
+                                <f:selectItem itemLabel="Menor de 1 año" itemValue="1" />
+                                <f:selectItem itemLabel="1 - 4 años" itemValue="2" />
+                                <f:selectItem itemLabel="5 - 9 años Programado" itemValue="3" />
+                                <f:selectItem itemLabel="5 - 14 años No Programado" itemValue="4" />
+                                <f:selectItem itemLabel="10 - 14 años Programado" itemValue="5" />
+                                <f:selectItem itemLabel="15 - 19 años" itemValue="6" />
+                                <f:selectItem itemLabel="Mayor de 20 años" itemValue="7" />
+                            </p:selectOneRadio>
+                            <h:panelGrid columns="2" cellpadding="5" style="font-size: 12px;">
+                                <h:outputText value="Embarazada?: " />
+                                <p:selectBooleanCheckbox value="#{fichaMotivo.embarazo}" disabled="#{fichaMotivo.flagCheckboxGenero}"/>
+                            </h:panelGrid>
+                        </h:panelGrid>
+
+                    </center>
+                </h:panelGroup>  
+            </p:panel>
+
+            <p:panel header="1 MOTIVO DE CONSULTA" style="background-color: #F8F9FC;font-size: 16px">
+                <h:panelGroup>
+                    <center>
+                        <h:outputLabel value="Anotar la causa del problema en la versión del informante" style="font-size: 11px;"/>
+                        <p:spacer width="10" height="10" />
+                        <p:inputTextarea rows="2" cols="100" value="#{fichaMotivo.editMotivoConsulta.motMotivo}" onblur="value = value.toUpperCase();"/>
+                    </center>
+                </h:panelGroup>  
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar" value="Grabar" icon="ui-icon-disk" ajax="false" 
+                                         style="margin:0; font-size: 14px" actionListener="#{fichaMotivo.btnGrabaMotivo()}"/>
+                    </center>
+                </h:panelGroup>
+            </p:panel>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

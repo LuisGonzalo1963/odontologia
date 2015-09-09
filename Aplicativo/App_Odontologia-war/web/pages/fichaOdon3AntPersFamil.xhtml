@@ -1,0 +1,245 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateFichaOdonto.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <p:panel header="3 ANTECEDENTES PERSONALES Y FAMILIARES" style="background-color: #c2dfef;font-size: 16px">
+                <h:panelGroup>
+                    <center>
+                        <h:panelGrid columns="20" style="font-size: 12px;" border="1">
+                            <h:outputLabel value="1. Alergia Antibiótico"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{antPersoFamil.paramAFP(ae)}" update=":form1">
+                                <f:param name="antFP" value="1"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="2. Alergia Anestesia"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{antPersoFamil.paramAFP(ae)}" update=":form1">
+                                <f:param name="antFP" value="2"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="3. Hemorragias"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{antPersoFamil.paramAFP(ae)}" update=":form1">
+                                <f:param name="antFP" value="3"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="4. VHI/SIDA"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{antPersoFamil.paramAFP(ae)}" update=":form1">
+                                <f:param name="antFP" value="4"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="5 Tuberculosis"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{antPersoFamil.paramAFP(ae)}" update=":form1">
+                                <f:param name="antFP" value="5"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="6. Asma"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{antPersoFamil.paramAFP(ae)}" update=":form1">
+                                <f:param name="antFP" value="6"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="7 Diabetes"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{antPersoFamil.paramAFP(ae)}" update=":form1">
+                                <f:param name="antFP" value="7"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="8 Hipertensión"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{antPersoFamil.paramAFP(ae)}" update=":form1">
+                                <f:param name="antFP" value="8"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="9 Enf. Cardíaca"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{antPersoFamil.paramAFP(ae)}" update=":form1">
+                                <f:param name="antFP" value="9"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="10 Otro"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{antPersoFamil.paramAFP(ae)}" update=":form1">
+                                <f:param name="antFP" value="10"/>
+                            </p:commandButton>
+
+                        </h:panelGrid>
+                    </center>
+                </h:panelGroup>  
+            </p:panel>
+
+            <p:panel style="background-color: #F8F9FC;">
+                <h:panelGroup>
+                    <center>
+                        <p:dataTable var="list" value="#{antPersoFamil.listAntecedentesPf}">
+                            <p:column headerText="Código" style="font-size: 12px;">
+                                <h:outputText value="#{list.OAntecedentes.antId} #{list.apfTipo} #{list.apfDescripcion}" />
+                            </p:column>
+                            <p:column headerText="Editar" style="width:82px;text-align: center;font-size: 12px;">
+                                <p:commandButton update=":form2" oncomplete="PF('dlg2').show()" icon="ui-icon-pencil" widgetVar="10">
+                                    <f:setPropertyActionListener value="#{list}" target="#{antPersoFamil.selectAntecedentesPf}" />
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="Eliminar" style="width:82px;text-align: center;font-size: 12px;">
+                                <p:commandButton update=":form3" oncomplete="PF('dlg3').show()" icon="ui-icon-trash" >
+                                    <f:setPropertyActionListener value="#{list}" target="#{antPersoFamil.selectAntecedentesPf}" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </center>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:spacer width="20" height="10" />
+            
+            <p:panel header="Histórico de Antecedentes" style="background: cornsilk;font-size: 12px;width: 900px;" >
+                <p:tabView orientation="top" style="font-size: 12px" >
+                    <p:tab title="Personales" >
+                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" >
+                            <p:dataTable id="PerDT" var="antPer" value="#{antPersoFamil.listAntPer}" 
+                                         rowIndexVar="index" emptyMessage="No se encontraron resultados" >
+                                <p:column headerText="Ord." width="30" style="font-size: 12px;">
+                                    <h:outputText value="#{index + 1}" />
+                                </p:column>
+                                <p:column headerText="Fecha" width="60" style="font-size: 12px;">
+                                    <h:outputText value="#{antPer.antecedentesPersonalesPK.fecha}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Tipo" style="font-size: 12px;">
+                                    <h:outputText value="#{antPer.tiposAntecedentesPersonales.descripcion}" />
+                                </p:column>
+                                <p:column headerText="Condición" width="80" style="font-size: 12px;">
+                                    <h:outputText value="#{antPer.condicion =='CRD'?'CURADO':antPer.condicion =='TRT'?'TRATAMIENTO':'NINGUNA'}" />
+                                </p:column>
+
+                                <p:column headerText="Edad" width="25" style="font-size: 12px;">
+                                    <h:outputText value="#{antPer.edad}" />
+                                </p:column>
+                                <p:column headerText="Observaciones" style="font-size: 12px;">
+                                    <h:outputText value="#{antPer.observaciones}" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab title="Familiares" >
+                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" >
+                            <p:dataTable id="famDT" var="antFam" value="#{antPersoFamil.listAntFam}" 
+                                         rowIndexVar="index" emptyMessage="No se encontraron resultados" >
+                                <p:column headerText="Ord." width="30" style="font-size: 12px;">
+                                    <h:outputText value="#{index + 1}" />
+                                </p:column>
+                                <p:column headerText="Fecha" width="60" style="font-size: 12px;">
+                                    <h:outputText value="#{antFam.antecedentesFamiliaresPK.fecha}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Tipo" style="font-size: 12px;">
+                                    <h:outputText value="#{antFam.tiposAntecedentesFamiliares.descripcion}" />
+                                </p:column>
+                                <p:column headerText="Parentezco" style="font-size: 12px;">
+                                    <h:outputText value="#{antFam.parentezco}" />
+                                </p:column>
+                                <p:column headerText="Edad" width="25" style="font-size: 12px;">
+                                    <h:outputText value="#{antFam.edad}" />
+                                </p:column>
+                                <p:column headerText="Estado" width="60" style="font-size: 12px;">
+                                    <h:outputText value="#{antFam.estado == 'VIV'?'VIVO':antFam.estado == 'FAL'?'FALLECIDO':'NINGUNO'}" />
+                                </p:column>
+                                <p:column headerText="Observaciones" style="font-size: 12px;">
+                                    <h:outputText value="#{antFam.observaciones}" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+                    </p:tab>
+                </p:tabView>
+            </p:panel>
+        </h:form>
+
+        <p:dialog header="Antecedentes Personales y Familiares" widgetVar="dlg1" minHeight="250" style="font-size: 12px;">
+            <h:form id="form1">
+                <h:panelGrid columns="2" style="font-size: 12px;" >
+                    <h:outputLabel value="Nro. Antecedente:"/>
+                    <h:outputLabel value="#{antPersoFamil.nroAnt}"/>
+                    <h:outputLabel value="Tipo Antecedente:"/>
+                    <p:selectOneRadio id="enferm" value="#{antPersoFamil.tipoAnt}" required="true" requiredMessage="Seleccione Tipo de Antecedente"
+                                      layout="grid" columns="2" >
+                        <f:selectItem itemLabel="Personal" itemValue="AP" />
+                        <f:selectItem itemLabel="Familiar" itemValue="AF" />
+                    </p:selectOneRadio>
+                    <h:outputLabel value="Descripción:"/>
+                    <p:inputTextarea rows="2" cols="100" value="#{antPersoFamil.editAntecedentesPf.apfDescripcion}" 
+                                     onblur="value = value.toUpperCase();" required="true" requiredMessage="Ingrese información de antecedente"/>
+                </h:panelGrid> 
+
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar" value="Grabar" icon="ui-icon-disk" ajax="false" 
+                                         style="margin:0; font-size: 14px" actionListener="#{antPersoFamil.btnGrabar()}"/>
+                    </center>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+        <p:dialog header="Edición" widgetVar="dlg2" minHeight="250" style="font-size: 12px;">
+            <h:form id="form2">
+                <h:panelGrid columns="2" style="font-size: 12px;" >
+                    <h:outputLabel value="Nro. Antecedente:"/>
+                    <h:outputLabel value="#{antPersoFamil.selectAntecedentesPf.OAntecedentes.antId}"/>
+                    <h:outputLabel value="Tipo Antecedente:"/>
+                    <p:selectOneRadio id="enferm" value="#{antPersoFamil.selectAntecedentesPf.apfTipo}" required="true" requiredMessage="Seleccione Tipo de Antecedente"
+                                      layout="grid" columns="2" >
+                        <f:selectItem itemLabel="Personal" itemValue="AP" />
+                        <f:selectItem itemLabel="Familiar" itemValue="AF" />
+                    </p:selectOneRadio>
+                    <h:outputLabel value="Descripción:"/>
+                    <p:inputTextarea rows="2" cols="100" value="#{antPersoFamil.selectAntecedentesPf.apfDescripcion}" 
+                                     onblur="value = value.toUpperCase();" required="true" requiredMessage="Ingrese información de antecedente"/>
+                </h:panelGrid> 
+
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar" value="Grabar" icon="ui-icon-disk" ajax="false" 
+                                         style="margin:0; font-size: 14px" actionListener="#{antPersoFamil.btnGrabar()}"/>
+                    </center>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Eliminar" widgetVar="dlg3" minHeight="250" style="font-size: 12px;">
+            <h:form id="form3">
+                <h:panelGrid columns="2" style="font-size: 12px;" >
+                    <h:outputLabel value="Nro. Antecedente:"/>
+                    <h:outputLabel value="#{antPersoFamil.selectAntecedentesPf.OAntecedentes.antId}"/>
+                    <h:outputLabel value="Tipo Antecedente:"/>
+                    <p:selectOneRadio id="enferm" value="#{antPersoFamil.selectAntecedentesPf.apfTipo}" required="true" requiredMessage="Seleccione Tipo de Antecedente"
+                                      layout="grid" columns="2" >
+                        <f:selectItem itemLabel="Personal" itemValue="AP" />
+                        <f:selectItem itemLabel="Familiar" itemValue="AF" />
+                    </p:selectOneRadio>
+                    <h:outputLabel value="Descripción:"/>
+                    <p:inputTextarea rows="2" cols="100" value="#{antPersoFamil.selectAntecedentesPf.apfDescripcion}" disabled="true"
+                                     onblur="value = value.toUpperCase();" required="true" requiredMessage="Ingrese información de antecedente"/>
+                </h:panelGrid> 
+
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar" value="Eliminar" icon="ui-icon-disk" ajax="false" 
+                                         style="margin:0; font-size: 14px" actionListener="#{antPersoFamil.btnGrabarDel()}"/>
+                    </center>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

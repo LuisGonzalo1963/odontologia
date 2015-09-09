@@ -1,0 +1,152 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateFichaOdonto.xhtml">
+    <ui:define name="content">
+       
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <p:panel id="panelEnf" header="12 Tratamiento" style="background-color: #F8F9FC;font-size: 16px">
+                <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" >
+                    <p:commandButton id="btnNuevo" value="Registro" style="margin: 0; font-size: 12px" 
+                                     actionListener="#{tratamiento.newTrtValueChange(vce)}"
+                                     title="Nueva Pedido" update=":formNewRx:panelNewRx" icon="ui-icon-check"
+                                     oncomplete="PF('newDialog').show()">
+                    </p:commandButton>
+                </h:panelGrid>
+                <p:spacer height="5"/>
+                <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" >
+                    <p:dataTable id="rx" var="trt" value="#{tratamiento.listarTratamientos}" 
+                                 style="text-align:left; float: left; margin-left: 10px; font-weight: bold;font-size: 12px"
+                                 selectionMode="single" selection="#{tratamiento.selectTratamiento}" rowKey="#{trt.trtId}"
+                                 rowIndexVar="index" emptyMessage="No se encontraron resultados" >
+                        <p:column headerText="Fecha" width="60" style="font-size: 12px">
+                            <h:outputText value="#{trt.trtFecha}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Diagnóstico y Complicaciones" style="font-size: 12px">
+                            <h:outputText value="#{trt.trtDiagnosCompl}" />
+                        </p:column>
+                        <p:column headerText="Procedimientos" style="font-size: 12px">
+                            <h:outputText value="#{trt.trtProcedimientos}" />
+                        </p:column>
+                        <p:column headerText="Prescripciones" style="font-size: 12px">
+                            <h:outputText value="#{trt.trtPrescripciones}" />
+                        </p:column>
+                        <p:column headerText="Código" width="50" style="font-size: 12px">
+                            <h:outputText value="#{trt.personal.codigo}" />
+                        </p:column>
+                        <p:column style="width:5%;text-align: center;font-size: 12px;">
+                            <p:commandButton title="Editar Tratamiento" update=":formEditTrt:panelEditTrt" icon="ui-icon-pencil"
+                                             oncomplete="PF('editDialogTrt').show()" actionListener="#{tratamiento.ajaxValidar()}">
+                                <f:setPropertyActionListener value="#{trt}" target="#{tratamiento.selectTratamiento}" />
+                               
+                            </p:commandButton>
+                        </p:column>
+                     <!---   <p:column style="width:5%;text-align: center;font-size: 12px;">
+                            <p:commandButton title="Eliminar Tratamiento" update=":formDelTrt:panelDelTrt" icon="ui-icon-trash"
+                                             oncomplete="PF('delDialogTrt').show()">
+                                <f:setPropertyActionListener value="#{trt}" target="#{tratamiento.selectTratamiento}" />
+                            </p:commandButton>
+                        </p:column> -->
+                    </p:dataTable>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+
+        <p:dialog id="newDlg" header="Tratamiento" widgetVar="newDialog" resizable="false" 
+                  width="600" showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+            <h:form id="formNewRx">
+                <p:outputPanel id="panelNewRx" style="text-align:left;font-size: 12px">
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <h:outputText  value="Diagnóstico y Complicaciones:" />
+                        <p:inputTextarea id="dyc"  onblur="value = value.toUpperCase();" value="#{tratamiento.selectTratamiento.trtDiagnosCompl}"
+                                         rows="5" cols="50"
+                                         required="true" label="Diagnóstico y Complicaciones" maxlength="1000" autoResize="true" style="width:100%">
+                        </p:inputTextarea>
+                        <p:message for="dyc" />
+
+                        <h:outputText  value="Procedimientos:" />
+                        <p:inputTextarea id="prc"  onblur="value = value.toUpperCase();" value="#{tratamiento.selectTratamiento.trtProcedimientos}"
+                                         rows="5" cols="50" label="Procedimientos:" maxlength="1000" autoResize="true" style="width:100%">
+                        </p:inputTextarea>
+                        <p:message for="prc" />
+
+                        <h:outputText  value="Prescripciones:" />
+                        <p:inputTextarea id="pres"  onblur="value = value.toUpperCase();" value="#{tratamiento.selectTratamiento.trtPrescripciones}"
+                                         rows="5" cols="50" label="Prescripciones:" maxlength="1000" autoResize="true" style="width:100%">
+                        </p:inputTextarea>
+                        <p:message for="pres" />
+
+                    </h:panelGrid>
+                    <p:spacer height="5"/>
+                    <h:panelGroup>
+                        <center>
+                            <p:commandButton id="btnGrabarPerfil" value="Grabar" icon="ui-icon-disk" ajax="false"
+                                             process="@this,nom " style="margin:0; font-size: 14px" 
+                                             actionListener="#{tratamiento.grabarTratamiento()}" update=":formPrincipal:msgs"/>
+                        </center>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="editDlg" header="Tratamiento" widgetVar="editDialogTrt" resizable="false" 
+                  width="600" showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+            <h:form id="formEditTrt">
+                <p:outputPanel id="panelEditTrt" style="text-align:left;font-size: 12px">
+                    <p:panelGrid  columns="3" style="width:100%">
+                        <h:outputText  value="Diagnóstico y Complicaciones:" />
+                        <p:inputTextarea id="dyc"  onblur="value = value.toUpperCase();" value="#{tratamiento.selectTratamiento.trtDiagnosCompl}"
+                                         required="true" label="Diagnóstico y Complicaciones" maxlength="1000" autoResize="true" style="width:100%">
+                        </p:inputTextarea>
+                        <p:message for="dyc" />
+
+                        <h:outputText  value="Procedimientos:" />
+                        <p:inputTextarea id="prc"  onblur="value = value.toUpperCase();" value="#{tratamiento.selectTratamiento.trtProcedimientos}"
+                                         label="Procedimientos:" maxlength="1000" autoResize="true" style="width:100%">
+                        </p:inputTextarea>
+                        <p:message for="prc" />
+
+                        <h:outputText  value="Prescripciones:" />
+                        <p:inputTextarea id="pres"  onblur="value = value.toUpperCase();" value="#{tratamiento.selectTratamiento.trtPrescripciones}"
+                                         label="Prescripciones:" maxlength="1000" autoResize="true" style="width:100%">
+                        </p:inputTextarea>
+                        <p:message for="pres" />
+
+                    </p:panelGrid>
+                    <p:spacer height="5"/>
+                    <h:panelGroup>
+                        <center>
+                            <p:commandButton id="btnGrabarPerfil" value="Grabar" icon="ui-icon-disk" ajax="false"
+                                             process="@this,nom " style="margin:0; font-size: 14px" 
+                                             actionListener="#{tratamiento.grabarTratamiento()}" update=":formPrincipal:msgs"/>
+                        </center>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="delDlgTrt" header="Eliminar" widgetVar="delDialogTrt" resizable="false" width="500" 
+                  showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+            <h:form id="formDelTrt">
+                <p:outputPanel id="panelDelTrt" style="text-align:left;font-size: 12px">
+                    <p:panelGrid   columns="2" style="width:100%" >
+                        <h:outputText value="¿Está seguro que desea eliminar el registro." style="font-size: 12px;color: red"/>
+                    </p:panelGrid>
+                    <p:spacer height="10"/>
+                    <h:panelGroup>
+                        <center>
+                            <p:commandButton value="Eliminar" icon="ui-icon-check" ajax="false"
+                                             process="@this,nom " style="margin:0; font-size: 12px" 
+                                             actionListener="#{tratamiento.grabarEliminarDg()}" update=":formPrincipal:msgs"/>
+                        </center>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,377 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateFichaOdonto.xhtml">
+    <ui:define name="content">
+        
+        <h:form id="formPrincipal">
+            <p:growl id="msgs" showDetail="true" />
+            <p:panel id="panelEnf" header="Indicadores de Salud Bucal" style="background-color: #F8F9FC;font-size: 16px">
+                <p:tabView orientation="top" style="font-size: 12px" >
+                    <p:tab title="Higiene Oral Simplificada" >
+                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" width="600">
+                            <p:commandButton id="btnNuevoAntP" value="Registrar" style="margin: 0; font-size: 12px" 
+                                             actionListener="#{indSaludBucal.newHoSValueChange(vce)}"
+                                             title="Nuevo Registro Higiene Oral Simplificada" update=":formNewHos:panelNewHos" icon="ui-icon-check"
+                                             oncomplete="PF('newDialogHos').show()">
+                            </p:commandButton>
+                            <p:spacer height="5"/>
+                            <p:dataTable id="hosDt" var="lista" value="#{indSaludBucal.listIndSaludBucal}" rowIndexVar="index" 
+                                         emptyMessage="No se encontraron resultados">
+                                <p:column headerText="Fecha" width="60" style="font-size: 12px">
+                                    <h:outputText value="#{lista.hosFecha}" style="text-align:center; float: left; margin-left: 10px; font-size: 11px">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Pieza Dental" width="90" style="font-size: 12px;text-align: center;">
+                                    <h:outputText value="#{lista.hpdId}" />
+                                </p:column>
+                                <p:column headerText="Placa (0-1-2-3)" width="85" style="font-size: 12px;text-align: center;">
+                                    <h:outputText value="#{lista.pbaId}" />
+                                </p:column>
+                                <p:column headerText="Cálculo (0-1-2-3)" width="95" style="font-size: 12px;text-align: center;">
+                                    <h:outputText value="#{lista.pcaId}" />
+                                </p:column>
+                                <p:column headerText="Gingivitis (0-1)" width="85" style="font-size: 12px;text-align: center;">
+                                    <h:outputText value="#{lista.pgiId}" />
+                                </p:column>
+
+                                <p:column style="text-align: center;font-size: 12px" width="25">
+                                    <p:commandButton title="Editar registro" update=":formEditHos:panelEditHos" icon="ui-icon-pencil"
+                                                     oncomplete="PF('editDialogHos').show()">
+                                        <f:setPropertyActionListener value="#{lista}" target="#{indSaludBucal.higOralSimpSelect}" />
+                                    </p:commandButton>
+                                </p:column>
+                                <p:column style="text-align: center;font-size: 12px" width="25">
+                                    <p:commandButton title="Eliminar registro" update=":formDelHos:panelDelHos" icon="ui-icon-trash"
+                                                     oncomplete="PF('delDialogHos').show()">
+                                        <f:setPropertyActionListener value="#{lista}" target="#{indSaludBucal.higOralSimpSelect}" />
+                                    </p:commandButton>
+                                </p:column>
+                                <p:columnGroup type="footer">
+                                    <p:row>
+                                        <p:column colspan="2" style="text-align:right;font-size: 12px" footerText="Totales:"/>
+                                        <p:column footerText="#{indSaludBucal.totPlaca}" style="font-size: 12px"/>
+                                        <p:column footerText="#{indSaludBucal.totCalc}" style="font-size: 12px"/>
+                                        <p:column footerText="#{indSaludBucal.totGing}" style="font-size: 12px"/>
+                                    </p:row>
+                                </p:columnGroup>
+                            </p:dataTable>
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab title="Enfermedad Periodontal" >
+                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" >
+                            <p:commandButton id="btnNuevoPeriod" value="Registrar" style="margin: 0; font-size: 12px" 
+                                             actionListener="#{indSaludBucal.newEnfPeriodValueChange(vce)}"
+                                             title="Nuevo Registro Enfermedad Periodontal" update=":formNewEnf:panelNewEnf" icon="ui-icon-check"
+                                             oncomplete="PF('newDialogEnf').show()">
+                            </p:commandButton>
+                        </h:panelGrid>
+                        <p:spacer height="5"/>
+                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" width="300" >
+                            <p:dataTable id="enfPDt" var="listaEnf" value="#{indSaludBucal.listEnfermPeriod}" rowIndexVar="index" 
+                                         emptyMessage="No se encontraron resultados" widgetVar="60">
+                                <p:column headerText="Fecha" width="60" style="font-size: 12px">
+                                    <h:outputText value="#{listaEnf.epeFecha}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Clasificación" style="font-size: 12px">
+                                    <h:outputText value="#{listaEnf.epeClasificacion == 'L'?'LEVE':listaEnf.epeClasificacion == 'M'?'MODERADA':'SEVERA'}" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab title="Mal oclusión" >
+                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" >
+                            <p:commandButton id="btnNuevoMalO" value="Nuevo" style="margin: 0; font-size: 12px" 
+                                             actionListener="#{indSaludBucal.newMalOclusionValueChange(vce)}"
+                                             title="Nuevo Registro Enfermedad Periodontal" update=":formNewMalO:panelNewMalO" icon="ui-icon-check"
+                                             oncomplete="PF('newDialogMalO').show()">
+                            </p:commandButton>
+                        </h:panelGrid>
+                        <p:spacer height="5"/>
+                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" width="300" >
+                            <p:dataTable id="malOPDt" var="listaMal" value="#{indSaludBucal.listMalOclusión}" rowIndexVar="index" emptyMessage="No se encontraron resultados" >
+
+                                <p:column headerText="Fecha" width="60" style="font-size: 12px">
+                                    <h:outputText value="#{listaMal.mocFecha}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Clasificación" style="font-size: 12px">
+                                    <h:outputText value="#{listaMal.mocClasificacion == 'L'?'ANGLE I':listaMal.mocClasificacion == 'M'?'ANGLE II':'ANGLE III'}" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab title="Fluorosis" >
+                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" >
+                            <p:commandButton id="btnNuevoFluo" value="Nuevo" style="margin: 0; font-size: 12px" 
+                                             actionListener="#{indSaludBucal.newFluorosisValueChange(vce)}"
+                                             title="Nuevo Registro Enfermedad Periodontal" update=":formNewMalO:panelNewMalO" icon="ui-icon-check"
+                                             oncomplete="PF('newDialogFluo').show()">
+                            </p:commandButton>
+                        </h:panelGrid>
+                        <p:spacer height="5"/>
+                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" width="300" >
+                            <p:dataTable id="fluoDt" var="listaFlu" value="#{indSaludBucal.listFluorosis}" rowIndexVar="index" emptyMessage="No se encontraron resultados" >
+
+                                <p:column headerText="Fecha" width="60" style="font-size: 12px">
+                                    <h:outputText value="#{listaFlu.fluFecha}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Clasificación" style="font-size: 12px">
+                                    <h:outputText value="#{listaFlu.fluClasificacion == 'L'?'LEVE':listaFlu.fluClasificacion == 'M'?'MODERADA':'SEVERA'}" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+                    </p:tab>
+                </p:tabView>
+            </p:panel>
+        </h:form>
+        
+        <p:dialog id="newDialogHos" header="Higiene Oral Simplificada" widgetVar="newDialogHos" resizable="false" 
+                  width="500" showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+            <h:form id="formNewHos">
+                <p:growl id="msgs1" showDetail="true" />
+                <p:outputPanel id="panelNewHos" style="text-align:left;font-size: 11px">
+                    <p:panelGrid  columns="1">
+                        <h:panelGrid  columns="7">
+                            <h:outputText value="Piezas Dentales" />
+                            <p:spacer width="150" height="10" />
+                            <h:outputText  value="Placa" />
+                            <p:spacer width="40" height="10" />
+                            <h:outputText  value="Cálculo" />
+                            <p:spacer width="30" height="10" />
+                            <h:outputText  value="Gingivitis" />
+                        </h:panelGrid>
+                        <p:panelGrid  columns="9">
+                            <h:outputText  value="16" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value16}"/>
+                            <h:outputText  value="17" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value17}" />
+                            <h:outputText  value="55" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value55}" />
+
+                            <p:inputText label="Number" value="#{indSaludBucal.valuePla1}" size="4">
+                                <f:validateDoubleRange minimum="0" maximum="3" />
+                            </p:inputText>
+                            <p:inputText label="Number" size="4" value="#{indSaludBucal.valueCal1}">
+                                <f:validateDoubleRange minimum="0" maximum="3" />
+                            </p:inputText>
+                            <p:inputText label="Number" size="4" value="#{indSaludBucal.valueGin1}">
+                                <f:validateDoubleRange minimum="0" maximum="1" />
+                            </p:inputText>
+
+                            <h:outputText  value="11" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value11}"/>
+                            <h:outputText  value="21" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value21}" />
+                            <h:outputText  value="51" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value51}" />
+                            <p:inputText label="Number" value="#{indSaludBucal.valuePla2}" size="4">
+                                <f:validateDoubleRange minimum="0" maximum="3" />
+                            </p:inputText>
+                            <p:inputText label="Number" size="4" value="#{indSaludBucal.valueCal2}">
+                                <f:validateDoubleRange minimum="0" maximum="3" />
+                            </p:inputText>
+                            <p:inputText label="Number" size="4" value="#{indSaludBucal.valueGin2}">
+                                <f:validateDoubleRange minimum="0" maximum="1" />
+                            </p:inputText>
+
+                            <h:outputText  value="26" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value26}"/>
+                            <h:outputText  value="27" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value27}" />
+                            <h:outputText  value="65" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value65}" />
+                            <p:inputText label="Number" value="#{indSaludBucal.valuePla3}" size="4">
+                                <f:validateDoubleRange minimum="0" maximum="3" />
+                            </p:inputText>
+                            <p:inputText label="Number" size="4" value="#{indSaludBucal.valueCal3}">
+                                <f:validateDoubleRange minimum="0" maximum="3" />
+                            </p:inputText>
+                            <p:inputText label="Number" size="4" value="#{indSaludBucal.valueGin3}">
+                                <f:validateDoubleRange minimum="0" maximum="1" />
+                            </p:inputText>
+
+                            <h:outputText  value="36" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value36}"/>
+                            <h:outputText  value="37" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value37}" />
+                            <h:outputText  value="75" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value75}" />
+                            <p:inputText label="Number" size="4" value="#{indSaludBucal.valuePla4}">
+                                <f:validateDoubleRange minimum="0" maximum="3" />
+                            </p:inputText>
+                            <p:inputText label="Number" size="4" value="#{indSaludBucal.valueCal4}">
+                                <f:validateDoubleRange minimum="0" maximum="3" />
+                            </p:inputText>
+                            <p:inputText label="Number" size="4" value="#{indSaludBucal.valueGin4}">
+                                <f:validateDoubleRange minimum="0" maximum="1" />
+                            </p:inputText>
+
+                            <h:outputText  value="31" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value31}"/>
+                            <h:outputText  value="41" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value41}" />
+                            <h:outputText  value="71" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value71}" />
+                            <p:inputText label="Number" size="4" value="#{indSaludBucal.valuePla5}">
+                                <f:validateDoubleRange minimum="0" maximum="3" />
+                            </p:inputText>
+                            <p:inputText label="Number" size="4" value="#{indSaludBucal.valueCal5}">
+                                <f:validateDoubleRange minimum="0" maximum="3" />
+                            </p:inputText>
+                            <p:inputText label="Number" size="4" value="#{indSaludBucal.valueGin5}">
+                                <f:validateDoubleRange minimum="0" maximum="1" />
+                            </p:inputText>
+
+                            <h:outputText  value="46" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value46}"/>
+                            <h:outputText  value="47" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value47}" />
+                            <h:outputText  value="85" />
+                            <p:selectBooleanCheckbox value="#{indSaludBucal.value85}" />
+                            <p:inputText label="Number" size="4" value="#{indSaludBucal.valuePla6}">
+                                <f:validateDoubleRange minimum="0" maximum="3" />
+                            </p:inputText>
+                            <p:inputText label="Number" size="4" value="#{indSaludBucal.valueCal6}">
+                                <f:validateDoubleRange minimum="0" maximum="3" />
+                            </p:inputText>
+                            <p:inputText label="Number" size="4" value="#{indSaludBucal.valueGin6}">
+                                <f:validateDoubleRange minimum="0" maximum="1" />
+                            </p:inputText>
+
+                        </p:panelGrid>
+                    </p:panelGrid> 
+
+                    <h:panelGroup>
+                        <center>
+                            <p:commandButton id="btnGrabarHos" value="Grabar" icon="ui-icon-check" ajax="false"
+                                             process="@this,nom " style="margin:0; font-size: 12px" disabled="#{indSaludBucal.flagSave}"
+                                             actionListener="#{indSaludBucal.grabarHigieneOs()}" update=":formPrincipal:msgs"/>
+                        </center>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="editDlg" header="Edición" widgetVar="editDialogHos" resizable="false" 
+                  width="600" showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+            <h:form id="formEditHos">
+                <p:outputPanel id="panelEditHos" style="text-align:left;font-size: 12px">
+                    <p:panelGrid  columns="2" >
+                        <h:outputText  value="Pieza Dental:" />
+                        <h:outputText value="#{indSaludBucal.higOralSimpSelect.hpdId}" />
+                        <h:outputText  value="PLaca:" />
+                        <p:inputText value="#{indSaludBucal.higOralSimpSelect.pbaId}"/>
+                        <h:outputText  value="Cálculo:" />
+                        <p:inputText value="#{indSaludBucal.higOralSimpSelect.pcaId}"/>
+                        <h:outputText  value="Gingivitis:" />
+                        <p:inputText value="#{indSaludBucal.higOralSimpSelect.pgiId}"/>
+                    </p:panelGrid>
+                    <p:spacer height="5"></p:spacer>
+                    <h:panelGroup>
+                        <center>
+                            <p:commandButton id="btnGrabarHos" value="Grabar" icon="ui-icon-check" ajax="false"
+                                             process="@this,nom " style="margin:0; font-size: 12px" disabled="#{indSaludBucal.flagSave}"
+                                             actionListener="#{indSaludBucal.grabarEdicionHigieneOs()}" update=":formPrincipal:msgs"/>
+                        </center>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="delDlgHos" header="Eliminar" widgetVar="delDialogHos" resizable="false" width="500" 
+                  showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+            <h:form id="formDelHos">
+                <p:outputPanel id="panelDelHos" style="text-align:left;font-size: 12px">
+                    <p:panelGrid   columns="2" style="width:100%" >
+                        <h:outputText value="Pieza Dental: #{indSaludBucal.higOralSimpSelect.hpdId}"/>
+                        <h:outputText value="¿Está seguro que desea eliminar el registro." style="font-size: 12px;color: red"/>
+                    </p:panelGrid>
+                    <p:spacer height="10"/>
+                    <h:panelGroup>
+                        <center>
+                            <p:commandButton value="Eliminar" icon="ui-icon-check" ajax="false"
+                                             process="@this,nom " style="margin:0; font-size: 12px" 
+                                             actionListener="#{indSaludBucal.grabarEliminarHigienOs()}" update=":formPrincipal:msgs"/>
+                        </center>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="newDialogPeriod" header="Enfermedad Periodontal:" widgetVar="newDialogEnf" resizable="false" 
+                  width="200" showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+            <h:form id="formNewEnf">
+                <p:outputPanel id="panelNewEnf" style="text-align:left;font-size: 11px">
+                    <p:selectOneRadio id="enferm" value="#{indSaludBucal.enfPeriodNew.epeClasificacion}" 
+                                      layout="grid" columns="1">
+                        <f:selectItem itemLabel="LEVE" itemValue="L" />
+                        <f:selectItem itemLabel="MODERADA" itemValue="M" />
+                        <f:selectItem itemLabel="SEVERA" itemValue="S" />
+                    </p:selectOneRadio>
+                    <p:spacer height="5"></p:spacer>
+                    <h:panelGroup>
+                        <center>
+                            <p:commandButton id="btnGrabarPerfil" value="Grabar" icon="ui-icon-disk" ajax="false"
+                                             process="@this,nom " style="margin:0; font-size: 12px" 
+                                             actionListener="#{indSaludBucal.grabarEnfPeriod()}" update=":formPrincipal:msgs"/>
+                        </center>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="newDialogMalO" header="Mal Oclusión:" widgetVar="newDialogMalO" resizable="false" width="170" 
+                  showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+            <h:form id="formNewMalO">
+                <p:outputPanel id="panelNewMalO" style="text-align:left;font-size: 11px">
+                    <p:selectOneRadio id="malOclu" value="#{indSaludBucal.malOclusionNew.mocClasificacion}"
+                                      layout="grid" columns="1"> 
+                        <f:selectItem itemLabel="ANGLE I" itemValue="L" />
+                        <f:selectItem itemLabel="ANGLE II" itemValue="M" />
+                        <f:selectItem itemLabel="ANGLE III" itemValue="S" />
+                    </p:selectOneRadio>
+                    <p:spacer height="5"/>
+                    <h:panelGroup>
+                        <center>
+                            <p:commandButton id="btnGrabarPerfil" value="Grabar" icon="ui-icon-disk" ajax="false"
+                                             process="@this,nom " style="margin:0; font-size: 12px" 
+                                             actionListener="#{indSaludBucal.grabarMalOclusion()}" update=":formPrincipal:msgs"/>
+                        </center>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="newDialogFluo" header="Fluorosis:" widgetVar="newDialogFluo" resizable="false" width="170" 
+                  showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+            <h:form id="formNewFluo">
+                <p:outputPanel id="panelNewFluo" style="text-align:left;">
+                    <p:selectOneRadio id="fluor" value="#{indSaludBucal.fluorosisNEw.fluClasificacion}"
+                                      layout="grid" columns="1">
+                        <f:selectItem itemLabel="LEVE" itemValue="L" />
+                        <f:selectItem itemLabel="MODERADA" itemValue="M" />
+                        <f:selectItem itemLabel="SEVERA" itemValue="S" />
+                    </p:selectOneRadio>
+                    <p:spacer height="5"/>
+                    <h:panelGroup>
+                        <center>
+                            <p:commandButton id="btnGrabarPerfil" value="Grabar" icon="ui-icon-check" ajax="false"
+                                             process="@this,nom " style="margin:0; font-size: 12px" 
+                                             actionListener="#{indSaludBucal.grabarFluorosis()}" update=":formPrincipal:msgs"/>
+                        </center>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+  
+    </ui:define>
+</ui:composition>

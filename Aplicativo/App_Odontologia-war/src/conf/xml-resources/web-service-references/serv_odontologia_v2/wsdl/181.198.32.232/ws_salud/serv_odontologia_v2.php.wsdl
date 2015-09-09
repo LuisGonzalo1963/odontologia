@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns:tns="http://181.198.32.232/ws_salud/wsdl_odontologia_v2" 
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+    xmlns:ns1="http://schemas.xmlsoap.org/soap/http" 
+    name="wsdl_odontologia_v2Definitions" 
+    targetNamespace="http://181.198.32.232/ws_salud/wsdl_odontologia_v2">
+
+<wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:tns="http://181.198.32.232/ws_salud/wsdl_odontologia_v2" 
+   targetNamespace="http://181.198.32.232/ws_salud/wsdl_odontologia_v2" version="1.0">
+
+<xs:element name="DatosOdontologiaError" type="tns:wsdl_odontologia_v2Fault"/>
+<xs:element name="DatosOdontologiaResponse" type="tns:ResultadoBusqueda"/>
+
+<xs:element name="Credenciales" type="tns:Credenciales"/>
+<xs:element name="DatosAcceso" type="tns:ParametrosAcceso"/>
+
+
+
+<xs:complexType name="Credenciales">
+	<xs:sequence>
+		<xs:element minOccurs="0" name="Usuario" type="xs:string"/>
+		<xs:element minOccurs="0" name="Clave" type="xs:string"/>
+	</xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="wsdl_odontologia_v2Fault">
+	<xs:all>
+		<xs:element minOccurs="0" name="CodigoError" type="xs:string"/>
+		<xs:element minOccurs="0" name="DescripcionError" type="xs:string"/>
+	</xs:all>
+</xs:complexType>
+
+<xs:complexType name="ParametrosAcceso">
+	<xs:sequence>
+	<xs:element minOccurs="0" name="Operacion" type="xs:string"/>
+	<xs:element minOccurs="0" name="NoPlanilla" type="xs:string"/>
+	<xs:element minOccurs="0" name="NoAfiliacionTitular" type="xs:string"/>
+	<xs:element minOccurs="0" name="NoAfiliacionPaciente" type="xs:string"/>
+	<xs:element minOccurs="0" name="NombrePaciente" type="xs:string"/>
+	<xs:element minOccurs="0" name="FechaAtencion" type="xs:string"/>
+	<xs:element minOccurs="0" name="FechaSalida" type="xs:string"/>
+	<xs:element minOccurs="0" name="DiagnosticoPrimario" type="xs:string"/>
+	<xs:element minOccurs="0" name="DiagnosticoSecundario" type="xs:string"/>
+	<xs:element minOccurs="0" name="LMuerto" type="xs:string"/>
+	<xs:element minOccurs="0" name="FechaTarifario" type="xs:string"/>
+	<xs:element minOccurs="0" name="NoServicio" type="xs:string"/>
+	<xs:element minOccurs="0" name="Cantidad" type="xs:string"/>
+	<xs:element minOccurs="0" name="ValorTotal" type="xs:string"/>
+	<xs:element minOccurs="0" name="ValorPaciente" type="xs:string"/>
+	<xs:element minOccurs="0" name="Modificador" type="xs:string"/>	
+	<xs:element minOccurs="0" name="Usuario" type="xs:string"/>
+	<xs:element minOccurs="0" name="Clave" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+
+
+
+<xs:complexType name="ResultadoBusqueda">
+	<xs:sequence>
+		<xs:element minOccurs="0" name="ResultadoConexion" type="xs:string"/>
+		<xs:element minOccurs="0" name="CodigoResultado" type="xs:string"/>
+		<xs:element minOccurs="0" name="Mensaje" type="xs:string"/>
+	</xs:sequence>
+</xs:complexType>
+
+
+</xs:schema>
+ </wsdl:types>
+
+  <wsdl:message name="DatosOdontologiaError">
+    <wsdl:part element="tns:DatosOdontologiaError" name="DatosOdontologiaError">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DatosOdontologiaResponse">
+    <wsdl:part element="tns:DatosOdontologiaResponse" name="Return">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DatosOdontologia">
+    <wsdl:part element="tns:DatosAcceso" name="DatosAcceso">
+    </wsdl:part>
+  </wsdl:message>
+
+
+
+  <wsdl:portType name="wsdl_odontologia_v2">
+
+    <wsdl:operation name="DatosOdontologia">
+      <wsdl:input message="tns:DatosOdontologia" name="DatosOdontologia">
+    </wsdl:input>
+      <wsdl:output message="tns:DatosOdontologiaResponse" name="DatosOdontologiaResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:DatosOdontologiaError" name="DatosOdontologiaError">
+    </wsdl:fault>
+    </wsdl:operation>
+
+
+  </wsdl:portType>
+
+  <wsdl:binding name="wsdl_odontologia_v2DefinitionsSoapBinding" type="tns:wsdl_odontologia_v2">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="DatosOdontologia">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="DatosOdontologia">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="DatosOdontologiaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="DatosOdontologiaError">
+        <soap:fault name="DatosOdontologiaError" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+
+
+  </wsdl:binding>
+
+  <wsdl:service name="wsdl_odontologia_v2Definitions">
+    <wsdl:port binding="tns:wsdl_odontologia_v2DefinitionsSoapBinding" name="wsdl_odontologia_v2Port">
+      <soap:address location="http://181.198.32.232/ws_salud/serv_odontologia_v2.php"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

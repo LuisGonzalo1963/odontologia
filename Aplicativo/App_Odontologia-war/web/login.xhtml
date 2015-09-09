@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>HE-1 Odontología</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true" >
+               
+                <p:layoutUnit position="north" size="219" resizable="true" closable="true" collapsible="true" style="background-color: #c2dfef">
+                    <p:panel style="background-color: #c2dfef">
+                        <h:panelGroup >
+                            <center>
+                                <p:graphicImage height="170" width="1000"  url="/resources/images/prueba.png" /> 
+                            </center>
+                        </h:panelGroup>
+                    </p:panel>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true" style="background-color: #c2dfef">
+                    <h:panelGroup style="text-align:left;font-size: 12px">
+                        <center>
+                            <a href="http://www.hospitalmilitar.mil.ec/" target="_blank">http://www.hospitalmilitar.mil.ec/</a>
+                            <p:spacer width="35"></p:spacer>
+                            <p:outputLabel value="info@hg1.mil.ec"/>
+                            <p:spacer width="35"></p:spacer>
+                            <p:outputLabel value="Teléfonos: (593-2) 3968-300 / 2568-020 / 2568-024"/>
+                        </center>
+                    </h:panelGroup>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" style="background-color: #c2dfef">
+                    <p:spacer width="10" height="40" />
+                    <p:growl id="mensajes" showDetail="true" life="2000" />
+                    <h:form>
+                        <h:panelGroup>
+                            <center>
+                                <p:panel header="Acceso de usuarios" style="width:500px">
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <p:graphicImage  width="90" height="100" url="/resources/images/bloqueo.png"/>                              
+                                        <h:panelGrid columns="2" cellpadding="5">
+                                            <h:outputLabel for="username" value="Usuario:" />
+                                            <p:inputText value="#{login.usuario}" id="username"
+                                                         required="true" label="username" />
+                                            <h:outputLabel for="password" value="Clave:" />
+                                            <p:password value="#{login.password1}" id="password" required="true"
+                                                        label="password" />
+                                            <f:facet name="footer">
+                                                <p:spacer width="150" height="10" />
+                                                <p:commandButton id="loginButton" value="Ingresar"
+                                                                 actionListener="#{login.buttonActionPersonal}" update=":mensajes"
+                                                                 oncomplete="manejarLogin(xhr, status, args)" />
+                                            </f:facet>
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </center>
+                        </h:panelGroup>
+                    </h:form>
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>
+

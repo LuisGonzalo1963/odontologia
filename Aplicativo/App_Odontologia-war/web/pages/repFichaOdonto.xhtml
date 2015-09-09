@@ -1,0 +1,599 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateFichaOdonto.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <table border="1" width="100%" cellspacing="0" cellpadding="0" style="font-size: 11px">
+                <thead align="center">
+                    <tr>
+                        <th>ESTABLECIMIENTO</th>
+                        <th>NOMBRE</th>
+                        <th>APELLIDO</th>
+                        <th>SEXO(M-F)</th>
+                        <th>EDAD</th>
+                        <th>N° HISTORIA CLÍNICA</th>
+                    </tr>
+                </thead>
+                <tbody align="center">
+                    <tr>
+                        <td>HE-1</td>
+                        <td>#{repFichaOdonto.selectedOdontograma.getoHistOdonto().turnosCe.pacientes.primerNombre} #{repFichaOdonto.selectedOdontograma.getoHistOdonto().turnosCe.pacientes.segundoNombre}</td>
+                        <td>#{repFichaOdonto.selectedOdontograma.getoHistOdonto().turnosCe.pacientes.apellidoPaterno} #{repFichaOdonto.selectedOdontograma.getoHistOdonto().turnosCe.pacientes.apellidoMaterno}</td>
+                        <td>#{repFichaOdonto.selectedOdontograma.getoHistOdonto().turnosCe.pacientes.sexo == 'F'?'FEMENINO':'MASCULINO'}</td>
+                        <td>#{repFichaOdonto.edad}</td>
+                        <td>#{repFichaOdonto.selectedOdontograma.getoHistOdonto().turnosCe.pacientes.numeroHc}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <table border="1" width="100%" style="font-size: 11px">
+                <thead align="left">
+                    <tr>
+                        <th>1. MOTIVO DE CONSULTA</th>
+                    </tr>
+                </thead>
+                <tbody align="left">
+                    <tr>
+                        <td>#{repFichaOdonto.selectedMotivoConsulta.motMotivo}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table border="1" width="100%" style="font-size: 11px;">
+                <thead align="left">
+                    <tr>
+                        <th>2. ENFERMEDAD O PROBLEMA ACTUAL</th>
+                    </tr>
+                </thead>
+                <tbody align="left">
+                    <tr>
+                        <td>
+                            #{repFichaOdonto.selectedEnfProbActual.epaDescripcion}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table border="1" style="font-size: 11px" width="100%">
+                <thead>
+                    <tr align="left">
+                        <th colspan="10">3. ANTECEDENTES PERSONALES Y FAMILIARES</th>
+                    </tr>
+                    <tr style="font-size: 8px">
+                        <th>1. ALERGIA ANTIBIÓTICO</th>
+                        <th>2. ALERGIA ANESTESIA</th>
+                        <th>3. HEMORRAGIAS</th>
+                        <th>4. VIH/SIDA</th>
+                        <th>5. TUBERCULOSIS</th>
+                        <th>6. ASMA</th>
+                        <th>7. DIABETES</th>
+                        <th>8. HIPERTENSIÓN</th>
+                        <th>9. ENF. CARDIACA</th>
+                        <th>10. OTRO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th colspan="10">
+                            <p:dataTable id="PerDT" var="list" value="#{repFichaOdonto.listAntecedentesPf}" style="text-align:left;font-weight: bold;font-size: 8px"
+                                         emptyMessage="No se encontraron resultados" >
+                                <p:column style="font-size: 12px;">
+                                    <h:outputText value="#{list.OAntecedentes.antId} #{list.apfTipo} #{list.apfDescripcion}" />
+                                </p:column>
+                            </p:dataTable>
+
+                        </th>
+                    </tr>
+
+                </tbody>
+            </table>
+            <table border="1" style="font-size: 11px" width="100%">
+                <thead>
+                    <tr align="left">
+                        <th colspan="9">4. SIGNOS VITALES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="font-size: 9px">
+                        <td>PRESIÓN ARTERIAL</td>
+                        <td>#{repFichaOdonto.selectedSignosVitales.sviPArtSist}/#{repFichaOdonto.selectedSignosVitales.sviPArtDiast}</td>
+                        <td>FRECUENCIA CARDÍACA</td>
+                        <td>#{repFichaOdonto.selectedSignosVitales.sviFCardiaca}</td>
+                        <td>TEMPERATURA °C</td>
+                        <td>#{repFichaOdonto.selectedSignosVitales.sviTemperatura}</td>
+                        <td>F. RESPIRAT. min.</td>
+                        <td>#{repFichaOdonto.selectedSignosVitales.sviFRespiratoria}</td>
+                    </tr>
+                    <tr>
+
+                    </tr>
+                </tbody>
+            </table>
+            <table border="1" style="font-size: 11px" width="100%">
+                <thead>
+                    <tr align="left">
+                        <th colspan="8">5. EXAMEN DEL SISTEMA ESTOMATOGNÁTICO</th>
+                    </tr>
+                    <tr style="font-size: 8px">
+                        <th>1. LABIOS</th>
+                        <th>2. MEJILLAS</th>
+                        <th>3. MAXILAR SUPERIOR</th>
+                        <th>4. MAXILAR INFERIOR</th>
+                        <th>5. LENGUA</th>
+                        <th>6. PALADAR</th>
+                        <th>7. PISO</th>
+                        <th>8. CARRILLOS</th>
+                    </tr>
+                    <tr style="font-size: 8px">
+                        <th>9. GLÁNDULAS SALIVALES</th>
+                        <th>10. ORO FARINGE</th>
+                        <th>11. A.T.M.</th>
+                        <th>12. GANGLIOS</th>
+                        <th> 0. S/N</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="8">
+                            <p:dataTable id="sisDT" var="sisEst" value="#{repFichaOdonto.listSistEstom}"
+                                         style="text-align:left;font-weight: bold;font-size: 10px"
+                                         emptyMessage="No se encontraron resultados">
+                                <p:column>
+                                    <h:outputText value="#{sisEst.OPatologias.patNumero}. #{sisEst.sieDescripcion}" style="margin-left: 10px; text-align:left; font-size: 10px"/>
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <table border="1" style="font-size: 11px" width="100%">
+                <thead>
+                    <tr align="left">
+                        <th align="left">6. ODONTOGRAMA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td align="center">
+                            <h:panelGrid columns="2">
+                                <h:panelGrid columns="9" border="1">
+                                    <h:outputText value="RECESIÓN:" style="font-size: 10px"/> 
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR18}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR17}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR16}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR15}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR14}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR13}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR12}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR11}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+
+                                    <h:outputText value="MOVILIDAD:" style="font-size: 10px"/> 
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM18}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM17}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM16}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM15}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM14}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM13}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM12}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM11}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/> 
+                                </h:panelGrid> 
+                                <h:panelGrid columns="8" border="1">
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR21}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR22}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR23}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR24}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR25}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR26}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR27}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR28}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM21}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM22}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM23}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM24}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM25}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM26}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM27}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM28}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/> 
+                                </h:panelGrid> 
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="2">
+                                <h:graphicImage value="/resources/imagenSistema/titulo_sup_1.png" width="235" height="15"/>
+                                <h:graphicImage value="/resources/imagenSistema/titulo_sup_2.png" width="235" height="15"/>
+                                <h:panelGrid columns="8">
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv18}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv17}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv16}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv15}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv14}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv13}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv12}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv11}" title="Diente 18" style="width: 25px; height:25px" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="8">
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv21}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv22}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv23}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv24}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv25}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv26}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv27}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv28}" title="Diente 18" style="width: 25px; height:25px" />
+                                </h:panelGrid> 
+                                <h:graphicImage value="/resources/imagenSistema/titulo_sup_11.png" width="150" height="15"/>
+                                <h:graphicImage value="/resources/imagenSistema/titulo_sup_22.png" width="150" height="15"/>
+                                <h:panelGrid columns="5">
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall55}" title="Diente 55" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall54}" title="Diente 54" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall53}" title="Diente 53" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall52}" title="Diente 52" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall51}" title="Diente 51" style="width: 25px; height:25px" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="5">
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall61}" title="Diente 61" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall62}" title="Diente 62" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall63}" title="Diente 63" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall64}" title="Diente 64" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall65}" title="Diente 65" style="width: 25px; height:25px" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="5">
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall85}" title="Diente 85" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall84}" title="Diente 84" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall83}" title="Diente 83" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall82}" title="Diente 82" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall81}" title="Diente 81" style="width: 25px; height:25px" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="5">
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall71}" title="Diente 71" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall72}" title="Diente 72" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall73}" title="Diente 73" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall74}" title="Diente 74" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentall75}" title="Diente 75" style="width: 25px; height:25px" />
+                                </h:panelGrid>
+                                <h:graphicImage value="/resources/imagenSistema/titulo_inf_11.png" width="150" height="15"/>
+                                <h:graphicImage value="/resources/imagenSistema/titulo_inf_22.png" width="150" height="15"/>
+                                <h:panelGrid columns="8">
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv48}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv47}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv46}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv45}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv44}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv43}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv42}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv41}" title="Diente 18" style="width: 25px; height:25px" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="8">
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv31}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv32}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv33}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv34}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv35}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv36}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv37}" title="Diente 18" style="width: 25px; height:25px" />
+                                    <h:graphicImage value="/resources/imagenSistema/#{repFichaOdonto.selectedOdontograma.odoPdentalv38}" title="Diente 18" style="width: 25px; height:25px" />
+                                </h:panelGrid> 
+                                <h:graphicImage value="/resources/imagenSistema/titulo_inf_1.png" width="235" height="15"/>
+                                <h:graphicImage value="/resources/imagenSistema/titulo_inf_2.png" width="235" height="15"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <h:panelGrid columns="9" border="1">
+                                    <h:outputText value="MOVILIDAD:" style="font-size: 10px"/> 
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM48}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM47}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM46}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM45}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM44}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM43}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM42}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM41}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/> 
+
+                                    <h:outputText value="RECESIÓN:" style="font-size: 10px"/> 
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR48}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR47}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR46}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR45}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR44}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR43}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR42}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR41}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                </h:panelGrid> 
+                                <h:panelGrid columns="8" border="1">
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM31}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM32}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM33}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM34}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM35}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM36}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM37}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalM38}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/> 
+
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR31}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR32}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR33}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR34}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR35}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR36}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR37}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                    <h:inputText value="#{repFichaOdonto.selectedRecMovilidad.rmoPdentalR38}" size="1" style="text-align: center;font-size: 9px" maxlength="1" disabled="true"/>
+                                </h:panelGrid> 
+                            </h:panelGrid>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <table border="1" style="font-size: 11px">
+                <thead>
+                    <tr>
+                        <th align="left" colspan="2">7 INDICADORES DE SALUD BUCAL</th>
+
+                        <th align="left" width="200">8 ÍNDICES CPO-ceo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="2">
+                            <table border="1" style="font-size: 11px;" >
+                                <thead>
+                                    <tr>
+                                        <th>HIGIENE ORAL SIMPLIFICADA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td  >
+                                            <p:dataTable id="hosDt" var="lista" value="#{repFichaOdonto.listHigieneOralSimpl}" emptyMessage="No se encontraron resultados">
+                                                <p:column headerText="Pieza Dental" style="font-size: 11px">
+                                                    <h:outputText value="#{lista.hpdId}"/>
+                                                </p:column>
+                                                <p:column headerText="Placa (0-1-2-3)" style="font-size: 11px;text-align:center;">
+                                                    <h:outputText value="#{lista.pbaId}" />
+                                                </p:column>
+                                                <p:column headerText="Cálculo (0-1-2-3)" style="font-size: 11px;text-align:center;">
+                                                    <h:outputText value="#{lista.pcaId}" />
+                                                </p:column>
+                                                <p:column headerText="Gingivitis (0-1)" style="font-size: 11px;text-align:center;">
+                                                    <h:outputText value="#{lista.pgiId}" />
+                                                </p:column>
+                                                <p:columnGroup type="footer">
+                                                    <p:row>
+                                                        <p:column style="text-align:right; font-size: 11px" footerText="Totales:" />
+                                                        <p:column footerText="#{repFichaOdonto.totPlaca}" style="font-size: 11px"/>
+                                                        <p:column footerText="#{repFichaOdonto.totCalc}" style="font-size: 11px"/>
+                                                        <p:column footerText="#{repFichaOdonto.totGing}" style="font-size: 11px"/>
+                                                    </p:row>
+                                                </p:columnGroup>
+                                            </p:dataTable>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <table border="1">
+                                <thead>
+                                    <tr style="font-size: 10px">
+                                        <th>ENFERMEDAD PERIODONTAL</th>
+                                        <th>MAL OCLUSIÓN</th>
+                                        <th>FLUOROSIS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <table border="1" align="center" width="150">
+                                                <tbody align="center">
+                                                    <tr style="font-size: 11px">
+                                                        <td>LEVE</td>
+                                                        <td width="15">#{repFichaOdonto.selectedEnfermPeriod.epeClasificacion == 'L'?'X':''}</td>
+                                                    </tr>
+                                                    <tr style="font-size: 11px">
+                                                        <td>MODERADA</td>
+                                                        <td>#{repFichaOdonto.selectedEnfermPeriod.epeClasificacion == 'M'?'X':''}</td>
+                                                    </tr>
+                                                    <tr style="font-size: 11px">
+                                                        <td>SEVERA</td>
+                                                        <td>#{repFichaOdonto.selectedEnfermPeriod.epeClasificacion == 'S'?'X':''}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table border="1" align="center" width="150">
+                                                <tbody align="center">
+                                                    <tr style="font-size: 11px">
+                                                        <td>ANGLE I</td>
+                                                        <td width="15">#{repFichaOdonto.selectedMalOclusion.mocClasificacion=='L'?'X':''}</td>
+                                                    </tr>
+                                                    <tr style="font-size: 11px">
+                                                        <td>ANGLE II</td>
+                                                        <td>#{repFichaOdonto.selectedMalOclusion.mocClasificacion=='M'?'X':''}</td>
+                                                    </tr>
+                                                    <tr style="font-size: 11px">
+                                                        <td>ANGLE III</td>
+                                                        <td >#{repFichaOdonto.selectedMalOclusion.mocClasificacion=='S'?'X':''}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table border="1" align="center" width="150">
+                                                <tbody align="center">
+                                                    <tr style="font-size: 11px">
+                                                        <td>LEVE</td>
+                                                        <td width="15">#{repFichaOdonto.selectedFluorosis.fluClasificacion=='L'?'X':''}</td>
+                                                    </tr>
+                                                    <tr style="font-size: 11px">
+                                                        <td>MODERADA</td>
+                                                        <td>#{repFichaOdonto.selectedFluorosis.fluClasificacion=='M'?'X':''}</td>
+                                                    </tr>
+                                                    <tr style="font-size: 11px">
+                                                        <td>SEVERA</td>
+                                                        <td>#{repFichaOdonto.selectedFluorosis.fluClasificacion=='S'?'X':''}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <table border="1" width="100%">
+                                <tbody align="center">
+                                    <tr style="font-size: 11px">
+                                        <td rowspan="2">D</td>
+                                        <td width="20">C</td>
+                                        <td width="20">P</td>
+                                        <td width="20">O</td>
+                                        <td>TOTAL</td>
+                                    </tr>
+                                    <tr style="font-size: 11px">
+                                        <td>#{repFichaOdonto.selectedIndicesCpoCeo.iccCpoC}</td>
+                                        <td>#{repFichaOdonto.selectedIndicesCpoCeo.iccCpoP}</td>
+                                        <td>#{repFichaOdonto.selectedIndicesCpoCeo.iccCpoO}</td>
+                                        <td>#{repFichaOdonto.selectedIndicesCpoCeo.iccCpoC+repFichaOdonto.selectedIndicesCpoCeo.iccCpoP+repFichaOdonto.selectedIndicesCpoCeo.iccCpoO}</td>
+                                    </tr>
+                                    <tr style="font-size: 11px">
+                                        <td rowspan="2">d</td>
+                                        <td>c</td>
+                                        <td>e</td>
+                                        <td>o</td>
+                                        <td>TOTAL</td>
+                                    </tr>
+                                    <tr style="font-size: 11px">
+                                        <td>#{repFichaOdonto.selectedIndicesCpoCeo.iccCeoC}</td>
+                                        <td>#{repFichaOdonto.selectedIndicesCpoCeo.iccCeoE}</td>
+                                        <td>#{repFichaOdonto.selectedIndicesCpoCeo.iccCeoO}</td>
+                                        <td>#{repFichaOdonto.selectedIndicesCpoCeo.iccCeoC+repFichaOdonto.selectedIndicesCpoCeo.iccCeoE+repFichaOdonto.selectedIndicesCpoCeo.iccCeoO}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table border="1" width="100%">
+                                <thead>
+                                    <tr style="font-size: 11px">
+                                        <th align="left">
+                                            9 SIMBOLOGIA
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td align="center"><p:graphicImage value="/recursos/imagenSistema/simbologia_1.png"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table border="1">
+                <thead>
+                    <tr style="font-size: 11px" align="left">
+                        <th>10 PLANES DE DIAGNÓSTICO, TERAPEUTICO Y EDUCACIONAL</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-size: 11px">
+                            BIOMETRÍA |  |     QUIMICA SANGUÍNEA |  |    RAYOS X |  |    OTROS | |
+                            <p:dataTable id="rx" var="rx" value="#{repFichaOdonto.listPlanDxTerEdu}" style="text-align:left; float: left; margin-left: 10px; font-weight: bold;font-size: 14px"
+                                         rowIndexVar="index" emptyMessage="No se encontraron resultados" >
+
+                                <p:column headerText="Tipo" width="100" style="font-size: 11px">
+                                    <h:outputText value="#{rx.pdxTipo == 1?'BIOMETRÍA':rx.pdxTipo == 2?'QUÍMICA SANGUÍNEA':rx.pdxTipo == 3?'RAYOS X':'OTROS'}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                </p:column>
+                                <p:column headerText="Descripción" style="font-size: 11px">
+                                    <h:outputText value="#{rx.pdxDescripcion}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+            <table border="1">
+                <thead>
+                    <tr style="font-size: 11px" align="left">
+                        <th>11 DIAGNÓSTICO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p:dataTable id="odonto" var="diag" value="#{repFichaOdonto.listDiagnostico}" style="text-align:left; float: left; margin-left: 10px; font-weight: bold;font-size: 14px"
+                                         rowIndexVar="index" emptyMessage="No se encontraron resultados" cellSeparator="10" >
+
+                                <p:column headerText="CIE" width="40" style="font-size: 11px">
+                                    <h:outputText value="#{diag.enfermedades.codigo}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                </p:column>
+                                <p:column headerText="Diagnóstico" style="font-size: 11px">
+                                    <h:outputText value="#{diag.enfermedades.enfermedad}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                </p:column>
+                                <p:column headerText="Tipo" width="100" style="font-size: 11px">
+                                    <h:outputText value="#{diag.dgtTipo == 'PRE'?'PRESUNTIVO':'DEFINITIVO'}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                </p:column>
+
+                                <p:column headerText="Código" width="80" style="font-size: 11px">
+                                    <h:outputText value="#{diag.personal.codigo}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                </p:column>
+
+                            </p:dataTable> 
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <table border="1">
+                <thead>
+                    <tr style="font-size: 11px" align="left">
+                        <th>12 TRATAMIENTO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p:dataTable id="trt" var="trt" value="#{repFichaOdonto.listTratamientos}" 
+                                         style="text-align:left; float: left; margin-left: 10px; font-weight: bold;font-size: 14px"
+                                         rowIndexVar="index" emptyMessage="No se encontraron resultados" >
+                                <p:column headerText="Fecha" width="60" style="font-size: 11px">
+                                    <h:outputText value="#{trt.trtFecha}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Diagnóstico y Complicaciones" style="font-size: 11px">
+                                    <h:outputText value="#{trt.trtDiagnosCompl}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                </p:column>
+                                <p:column headerText="Procedimientos" style="font-size: 11px">
+                                    <h:outputText value="#{trt.trtProcedimientos}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                </p:column>
+                                <p:column headerText="Prescripciones" style="font-size: 11px">
+                                    <h:outputText value="#{trt.trtPrescripciones}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                </p:column>
+                                <p:column headerText="Código" width="50" style="font-size: 11px">
+                                    <h:outputText value="#{trt.personal.codigo}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 10px" widgetVar="10">
+                <p:printer target=":form" />
+            </p:commandButton>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,31 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:form id="mainHeader">
+        <h:panelGrid width="100%" columns="3" cellpadding="0" cellspacing="0" border="0">
+            <h:panelGroup>
+                <p:graphicImage value="#{resource['images/logoHe1_blanco.png']}" height="70" width="120"
+                                style="float:left; margin-left:25px; margin-top:5px;"/>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <center>
+                    <h:outputText value="HOSPITAL DE ESPECIALIDADES FF. AA. No. 1" style="font-size: 22px" />
+                    <h:panelGrid>
+                        <h:outputText value="UNIDAD DE CUIDADOS INTENSIVOS" style="font-size: 18px;text-align: center" />
+                    </h:panelGrid>
+                </center>
+            </h:panelGroup>
+
+            <h:panelGroup style="margin-top: 5px">
+                <p:commandButton action="#{acceso.logout()}" value="Salir" icon="ui-icon-extlink" />
+            </h:panelGroup>
+
+        </h:panelGrid>
+    </h:form>
+</ui:composition>

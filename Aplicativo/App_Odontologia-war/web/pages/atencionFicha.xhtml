@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateFichaOdonto.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+
+            <h:panelGroup>
+                <center>
+                    <p:dataTable id="turnoDT" var="hist" value="#{atencionFicha.listHistoria()}" rowIndexVar="index"
+                                 selectionMode="single" selection="#{atencionFicha.selectedTurno}">
+                    </p:dataTable>
+                </center>
+            </h:panelGroup>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

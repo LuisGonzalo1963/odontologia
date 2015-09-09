@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateFichaOdonto.xhtml">
+    <ui:define name="content">
+         <h:form id="formPrincipal">
+                
+                <p:panel id="panelEnf" header="8 ÍNDICES CPO-ceo" style="background-color: #F8F9FC;font-size: 16px">
+                    <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" width="700" >
+
+                        <p:dataTable id="odonto" var="indic" value="#{indCpoCeo.listaIndices}" style="font-size: 12px"
+                                     rowIndexVar="index" emptyMessage="No se encontraron resultados" >
+                            <p:column headerText="Fecha" style="font-size: 12px">
+                                <h:outputText value="#{indic.iccFecha}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            
+                            <p:column headerText="Caries" style="font-size: 12px;text-align: center;">
+                                <h:outputText value="#{indic.iccCpoC}" />
+                            </p:column>
+                            <p:column headerText="Perdidas" style="font-size: 12px;text-align: center;">
+                                <h:outputText value="#{indic.iccCpoP}" />
+                            </p:column>
+                            <p:column headerText="Obturadas" style="font-size: 12px;text-align: center;">
+                                <h:outputText value="#{indic.iccCpoO}" />
+                            </p:column>
+                            
+                            <p:column headerText="TOTAL CPO" style="font-size: 12px;text-align: center;">
+                                <h:outputText value="#{indic.iccCpoC+indic.iccCpoP+indic.iccCpoO}" style="font-weight: bold;font-size: 14px;"/>
+                            </p:column>
+
+                            <p:column headerText="caries" style="font-size: 12px;text-align: center;">
+                                <h:outputText value="#{indic.iccCeoC}" />
+                            </p:column>
+                            <p:column headerText="extraídas" style="font-size: 12px;text-align: center;">
+                                <h:outputText value="#{indic.iccCeoE}" />
+                            </p:column>
+                            <p:column headerText="obturadas" style="font-size: 12px;text-align: center;">
+                                <h:outputText value="#{indic.iccCeoO}" />
+                            </p:column>
+                            
+                            <p:column headerText="TOTAL ceo" style="font-size: 12px;text-align: center;">
+                                <h:outputText value="#{indic.iccCeoC+indic.iccCeoE+indic.iccCeoO}" style="font-weight: bold;font-size: 14px;"/>
+                            </p:column>
+                            
+                        </p:dataTable>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+    </ui:define>
+</ui:composition>

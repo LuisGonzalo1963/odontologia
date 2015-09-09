@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateAtencionEspecialidad.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <p:panel header="Notas de Evolución" style="background-color: #F8F9FC;font-size: 16px">
+                <p:panel>
+                    <h:panelGrid columns="2" >
+                        <h:panelGrid style="font-size: 12px;width: 150px">
+                            <p:dataTable var="hja" value="#{repHojasDeEvolucion.listHojaEvo}" 
+                                         selectionMode="single" selection="#{repHojasDeEvolucion.selectHojasDeEvolucion}" rowKey="#{hja.numero}"
+                                         style="text-align:left; float: left; margin-left: 10px; font-weight: bold;font-size: 12px"
+                                         rowIndexVar="index" emptyMessage="No se encontraron resultados" >
+                                <p:ajax event="rowSelect" update=":form:obs :form:prs :form:mot" />
+                                <p:column headerText="Fecha" width="60" style="font-size: 12px">
+                                    <h:outputText value="#{hja.fecha}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:MM"/>
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid> 
+                        <h:panelGrid >
+                            <h:outputLabel id="prs" value="Médico: #{repHojasDeEvolucion.selectHojasDeEvolucion.personal1.codigo}"/>
+                            <h:outputLabel id="mot" value="Motivo: #{repHojasDeEvolucion.selectHojasDeEvolucion.motivos.descripcion}"/>
+                            <p:inputTextarea id="obs" value="#{repHojasDeEvolucion.selectHojasDeEvolucion.descripcion}"
+                                             rows="10" cols="80" readonly="true"/>
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+
+                </p:panel>
+
+
+
+                <p:spacer width="20" height="10" />
+
+
+
+                <p:spacer width="20" height="10" />
+
+            </p:panel>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

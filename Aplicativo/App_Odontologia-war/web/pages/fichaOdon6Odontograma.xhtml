@@ -1,0 +1,305 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/templates/templateFichaOdonto.xhtml">
+    <ui:define name="content">
+
+        <p:panel header="6 ODONTOGRAMA" style="background-color: #F8F9FC;font-size: 16px">
+            <p:tabView  id="tab1" orientation="top" style="font-size: 12px" activeIndex="#{odonto.indexTab}" cache="false" >
+                <p:ajax event="tabChange" listener="#{odonto.onTabChange}" update=":tab1"/>
+                <p:tab id="tab11" title="Dentición Permanente" >
+                    <p:outputPanel rendered="#{odonto.odontograma.odoId == null}">
+                        <ui:include src="/pages/fichaOdon6PermaNew.xhtml"/>
+                    </p:outputPanel>
+                    <p:outputPanel rendered="#{odonto.odontograma.odoId != null}">
+                        <ui:include src="/pages/fichaOdon6PermaEdit.xhtml"/>
+                    </p:outputPanel>
+                </p:tab>
+                <p:tab id="tab12" title="Dentición Temporal" >
+                    <p:outputPanel rendered="#{odonto.odontograma.odoId == null}">
+                        <ui:include src="/pages/fichaOdon6TempoNew.xhtml"/>
+                    </p:outputPanel>
+                    <p:outputPanel rendered="#{odonto.odontograma.odoId != null}">
+                        <ui:include src="/pages/fichaOdon6TempoEdit.xhtml"/>
+                    </p:outputPanel>
+                </p:tab>
+                <p:tab id="tab13" title="Recesión/Movilidad" >
+                    <ui:include src="/pages/fichaOdon6ReceMoviNew.xhtml" />
+                </p:tab>
+            </p:tabView>
+
+            <p:dialog id="dlg1" header="Marcar" widgetVar="dlg1" resizable="false" width="400" 
+                      showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+                <h:form id="form1">
+                    <p:outputPanel id="oPanel1" style="text-align:left;font-size: 12px">
+                        <h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <h:outputLabel value="Pieza Dental:" style="text-align:left; float: left; margin-left:5px; font-size: 14px; font-weight: bold" />
+                                <p:inputText id="pd1" value="#{odonto.piezaDental}" size="2" />
+
+                                <h:outputLabel value="Simbología:" style="margin-left:5px; font-size: 14px; font-weight: bold"/>
+                                <p:selectOneMenu id="simbOneMenu" value="#{odonto.codSimbologia}">
+                                    <f:selectItem itemLabel="Select..." itemValue="" />
+                                    <f:selectItems value="#{odonto.itemListSimbologia}"  />   
+                                    <p:ajax listener="#{odonto.selectSimbValueChange()}" update="panelGrid_1"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+
+                            <h:panelGrid id="panelGrid_1" columns="2">
+                                <h:graphicImage value="#{resource['imagenSistema/diente_p.png']}" width="100" height="100" rendered="#{odonto.renderSimb1}"/>
+                                <h:panelGrid columns="2">
+                                    <h:outputLabel for="Oclusal" value="(1) " style="font-size: 14px; float:left; font-weight: bold" rendered="#{odonto.renderSimb1}"/>
+                                    <p:selectOneMenu id="Oclusal" value="#{odonto.oclusal}" rendered="#{odonto.renderSimb1}">
+                                        <f:selectItem itemLabel="Sano" itemValue="s" />
+                                        <f:selectItem itemLabel="Caries" itemValue="c" />
+                                        <f:selectItem itemLabel="Obturado" itemValue="o" />
+                                    </p:selectOneMenu>
+                                    <h:outputLabel for="vestibular" value="(2) " style="font-size: 14px; float:left; font-weight: bold" rendered="#{odonto.renderSimb1}"/>
+                                    <p:selectOneMenu id="vestibular" value="#{odonto.vestibular}" rendered="#{odonto.renderSimb1}">
+                                        <f:selectItem itemLabel="Sano" itemValue="s" />
+                                        <f:selectItem itemLabel="Caries" itemValue="c" />
+                                        <f:selectItem itemLabel="Obturado" itemValue="o" />
+                                    </p:selectOneMenu>
+                                    <h:outputLabel for="palatino" value="(3) " style="font-size: 14px; float:left; font-weight: bold" rendered="#{odonto.renderSimb1}"/>
+                                    <p:selectOneMenu id="palatino" value="#{odonto.palatino}" rendered="#{odonto.renderSimb1}">
+                                        <f:selectItem itemLabel="Sano" itemValue="s" />
+                                        <f:selectItem itemLabel="Caries" itemValue="c" />
+                                        <f:selectItem itemLabel="Obturado" itemValue="o" />
+                                    </p:selectOneMenu>
+                                    <h:outputLabel for="mesial" value="(4)" style="font-size: 14px; float:left; font-weight: bold" rendered="#{odonto.renderSimb1}"/>
+                                    <p:selectOneMenu id="mesial" value="#{odonto.mesial}" rendered="#{odonto.renderSimb1}">
+                                        <f:selectItem itemLabel="Sano" itemValue="s" />
+                                        <f:selectItem itemLabel="Caries" itemValue="c" />
+                                        <f:selectItem itemLabel="Obturado" itemValue="o" />
+                                    </p:selectOneMenu>
+                                    <h:outputLabel for="distal" value="(5) " style="font-size: 14px; float:left; font-weight: bold" rendered="#{odonto.renderSimb1}"/>
+                                    <p:selectOneMenu id="distal" value="#{odonto.distal}" rendered="#{odonto.renderSimb1}">
+                                        <f:selectItem itemLabel="Sano" itemValue="s" />
+                                        <f:selectItem itemLabel="Caries" itemValue="c" />
+                                        <f:selectItem itemLabel="Obturado" itemValue="o" />
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+
+                            </h:panelGrid>
+
+                            <h:panelGroup>
+                                <center>
+                                    <p:commandButton id="btnMarcaPD" value="Marcar" icon="ui-icon-check" ajax="false"
+                                                     process="@this" style="margin:0; font-size: 14px" 
+                                                     actionListener="#{odonto.btnGraficarOdonto()}" update=":tab12"/>
+
+                                </center>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </p:outputPanel>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="dlg2" header="Prótesis Total" widgetVar="dlg2" resizable="false" width="270" 
+                      showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+                <h:form id="form2">
+                    <p:outputPanel id="oPanel2" style="text-align:left;font-size: 12px">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Prótesis:" style="font-size: 12px; float:left"/>
+                            <p:selectOneRadio id="prot" value="#{odonto.siNoProt}" layout="grid" columns="2">
+                                <f:selectItem itemLabel="Necesita" itemValue="S" />
+                                <f:selectItem itemLabel="Realizada" itemValue="N" />
+                            </p:selectOneRadio>
+                            <h:outputLabel value="Superior:" style="font-size: 12px; float:left"/>
+                            <p:selectBooleanCheckbox value="#{odonto.renderPtSup}"/>
+                            <h:outputLabel value="Inferior:" style="font-size: 12px; float:left"/>
+                            <p:selectBooleanCheckbox value="#{odonto.renderPtInf}"/>
+                        </h:panelGrid>
+                        <p:spacer height="5"></p:spacer>
+                        <h:panelGroup>
+                            <center>
+                                <p:commandButton id="btnMarcaPt" value="Marcar" icon="ui-icon-check" ajax="false" process="@this"
+                                                 actionListener="#{odonto.btnGraficarPTotal()}" update="@form"/>
+                            </center>
+                        </h:panelGroup>
+                    </p:outputPanel>
+                </h:form>
+            </p:dialog>        
+
+            <p:dialog id="dlg3" header="Prótesis Fija" widgetVar="dlg3" resizable="false" width="250" 
+                      showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+                <h:form id="form3">
+                    <p:outputPanel id="oPanel3" style="text-align:center;font-size: 12px">
+                        <p:selectOneRadio layout="grid" columns="2" value="#{odonto.protesisFija}"
+                                          required="true" requiredMessage="Seleccionar tipo de Prótesis">
+                            <f:selectItem itemLabel="Necesita" itemValue="R"  />
+                            <f:selectItem itemLabel="Realizada" itemValue="A" />
+                        </p:selectOneRadio>
+                        <p:separator/>
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Desde:" style="font-size: 12px; float:left"/>
+                            <p:inputMask value="#{odonto.protesisDesde}" mask="99" size="2" required="true" requiredMessage="Dato obligatorio"/>
+                            <h:outputLabel value="Hasta:" style="font-size: 12px; float:left"/>
+                            <p:inputMask value="#{odonto.protesisHasta}" mask="99" size="2" required="true" requiredMessage="Dato obligatorio"/>
+                        </h:panelGrid>
+
+                        <p:spacer height="5"/>
+                        <h:panelGroup>
+                            <center>
+                                <p:commandButton id="btnGrabarPF" value="Marcar" icon="ui-icon-check" ajax="false"
+                                                 process="@this,nom " style="margin:0; font-size: 14px" 
+                                                 actionListener="#{odonto.btnGraficarPFija()}" update="@form"/>
+                            </center>
+                        </h:panelGroup>
+                    </p:outputPanel>
+                </h:form>
+            </p:dialog>        
+
+            <p:dialog id="dlg4" header="Prótesis Removible" widgetVar="dlg4" resizable="false" width="250" 
+                      showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+                <h:form id="form4">
+                    <p:outputPanel id="oPanel4" style="text-align:left;font-size: 12px">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Prótesis:" style="font-size: 12px; float:left"/>
+                            <p:selectOneRadio layout="grid" columns="1" value="#{odonto.protesisRemovible}"
+                                              required="true" requiredMessage="Seleccionar tipo de Prótesis">
+                                <f:selectItem itemLabel="Necesita" itemValue="R" />
+                                <f:selectItem itemLabel="Realizada" itemValue="A" />
+                            </p:selectOneRadio>
+
+                            <h:outputLabel value="Desde:" style="font-size: 12px; float:left"/>
+                            <p:inputMask value="#{odonto.protesisDesde}" mask="99" size="2" required="true" requiredMessage="Dato obligatorio"/>
+                            <h:outputLabel value="Hasta:" style="font-size: 12px; float:left"/>
+                            <p:inputMask value="#{odonto.protesisHasta}" mask="99" size="2" required="true" requiredMessage="Dato obligatorio"/>
+                        </h:panelGrid>
+
+                        <p:spacer height="5"/>
+                        <h:panelGroup>
+                            <center>
+                                <p:commandButton id="btnGrabarPR" value="Marcar" icon="ui-icon-check" ajax="false"
+                                                 process="@this,nom " style="margin:0; font-size: 14px" 
+                                                 actionListener="#{odonto.btnGraficarPRemovible()}" update="@form"/>
+                            </center>
+                        </h:panelGroup>
+                    </p:outputPanel>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="dlg5" header="Marcar" widgetVar="dlg5" resizable="false" width="500" 
+                      showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+                <h:form id="form5">
+                    <p:outputPanel id="oPanel5" style="text-align:left;font-size: 12px">
+                        <h:outputLabel value="Pieza Dental:" style="text-align:left; float: left; margin-left:5px; font-size: 14px; font-weight: bold" />
+                        <h:outputLabel id="pd5" value="#{odonto.piezaDental}" style="font-size: 12px"/>
+                        <h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <h:outputLabel value="Pieza Dental:"/>
+                                <p:selectOneRadio id="srbT" value="#{odonto.tipoMarcar}">
+                                    <f:selectItem itemLabel="Completa" itemValue="C" />
+                                    <f:selectItem itemLabel="Por partes" itemValue="P" />
+                                    <p:ajax event="change" listener="#{odonto.selectedAjaxChangeTipo()}" update="opTodo, opPartes, mesial"/>
+                                </p:selectOneRadio>
+                            </h:panelGrid>
+                            <p:outputPanel id="opTodo">
+                                <p:panel rendered="#{odonto.flagPanelTodo}">
+                                    <h:panelGrid id="pgt1" columns="2" >
+                                        <h:outputLabel value="Simbología:" style="margin-left:5px; font-size: 14px; font-weight: bold"/>
+                                        <p:selectOneMenu id="simbOneMenu" value="#{odonto.codSimbologia}">
+                                            <f:selectItem itemLabel="Select..." itemValue="" />
+                                            <f:selectItems value="#{odonto.itemListSimbologia}"  />   
+                                            <p:ajax listener="#{odonto.selectSimbValueChange()}" update="panelGrid_1"/>
+                                        </p:selectOneMenu>
+                                    </h:panelGrid> 
+                                </p:panel>
+                            </p:outputPanel>
+
+                            <p:outputPanel id="opPartes">
+                                <p:panel rendered="#{odonto.flagPanelPartes}">
+                                    <h:panelGrid id="panelGrid_1" columns="2">
+                                        <h:graphicImage value="#{resource['imagenSistema/diente_p.png']}" width="100" height="100" />
+                                        <h:panelGrid columns="3">
+                                            <h:outputLabel for="Oclusal" value="(1) " style="font-size: 14px; float:left; font-weight: bold" />
+                                            <p:selectOneMenu id="Oclusal" value="#{odonto.oclusal}" >
+                                                <f:selectItem itemLabel="Sano" itemValue="s" />
+                                                <f:selectItem itemLabel="Caries" itemValue="c" />
+                                                <f:selectItem itemLabel="Obturado" itemValue="o" />
+                                            </p:selectOneMenu>
+                                            <p:inputText value="#{odonto.obsCara1}"/>
+
+                                            <h:outputLabel for="vestibular" value="(2) " style="font-size: 14px; float:left; font-weight: bold" />
+                                            <p:selectOneMenu id="vestibular" value="#{odonto.vestibular}" >
+                                                <f:selectItem itemLabel="Sano" itemValue="s" />
+                                                <f:selectItem itemLabel="Caries" itemValue="c" />
+                                                <f:selectItem itemLabel="Obturado" itemValue="o" />
+                                            </p:selectOneMenu>
+                                            <p:inputText value="#{odonto.obsCara2}"/>
+
+                                            <h:outputLabel for="palatino" value="(3) " style="font-size: 14px; float:left; font-weight: bold" />
+                                            <p:selectOneMenu id="palatino" value="#{odonto.palatino}" >
+                                                <f:selectItem itemLabel="Sano" itemValue="s" />
+                                                <f:selectItem itemLabel="Caries" itemValue="c" />
+                                                <f:selectItem itemLabel="Obturado" itemValue="o" />
+                                            </p:selectOneMenu>
+                                            <p:inputText value="#{odonto.obsCara3}"/>
+
+                                            <h:outputLabel for="mesial" value="(4)" style="font-size: 14px; float:left; font-weight: bold" />
+                                            <p:selectOneMenu id="mesial" value="#{odonto.mesial}" >
+                                                <f:selectItem itemLabel="Sano" itemValue="s" />
+                                                <f:selectItem itemLabel="Caries" itemValue="c" />
+                                                <f:selectItem itemLabel="Obturado" itemValue="o" />
+                                            </p:selectOneMenu>
+                                            <p:inputText value="#{odonto.obsCara4}"/>
+
+                                            <h:outputLabel for="distal" value="(5) " style="font-size: 14px; float:left; font-weight: bold" />
+                                            <p:selectOneMenu id="distal" value="#{odonto.distal}" >
+                                                <f:selectItem itemLabel="Sano" itemValue="s" />
+                                                <f:selectItem itemLabel="Caries" itemValue="c" />
+                                                <f:selectItem itemLabel="Obturado" itemValue="o" />
+                                            </p:selectOneMenu>
+                                            <p:inputText value="#{odonto.obsCara5}"/>
+
+                                        </h:panelGrid>
+
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:outputPanel>
+
+
+
+                        </h:panelGrid>
+                        <h:panelGroup>
+                            <center>
+                                <p:commandButton id="btnMarcaPD" value="Marcar" icon="ui-icon-check" ajax="false"
+                                                 process="@this" style="margin:0; font-size: 14px" 
+                                                 actionListener="#{odonto.btnGraficarOdontoEdit()}" update=":tab13"/>
+
+                            </center>
+                        </h:panelGroup>
+
+                        <p:dataTable var="real" value="#{odonto.listOdontoRealizados}">
+                            <p:column headerText="Fecha" style="font-size: 12px;" width="5">
+                                <h:outputText value="#{real.oreFecha}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Pieza Dental" style="font-size: 12px;" width="5">
+                                <h:outputText value="#{real.orePdental}" />
+                            </p:column>
+
+                            <p:column headerText="Inicial" style="font-size: 12px;" width="5">
+                                <h:graphicImage value="/resources/imagenSistema/#{real.oreGraficoAnt}" style="width: 30px; height:30px"/>
+                            </p:column>
+                            <p:column headerText="Actual" style="font-size: 12px;" width="5">
+                                <h:graphicImage value="/resources/imagenSistema/#{real.oreGraficoAct}" style="width: 30px; height:30px"/>
+                            </p:column>
+                            <p:column headerText="Descripción" style="font-size: 12px;" width="5">
+                                <h:outputText value="#{real.oreObserv}" />
+                            </p:column>
+                        </p:dataTable>
+
+                    </p:outputPanel>
+
+
+                </h:form>
+            </p:dialog>
+        </p:panel>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pou="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/template/page_template_Inicio.xhtml">
+        <ui:define name="page-content">
+            <h:form id="formPrincipal">
+                <p:growl id="msgs" showDetail="true" />
+
+                <p:panel header="Información Odontogramas Realizados" style="background-color: #c2dfef;text-align: center;font-size: 16px">
+                    <h:panelGrid columns="2">
+                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" >
+                            <p:dataTable var="rep" value="#{repOdontograma.listOdontograma}" rowIndexVar="index"
+                                         selectionMode="single" rowKey="#{rep.odoId}" paginator="true" rows="20"
+                                         style="text-align:left; float: left; margin-left: 10px; font-weight: bold;font-size: 12px"
+                                         emptyMessage="No se encontraron resultados" >
+                                <p:ajax event="rowSelect" listener="#{repOdontograma.onRowSelect}" update=":formPrincipal" />
+                                <p:column headerText="Ord." width="3">
+                                    <h:outputText value="#{index + 1}" />
+                                </p:column>
+                                <p:column headerText="Fecha" width="15">
+                                    <h:outputText value="#{rep.odoFecha}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Nhja. Evl" width="10">
+                                    <h:outputText value="#{rep.odoId}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                </p:column>
+                                <p:column headerText="Nro. H.C." width="10">
+                                    <h:outputText value="#{rep.getoHistOdonto.pacientes.numeroHc}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                </p:column>
+                                <p:column headerText="Apellidos" width="50">
+                                    <h:outputText value="#{rep.getoHistOdonto.pacientes.apellidoPaterno} #{rep.getoHistOdonto.pacientes.apellidoMaterno}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                </p:column>
+                                <p:column headerText="Nombres" width="50">
+                                    <h:outputText value="#{rep.getoHistOdonto.pacientes.primerNombre} #{rep.getoHistOdonto.pacientes.segundoNombre}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+                            <h:panelGrid columns="2">
+                                <p:panel >
+                                    <h:graphicImage value="/recursos/imagenSistema/titulo_sup_1.png" width="275" height="20"/>
+                                    <h:panelGrid columns="8">
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv18}" title="Diente 18" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv17}" title="Diente 17" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv16}" title="Diente 16" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv15}" title="Diente 15" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv14}" title="Diente 14" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv13}" title="Diente 13" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv12}" title="Diente 12" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv11}" title="Diente 11" style="width: 30px; height:30px" />
+                                    </h:panelGrid>
+                                </p:panel>
+
+                                <p:panel >
+                                    <h:graphicImage value="/recursos/imagenSistema/titulo_sup_2.png" width="275" height="20"/>
+                                    <h:panelGrid columns="8">
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv21}" title="Diente 21" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv22}" title="Diente 22" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv23}" title="Diente 23" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv24}" title="Diente 24" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv25}" title="Diente 25" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv26}" title="Diente 26" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv27}" title="Diente 27" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv28}" title="Diente 28" style="width: 30px; height:30px" />
+                                    </h:panelGrid> 
+                                </p:panel>
+                                <p:panel >
+                                    <h:panelGrid columns="8">
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv48}" title="Diente 48" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv47}" title="Diente 47" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv46}" title="Diente 46" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv45}" title="Diente 45" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv44}" title="Diente 44" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv43}" title="Diente 43" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv42}" title="Diente 42" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv41}" title="Diente 41" style="width: 30px; height:30px" />
+                                    </h:panelGrid>
+                                    <h:graphicImage value="/recursos/imagenSistema/titulo_inf_1.png" width="275" height="20"/>
+                                </p:panel>
+                                <p:panel >
+                                    <h:panelGrid columns="8">
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv31}" title="Diente 31" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv32}" title="Diente 32" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv33}" title="Diente 33" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv34}" title="Diente 34" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv35}" title="Diente 35" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv36}" title="Diente 36" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv37}" title="Diente 37" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentalv38}" title="Diente 38" style="width: 30px; height:30px" />
+                                    </h:panelGrid> 
+                                    <h:graphicImage value="/recursos/imagenSistema/titulo_inf_2.png" width="275" height="20"/>
+                                </p:panel>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="2">
+                                <p:panel >
+                                    <h:graphicImage value="/recursos/imagenSistema/titulo_sup_11.png" width="175" height="20"/>
+                                    <h:panelGrid columns="5">
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall55}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall54}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall53}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall52}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall51}" style="width: 30px; height:30px" />
+                                    </h:panelGrid>
+                                </p:panel>
+
+                                <p:panel >
+                                    <h:graphicImage value="/recursos/imagenSistema/titulo_sup_22.png" width="175" height="20"/>
+                                    <h:panelGrid columns="5">
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall61}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall62}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall63}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall64}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall65}" style="width: 30px; height:30px" />
+                                    </h:panelGrid> 
+                                </p:panel>
+                                <p:panel >
+                                    <h:panelGrid columns="5">
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall85}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall84}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall83}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall82}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall81}" style="width: 30px; height:30px" />
+                                    </h:panelGrid>
+                                    <h:graphicImage value="/recursos/imagenSistema/titulo_inf_11.png" width="175" height="20"/>
+                                </p:panel>
+                                <p:panel >
+                                    <h:panelGrid columns="5">
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall71}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall72}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall73}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall74}" style="width: 30px; height:30px" />
+                                        <h:graphicImage value="/recursos/imagenSistema/#{repOdontograma.selectedOdontograma.odoPdentall75}" style="width: 30px; height:30px" />
+                                    </h:panelGrid> 
+                                    <h:graphicImage value="/recursos/imagenSistema/titulo_inf_22.png" width="175" height="20"/>
+                                </p:panel>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+</html>
+

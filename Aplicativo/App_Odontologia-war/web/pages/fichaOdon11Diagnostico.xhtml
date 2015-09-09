@@ -1,0 +1,177 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateFichaOdonto.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <p:panel id="panelEnf" header="11 Diagnóstico" style="background-color: #F8F9FC;font-size: 16px">
+                <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" width="600">
+                    <p:commandButton id="btnNuevoAntP" value="Registrar" style="margin: 0; font-size: 12px" 
+                                     actionListener="#{diagnostico.btnActionListener(vce)}"
+                                     title="Nuevo Registro" update=":form1" icon="ui-icon-check"
+                                     oncomplete="PF('dlg1').show()">
+                    </p:commandButton>
+
+                    <p:spacer height="5"/>
+
+                    <p:panel>
+                        <h:panelGroup>
+                            <center>
+                                <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" >
+
+                                    <p:dataTable id="odonto" var="diag" value="#{diagnostico.listDiagPaciente}" style="text-align:left; float: left; margin-left: 10px; font-weight: bold;font-size: 14px"
+                                                 rowIndexVar="index" emptyMessage="No se encontraron resultados" cellSeparator="10" >
+                                        <p:column headerText="Fecha" width="60">
+                                            <h:outputText value="#{diag.fechaInicio}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="CIE" width="40">
+                                            <h:outputText value="#{diag.enfermedades.codigo}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                        </p:column>
+                                        <p:column headerText="Diagnóstico" width="300">
+                                            <h:outputText value="#{diag.enfermedades.enfermedad}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                        </p:column>
+                                        <p:column headerText="Tipo" width="100">
+                                            <h:outputText value="#{diag.tipo == 'PRE'?'PRESUNTIVO':'DEFINITIVO'}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                        </p:column>
+
+                                        <p:column headerText="Código" width="80">
+                                            <h:outputText value="#{diag.personal.codigo}" style="text-align:left; float: left; margin-left: 10px; font-size: 11px"/>
+                                        </p:column>
+
+                                    </p:dataTable>
+                                </h:panelGrid>
+                              <!--  <p:dataTable var="list" value="#{diagnostico.listDiagnostico}">
+                                    <p:column headerText="Código" style="font-size: 12px;" width="350">
+                                        <h:outputText value="#{list.enfermedades.enfermedad}" />
+                                    </p:column>
+                                    <p:column headerText="CIE" style="font-size: 12px;" width="60">
+                                        <h:outputText value="#{list.enfermedades.codigo}" />
+                                    </p:column>
+                                    <p:column headerText="DX" style="font-size: 12px;">
+                                        <h:outputText value="#{list.dgtTipo}" />
+                                    </p:column>
+
+                                    <p:column headerText="Editar" style="width:82px;text-align: center;font-size: 12px;">
+                                        <p:commandButton update=":form2" oncomplete="PF('dlg2').show()" icon="ui-icon-pencil" widgetVar="10">
+                                            <f:setPropertyActionListener value="#{list}" target="#{diagnostico.selectDiagnostico}" />
+                                        </p:commandButton>
+                                    </p:column>
+                                    <p:column headerText="Eliminar" style="width:82px;text-align: center;font-size: 12px;">
+                                        <p:commandButton update=":form3" oncomplete="PF('dlg3').show()" icon="ui-icon-trash" >
+                                            <f:setPropertyActionListener value="#{list}" target="#{diagnostico.selectDiagnostico}" />
+                                        </p:commandButton>
+                                    </p:column>
+
+                                </p:dataTable> -->
+                            </center>
+                        </h:panelGroup>
+                    </p:panel>
+                </h:panelGrid>   
+            </p:panel>
+
+        </h:form>
+
+        <p:dialog header="Registro" widgetVar="dlg1" minHeight="250" style="font-size: 12px;">
+            <h:form id="form1">
+                <p:outputPanel id="panelNewDiag" style="text-align:left;font-size: 12px">
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <h:outputLabel/>
+                        <p:selectOneRadio id="srbT" value="#{diagnostico.tipoBuscar}">
+                            <f:selectItem itemLabel="Código CIE" itemValue="C" />
+                            <f:selectItem itemLabel="Descripción" itemValue="D" />
+                            <p:ajax event="change" listener="#{diagnostico.selectedAjaxChangeTipo()}" />
+                        </p:selectOneRadio>
+                        <p:message for="srbT" />
+                        
+                        <h:outputLabel value="Buscar Dx:"/>
+                        <p:inputText id="lse" value="#{diagnostico.buscarEnf}">
+                            <p:ajax event="change" listener="#{diagnostico.selectedAjaxChangeBuscarEnf()}" update="cieOneMenu"/>
+                        </p:inputText>
+                         <p:message for="lse" />
+
+                        <p:outputLabel for="cieOneMenu"  value="CIE:" />
+                        <p:selectOneMenu id="cieOneMenu" value="#{diagnostico.codEnf}"  style="font-size: 12px; width: 100%" effect="fade" 
+                                         required="true" requiredMessage="Cie obligatorio">
+                            <f:selectItem itemLabel="Select..." itemValue="" />
+                            <f:selectItems value="#{diagnostico.itemsListEnfOdonto}"  />    
+                        </p:selectOneMenu>
+                        <p:message for="cieOneMenu" />
+
+                        <p:outputLabel/>
+                        <p:selectOneRadio id="console" value="#{diagnostico.editDiagnostico.dgtTipo}">
+                            <f:selectItem itemLabel="PRESUNTIVO" itemValue="PRE" noSelectionOption="" />
+                            <f:selectItem itemLabel="DEFINITIVO" itemValue="DEF" />
+                        </p:selectOneRadio>
+                        <p:message for="console" />
+
+                    </h:panelGrid>
+                    <h:panelGroup>
+                        <center>
+                            <p:commandButton id="btnGrabarPerfil" value="Grabar" icon="ui-icon-disk" ajax="false"
+                                             process="@this,nom " style="margin:0; font-size: 14px" 
+                                             actionListener="#{diagnostico.btnGrabar()}" update=":formPrincipal:msgs"/>
+                        </center>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Edición" widgetVar="dlg2" minHeight="250" style="font-size: 12px;">
+            <h:form id="form2">
+                <h:panelGrid columns="3" cellpadding="5">
+                    <p:outputLabel for="cieOneMenu"  value="CIE:" />
+                    <p:selectOneMenu id="cieOneMenu" value="#{diagnostico.selectDiagnostico.enfermedades.codigo}"  style="font-size: 12px; width: 100%" effect="fade" 
+                                     filter="true"  var="t" filterMatchMode="startsWith" required="true" requiredMessage="Cie obligatorio">
+                        <f:selectItem itemLabel="Select..." itemValue="" />
+                        <f:selectItems value="#{diagnostico.itemsListEnfOdonto}"  />    
+                    </p:selectOneMenu>
+                    <p:message for="cieOneMenu" />
+
+                    <p:outputLabel/>
+                    <p:selectOneRadio id="console" value="#{diagnostico.selectDiagnostico.dgtTipo}">
+                        <f:selectItem itemLabel="PRESUNTIVO" itemValue="PRE" noSelectionOption="" />
+                        <f:selectItem itemLabel="DEFINITIVO" itemValue="DEF" />
+                    </p:selectOneRadio>
+                    <p:message for="console" />
+
+                </h:panelGrid>
+
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabarPerfil" value="Grabar" icon="ui-icon-disk" ajax="false"
+                                         process="@this,nom " style="margin:0; font-size: 14px" 
+                                         actionListener="#{diagnostico.btnGrabar()}" update=":formPrincipal:msgs"/>
+                    </center>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Eliminar" widgetVar="dlg3" minHeight="250" style="font-size: 12px;">
+            <h:form id="form3">
+                <h:panelGrid columns="2" style="font-size: 12px;" >
+                    <h:outputLabel value="CIE:"/>
+                    <h:outputLabel value="#{diagnostico.selectDiagnostico.enfermedades.codigo}"/>
+
+                    <h:outputLabel value=""/>
+                    <h:outputLabel value="#{diagnostico.selectDiagnostico.enfermedades.enfermedad}"/>
+
+                    <h:outputLabel value="Tipo:"/>
+                    <h:outputLabel value="#{diagnostico.selectDiagnostico.dgtTipo}"/>
+                </h:panelGrid> 
+
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar" value="Eliminar" icon="ui-icon-disk" ajax="false" 
+                                         style="margin:0; font-size: 14px" actionListener="#{diagnostico.btnGrabarDel()}"/>
+                    </center>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

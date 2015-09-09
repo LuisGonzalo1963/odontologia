@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="https://ws.issfa.mil.ec:8443/ws_salud/serv_odontologia.php?wsdl" uri="src/conf/xml-resources/web-service-references/serv_odontologia/wsdl/ws.issfa.mil.ec_8443/ws_salud/serv_odontologia.php.wsdl"/>
+    <system systemId="http://181.198.32.232/ws_salud/serv_odontologia.php?wsdl" uri="src/conf/xml-resources/web-service-references/serv_odontologia/wsdl/181.198.32.232/ws_salud/serv_odontologia.php.wsdl"/>
+    <system systemId="http://181.198.32.232/ws_salud/serv_odontologia_v2.php?wsdl" uri="src/conf/xml-resources/web-service-references/serv_odontologia_v2/wsdl/181.198.32.232/ws_salud/serv_odontologia_v2.php.wsdl"/>
+</catalog>

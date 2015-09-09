@@ -1,0 +1,189 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateAsignarReferido.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <p:panel header="Asignación de Citas de Control" style="font-size: 16px;color: navy">
+                <h:panelGroup>
+                    <center>
+                        <h:panelGrid  columns="2">
+
+                            <p:outputLabel for="event" value="Selecionar Fecha:" />
+                            <p:calendar id="event" value="#{turnoSubsecuente.selectFecha}" size="8">
+                                <p:ajax event="dateSelect" listener="#{turnoSubsecuente.onDateSelect}" 
+                                        update="msgs btnAsig turnoDT msgDisp" process="@form"/>
+                            </p:calendar>
+
+                            <p:commandButton id="btnAsig" value="Turno" icon="ui-icon-plusthick" disabled="#{turnoSubsecuente.flagBtnAsignar}"
+                                             actionListener="#{turnoSubsecuente.btnAsignar()}" update="@form"
+                                             style="font-size: 12px;" />
+
+                            <h:outputLabel id="msgDisp" value=" Turnos Disponibles: #{turnoSubsecuente.msgTotalTurnos}" style="color: blue" />
+
+                        </h:panelGrid>
+
+                        <p:panel id="panelTurno" rendered="#{turnoSubsecuente.flagPanelTurno}" style="width: 400px;">
+                            <h:outputText value="PACIENTE A ASIGNAR" style="color: navy"/>
+                            <h:panelGrid columns="2" style="font-size: 12px;">
+                                <h:outputText value="H.C.:" />
+                                <h:panelGrid  columns="2">
+                                    <h:inputText id="hc" value="#{turnoSubsecuente.editPacientes.numeroHc}" />
+                                    <p:commandButton icon="ui-icon-search" style="width: 25px; height:25px"
+                                                     action="#{turnoSubsecuente.btnBuscarHc}"
+                                                     update=":form:ape :form:nom :form:edad :form:btnGrabar"/>
+                                </h:panelGrid>
+
+                                <h:outputText value="Apellidos:" />
+                                <h:outputText id="ape" value="#{turnoSubsecuente.editPacientes.apellidoPaterno} #{turnoSubsecuente.editPacientes.apellidoMaterno}" />
+
+                                <h:outputText value="Nombres:" />
+                                <h:outputText id="nom" value="#{turnoSubsecuente.editPacientes.primerNombre} #{turnoSubsecuente.editPacientes.segundoNombre}" />
+
+                                <h:outputText value="Edad:" />
+                                <h:outputText id="edad" value="#{turnoSubsecuente.edadPaciente} años"  />
+
+                            </h:panelGrid>
+                            <p:spacer width="10" height="30" />
+                            <h:panelGroup>
+                                <p:commandButton id="btnGrabar" value="Grabar" ajax="false" 
+                                                 style="margin:0; font-size: 14px" update="@form"
+                                                 disabled="#{turnoSubsecuente.flagBtnAceptar}"
+                                                 action="#{turnoSubsecuente.btnGrabarTurno}"/>
+                                <p:spacer width="5" height="5" />
+                                <p:commandButton value="Cancelar" style="margin:0; font-size: 14px"
+                                                 action="#{turnoSubsecuente.btnCancelarTurno}"
+                                                 process="@this" update="@form"/>
+                            </h:panelGroup>
+                        </p:panel>
+                        <p:spacer width="10" height="10" />
+                        <p:panel style="width: 900px;">
+                            <p:dataTable id="turnoDT" var="turno" value="#{turnoSubsecuente.listaTurnos}"
+                                         editable="true" editMode="cell" 
+                                         selectionMode="single" selection="#{turnoSubsecuente.selectTurnoCePrint}" rowKey="#{turno.numero}">
+                                <p:ajax event="cellEdit" listener="#{turnoSubsecuente.onCellEdit}" update=":form:msgs" />
+                                <p:ajax event="rowSelect" listener="#{turnoSubsecuente.selectPrint()}" />
+                                <p:column headerText="H.C." style="font-size: 12px;" width="50">
+                                    <h:outputText value="#{turno.pacientes.numeroHc}" />
+                                </p:column>
+
+                                <p:column headerText="Cédula" style="font-size: 12px;" width="70">
+                                    <h:outputText value="#{turno.pacientes.cedula}" />
+                                </p:column>
+
+                                <p:column headerText="Apellidos" style="font-size: 12px;" width="150">
+                                    <h:outputText value="#{turno.pacientes.apellidoPaterno} #{turno.pacientes.apellidoMaterno}" />
+                                </p:column>
+
+                                <p:column headerText="Nombres" style="font-size: 12px;" width="150">
+                                    <h:outputText value="#{turno.pacientes.primerNombre} #{turno.pacientes.segundoNombre}" />
+                                </p:column>
+
+                                <p:column headerText="No." style="font-size: 12px;text-align: center" width="20">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{turno.numero}" /></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{turno.numero}" style="width:96%" label="Year"/></f:facet>
+                                    </p:cellEditor>
+
+                                </p:column>
+                                <p:column headerText="Fecha" style="font-size: 12px;" width="50">
+                                    <h:outputText value="#{turno.fecha}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" type="date" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Estado" style="font-size: 12px;">
+                                    <h:outputText value="#{turno.estado=='R'?'Reservado':turno.estado=='P'?'Pagado':turno.estado=='N'?'Anulado':turno.estado=='F'?'No Atendido':turno.estado=='A'?'Atendido':''}" />
+                                </p:column>
+                                <p:column headerText="Tipo Consulta" style="font-size: 12px;">
+                                    <h:outputText value="#{turno.tipo=='P'?'Cons. 1ra. Vez':'Control'}" />
+                                </p:column>
+                                <p:column style="width:5%;text-align: center;font-size: 12px;">
+                                    <p:commandButton title="Imprimir Turno" icon="ui-icon-print" 
+                                                     oncomplete="PF('printTurno').show()" update=":formPrint:panelPrint" >
+                                        <f:setPropertyActionListener value="#{turno}" target="#{turnoSubsecuente.selectTurnoCePrint}" />
+                                    </p:commandButton>
+                                </p:column>
+
+
+                            </p:dataTable>
+
+                        </p:panel>
+                    </center>
+                </h:panelGroup>   
+            </p:panel>
+
+        </h:form>
+
+
+
+        <p:dialog id="printTurno" header="Impresión de Cita de Control" widgetVar="printTurno" resizable="false" width="800" 
+                  showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+            <h:form id="formPrint">
+                <p:outputPanel id="panelPrint" style="text-align:left;font-size: 12px">
+                    <h:panelGrid columns="1" style="width:100%" >
+                        <h:panelGroup>
+                            <center>
+                                <h:outputLabel value="HOSPITAL DE ESPECIALIDADES FF. AA. Nª 1"/>
+                            </center>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <center>
+                                <h:outputLabel value="TURNO DE ODONTOLOGÍA"/>
+                            </center>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                    <p:spacer width="85" height="10" />
+                    <h:panelGrid columns="1">
+                        <h:outputLabel value="Recibo No. : #{turnoSubsecuente.selectTurnoCePrint.numeroId}"/>
+                    </h:panelGrid>
+                    <p:spacer width="15" height="10" />
+                    <h:panelGrid columns="1" style="width:100%" >
+                        <h:outputLabel value="H.C. :     #{turnoSubsecuente.selectTurnoCePrint.pacientes.numeroHc}" />
+                        <p:spacer width="10" height="10" />
+                        <h:outputLabel value="Paciente : #{turnoSubsecuente.selectTurnoCePrint.pacientes.apellidoPaterno} #{turnoSubsecuente.selectTurnoCePrint.pacientes.apellidoMaterno } #{turnoSubsecuente.selectTurnoCePrint.pacientes.primerNombre} #{turnoSubsecuente.selectTurnoCePrint.pacientes.segundoNombre}"/>
+                        <p:spacer width="10" height="10" />
+                        <h:panelGrid columns="11">
+                            <h:outputLabel value="Fecha:"/>
+                            <p:spacer width="10" height="5" />
+                            <h:outputLabel value="#{turnoSubsecuente.selectTurnoCePrint.fecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="EST" type="date" />
+                            </h:outputLabel>
+
+                            <p:spacer width="10" height="10" />
+                            <h:outputLabel value="Turno:"/>
+                            <p:spacer width="5" height="5" />
+                            <h:outputLabel value="#{turnoSubsecuente.selectTurnoCePrint.numero}"/>
+
+                            <p:spacer width="10" height="10" />
+                            <h:outputLabel value="Hora aproximada:"/>
+                            <p:spacer width="5" height="5" />
+                            <h:outputLabel value="#{turnoSubsecuente.horaTurno}"/>
+
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+                            <h:outputLabel value="Consultorio: #{turnoSubsecuente.selectTurnoCePrint.personal1.nombres}"/>
+                            <p:spacer width="15" height="10" />
+                            <h:outputLabel value="Usuario crea: #{turnoSubsecuente.selectTurnoCePrint.creadoPor}"/>
+                        </h:panelGrid>
+
+                        <p:spacer width="85" height="10" />
+
+
+                    </h:panelGrid>
+
+                </p:outputPanel>
+
+            </h:form>
+            <h:form>
+                <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 10px" widgetVar="10">
+                    <p:printer target=":formPrint" />
+                </p:commandButton>
+            </h:form>
+        </p:dialog>
+
+
+    </ui:define>
+</ui:composition>

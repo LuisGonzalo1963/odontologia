@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ice="http://www.icesoft.com/icefaces/component"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <div id="top2" style="font-size: 14px;" >
+        <h:form>
+            
+            <h:outputLabel value="No. Historia Clínica:" style="font-weight: bold;color: navy;"/>
+            <p:spacer width="10" height="10" />
+            <h:outputLabel value="#{fichaOdontologica.selectPaciente.numeroHc}" style="color: red;font-size: 18px;font-weight: bold;"/>
+
+            <span class="toolbarPipe">|</span>
+            <h:outputLabel value="No. Cédula:" style="font-weight: bold;color: navy"/>
+            <p:spacer width="10" height="10" />
+            <h:outputLabel value="#{fichaOdontologica.selectPaciente.cedula}"/>
+
+            <span class="toolbarPipe">|</span>
+            <h:outputLabel value="Apellidos:" style="font-weight: bold;color: navy"/>
+            <p:spacer width="10" height="10" />
+            <h:outputLabel value="#{fichaOdontologica.selectPaciente.apellidoPaterno} #{fichaOdontologica.selectPaciente.apellidoMaterno}"/>
+
+            <span class="toolbarPipe">|</span>
+            <p:spacer width="10" height="10" />
+            <h:outputLabel value="Nombres:" style="font-weight: bold;color: navy"/>
+            <p:spacer width="10" height="10" />
+            <h:outputLabel value="#{fichaOdontologica.selectPaciente.primerNombre} #{fichaOdontologica.selectPaciente.segundoNombre}"/>
+
+            <span class="toolbarPipe">|</span>
+            <h:outputLabel value="Género:" style="font-weight: bold;color: navy"/>
+            <p:spacer width="10" height="10" />
+            <h:outputLabel value="#{fichaOdontologica.selectPaciente.sexo == 'M'?'MASCULINO':'FEMENINO'}"/>
+
+            <span class="toolbarPipe">|</span>
+            <h:outputLabel value="Edad:" style="font-weight: bold;color: navy"/>
+            <p:spacer width="10" height="10" />
+            <h:outputLabel value="#{fichaOdontologica.edadPaciente}"/>
+
+        </h:form>
+    </div>
+
+</ui:composition>

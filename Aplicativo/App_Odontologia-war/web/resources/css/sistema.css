@@ -1,0 +1,148 @@
+/* 
+    Document   : plantilla
+    Created on : 10-nov-2014, 20:27:58
+    Author     : Luis G.
+    Description: Purpose of the stylesheet follows.
+*/
+
+.alineador {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.contenedor {
+    width: 100%;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cabecera {
+    width: 100%;
+    height: 72px;
+}
+
+.borde_izquierdo {
+    width: 14px;
+    height: 72px;
+    float: left;
+    background-image: url(../img/plantilla/left_corner.png);
+}
+
+.centro_transp {
+    width: 97.6%;
+    height: 72px;
+    float: left;
+   
+}
+
+.borde_derecho {
+    width: 14px;
+    height: 72px;
+    float: left;
+    background-image: url(../img/plantilla/right-corner.png);
+}
+
+.titulo_pantalla {
+    width: 500px;
+    height: 30px;
+    margin-left: 20px;
+    margin-top : 10px;
+    margin-bottom : 2px;
+    text-align: left;
+    font-family: "Arial Black";
+    font-size: 25px;
+    font-style: italic;
+    color: #003366;
+    float: left;
+}
+
+.titulo {
+    font-family: 'Impact';
+    font-size: 16px;
+    margin-left: 2px;
+    margin-bottom: 2px;
+    float: left;
+}
+
+.titulo_sistema {
+    font-family: 'Impact';
+    font-size: 16px;
+    margin-left: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    float: left;
+}
+
+
+.titulo_logout {
+    font-family: 'Impact';
+    font-size: 16px;
+    margin-left: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    float: right;
+    color: darkblue
+}
+
+.panel-menu{
+    width:200px;
+    height:483px;
+    border:none;
+    background-color: #ece3a5;
+    font-size:small;
+    padding:0px;
+}
+
+
+.subtitulo {
+    font-family: 'Avenir';
+    font-size: 11pt;
+    font-weight: bold;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 8px;
+    float: left;
+}
+
+.cols {
+    vertical-align:top;
+}
+
+.btnImage {
+    background-image: url(../img/plantilla/close-session.png);
+}
+
+.formulario {
+    width: 100%;
+}
+
+.item-label {
+    color: black;
+    text-align: left;
+    vertical-align: top;
+    font-size: 8pt;
+    font-weight: bold;
+}
+
+.item-value {
+    vertical-align: top;
+}
+
+.fuente {
+    font-size: 11px;
+}
+
+.opcion-menu{
+   font-weight: bold;
+   color: black;
+   font-size: 14px;
+}
+#panel-layout{
+    background-color: #c2dfef;
+    text-align: center;
+    font-size: 16px
+}

@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ice="http://www.icesoft.com/icefaces/component"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <div id="top" style="font-size: 14px;" >
+        <h:form>
+            <h:outputLabel value="Sistema Odontológico" style="color: black;font-weight: bold"/>
+            <p:spacer width="10" height="10" />
+
+            <span class="toolbarPipe">|</span>
+            <h:outputLabel value="Fecha:" style="text-decoration: underline;color: black;font-weight: bold"/>
+            <p:spacer width="10" height="10" />
+            <h:outputText value="#{atencionTurno.fechaActual}" class="subtitulo">
+                <p:spacer width="10" height="10" />
+                <f:convertDateTime dateStyle="full" timeZone="America/Guayaquil" type="date" />
+            </h:outputText>
+            <p:spacer width="10" height="10" />
+
+            <span class="toolbarPipe">|</span>
+            <h:outputLabel value="Médico: " style="text-decoration: underline;color: black;font-weight: bold"/>
+            <p:spacer width="5" height="5" />
+            <span style="margin-left: 10px;"/>
+            <h:outputText value="#{atencionTurno.loginPersonal.codigo} #{atencionTurno.loginPersonal.apellidos} #{atencionTurno.loginPersonal.nombres}" class="subtitulo"/>
+
+            <p:commandLink value="Listar Turnos" immediate="true" actionListener="#{acceso.regresarPagina()}" style="float:right; text-align:right; margin-left:5px; margin-top:5px;"></p:commandLink>
+
+        </h:form>
+    </div>
+
+</ui:composition>

@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>HOSPITAL DE ESPECIALIDADES DE LAS FUERZAS ARMADAS N1</title>
+            </f:facet>
+        </h:head>
+
+        <h:body style=" background-color:  #CA8186;">
+
+            <p:layout fullPage="true" >
+
+                <p:layoutUnit position="north" size="200" resizable="true" closable="true" collapsible="true" effect="red" >
+                    <center>
+                       
+                            <center>
+                                <p:graphicImage  url="/resources/images/prueba.png"/>                              
+
+                            </center>
+                       
+                    </center>
+                </p:layoutUnit>
+
+            
+                <ui:insert name="west">
+                    <p:layoutUnit position="west" size="150" header="HE1" resizable="true" closable="true" collapsible="true">
+                        <ui:insert name="menuIzquierdo">
+
+                        </ui:insert>
+                    </p:layoutUnit>
+                </ui:insert>
+
+                <p:layoutUnit position="center">
+                    <ui:insert name="saltolinea">
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                    </ui:insert>
+
+                    <center>
+                        <ui:insert name="center">
+
+
+                            <p:tabView style="font-size: 13px;width: 60%"  >
+                                <p:tab title="Servicios-Pacientes">
+                                    <h:panelGrid columns="3" cellpadding="10">
+                                        <p:graphicImage library="images" name="paciente.jpg" />
+                                        <h:outputText 
+                                            value="Módulo Pacientes" />
+                                        <p:link  value="Para Ingresar de click aquí" outcome="/faces/Login/login"/>
+
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="Servicios-HE1">
+                                    <h:panelGrid columns="3" cellpadding="10">
+                                        <p:graphicImage library="images" name="doctor.jpg" />
+                                        <h:outputText   
+                                            value="Módulos internos de HE1." />
+                                        <p:link  value="Para Ingresar de click aquí" outcome="/faces/Login/loginAdm"/>
+
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="Servicios-Usuarios Externos">
+                                    <h:panelGrid columns="2" cellpadding="10">
+
+
+                                        <h:outputText 
+                                            value="" />
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="Servicios-Soporte">
+                                    <h:panelGrid columns="2" cellpadding="10">
+
+
+                                        <h:outputText 
+                                            value="De este módulo se puede obtener los manuales del sistema de Gestión hospitalaria y ayuda en general" />
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="Instructivos y Manuales">
+                                    <h:panelGrid columns="2" cellpadding="10">
+                                        <p:graphicImage style="" library="images" name="ayuda.jpg" />
+
+
+                                        <h:outputText 
+                                            value="De este módulo se puede obtener los manuales del sistema de Gestión hospitalaria y ayuda en general" />
+                                        <a href="http://bidbb:8080/Medic-Doc/">Instructivos</a>
+                                    </h:panelGrid>
+                                </p:tab>
+                            </p:tabView>
+                        </ui:insert>
+                    </center>
+
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>
+

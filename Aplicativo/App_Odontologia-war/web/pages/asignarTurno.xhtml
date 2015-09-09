@@ -1,0 +1,329 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateAsignar.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+
+            <p:panel >
+
+                <div align="center">
+                    <h:panelGrid columns="15">
+                        <p:commandLink title="ODONTOPEDRÍA" action="#{asignarTurno.param(ae)}" update=":form :form:panelDT1">
+                            <p:graphicImage value="#{resource['images/D.jpg']}" style="width: 110px; height: 60px"/>
+                            <p:effect type="pulsate" event="click" />
+                            <f:param name="especialidad" value="ODONTOPE"/>
+                            <f:param name="codEspe" value="D"/>
+                        </p:commandLink>
+                        <p:spacer width="10" height="10" />
+
+                        <p:commandLink title="DIAGNOSTICO GENERAL" action="#{asignarTurno.param(ae)}" update=":form :form:panelDT1">
+                            <p:graphicImage value="#{resource['images/T.jpg']}" style="width: 130px; height: 60px"/>
+                            <p:effect type="pulsate" event="click" />
+                            <f:param name="especialidad" value="DIAG."/>
+                            <f:param name="codEspe" value="T"/>
+                        </p:commandLink>
+                        <p:spacer width="10" height="10" />
+
+                        <p:commandLink title="REHABILITACION ORAL" action="#{asignarTurno.param(ae)}" update=":form :form:panelDT1">
+                            <p:graphicImage value="#{resource['images/A.jpg']}" style="width: 120px; height: 60px"/>
+                            <p:effect type="pulsate" event="click" />
+                            <f:param name="especialidad" value="REHAB."/>
+                            <f:param name="codEspe" value="A"/>
+                        </p:commandLink>
+                        <p:spacer width="10" height="10" />
+
+                        <p:commandLink title="CIRUGIA MAXILO FACIAL" action="#{asignarTurno.param(ae)}" update=":form :form:panelDT1">
+                            <p:graphicImage value="#{resource['images/C.jpg']}" style="width: 125px; height: 60px"/>
+                            <p:effect type="pulsate" event="click" />
+                            <f:param name="especialidad" value="CIRUG."/>
+                            <f:param name="codEspe" value="C"/>
+                        </p:commandLink>
+                        <p:spacer width="10" height="10" />
+
+                        <p:commandLink title="ENDODONCIA" action="#{asignarTurno.param(ae)}" update=":form :form:panelDT1">
+                            <p:graphicImage value="#{resource['images/E.jpg']}" style="width: 80px; height: 60px"/>
+                            <p:effect type="pulsate" event="click" />
+                            <f:param name="especialidad" value="ENDODONCIA"/>
+                            <f:param name="codEspe" value="E"/>
+                        </p:commandLink>
+                        <p:spacer width="10" height="10" />
+
+                        <p:commandLink title="OPERATORIA DENTAL" action="#{asignarTurno.param(ae)}" update=":form :form:panelDT1">
+                            <p:graphicImage value="#{resource['images/O.jpg']}" style="width: 110px; height: 60px"/>
+                            <p:effect type="pulsate" event="click" />
+                            <f:param name="especialidad" value="OPERATORIA"/>
+                            <f:param name="codEspe" value="O"/>
+                        </p:commandLink>
+                        <p:spacer width="10" height="10" />
+
+                        <p:commandLink title="PERIODONCIA" action="#{asignarTurno.param(ae)}" update=":form :form:panelDT1">
+                            <p:graphicImage value="#{resource['images/P.jpg']}" style="width: 80px; height: 60px"/>
+                            <p:effect type="pulsate" event="click" />
+                            <f:param name="especialidad" value="PERIODONCIA"/>
+                            <f:param name="codEspe" value="P"/>
+                        </p:commandLink>
+                        <p:spacer width="10" height="10" />
+
+                        <p:commandLink title="ORTODONCIA" action="#{asignarTurno.param(ae)}" update=":form :form:panelDT1">
+                            <p:graphicImage value="#{resource['images/R.jpg']}" style="width: 80px; height:63px"/>
+                            <p:effect type="pulsate" event="click" />
+                            <f:param name="especialidad" value="ORTODONCIA"/>
+                            <f:param name="codEspe" value="R"/>
+                        </p:commandLink>
+
+                        <h:outputLabel value="ODONTOPEDIATRÍA" style="font-size: 11px;color: mediumblue"/>
+                        <p:spacer width="10" height="10" />
+                        <h:outputLabel value="DIAGNOSTICO GENERAL" style="font-size: 11px;color: mediumblue"/>
+                        <p:spacer width="10" height="10" />
+                        <h:outputLabel value="REHABILITACION ORAL" style="font-size: 11px;color: mediumblue"/>
+                        <p:spacer width="10" height="10" />
+                        <h:outputLabel value="CIRUGIA MAXILO FACIAL" style="font-size: 11px;color: mediumblue"/>
+                        <p:spacer width="10" height="10" />
+                        <h:outputLabel value="ENDODONCIA" style="font-size: 11px;color: mediumblue"/>
+                        <p:spacer width="10" height="10" />
+                        <h:outputLabel value="OPERATORIA DENTAL" style="font-size: 11px;color: mediumblue"/>
+                        <p:spacer width="10" height="10" />
+                        <h:outputLabel value="PERIODONCIA" style="font-size: 11px;color: mediumblue"/>
+                        <p:spacer width="10" height="10" />
+                        <h:outputLabel value="ORTODONCIA" style="font-size: 11px;color: mediumblue"/>
+                    </h:panelGrid>
+                </div>
+            </p:panel> 
+            <p:panel >
+                <div align="center" >
+                    <h:panelGrid columns="2">
+                        <p:panel id="panelDT1" style="width: 400px;">
+                            <p:dataTable id="consDT" var="cons" value="#{asignarTurno.listConsXespecialidad}" 
+                                         rowIndexVar="index" rendered="#{asignarTurno.listConsXespecialidad.size()!= 0}"
+                                         selectionMode="single" selection="#{asignarTurno.selectConsultorio}" rowKey="#{cons.codigo}">
+
+                                <p:ajax event="rowSelect" listener="#{asignarTurno.onRowSelectConsultorio()}" update=":form :form:panelDT2 :form:btnAsig :form:turnoDT :form:msgAsig" />
+
+                                <p:column headerText="Ord." width="30" style="font-size: 12px;">
+                                    <h:outputText value="#{index + 1}" />
+                                </p:column>
+
+                                <p:column headerText="CÓDIGO" style="font-size: 12px;" width="50">
+                                    <h:outputText value="#{cons.codigo}" />
+                                </p:column>
+
+                                <p:column headerText="CONSULTORIO" style="font-size: 12px;" width="150">
+                                    <h:outputText value="#{cons.nombres}" />
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:panel>
+
+                        <p:panel id="panelDT2"  style="width: 400px;" >
+                            <h:panelGrid>
+                                <h:outputLabel value="#{asignarTurno.selectMedico.personal1.codigo} #{asignarTurno.selectMedico.personal1.apellidos} #{asignarTurno.selectMedico.personal1.nombres}"
+                                               style="color: navy"/>
+                                <p:dataTable var="horDT" value="#{asignarTurno.listaHorarioMedico}">
+                                    <p:column headerText="Código" style="font-size: 12px;">
+                                        <h:outputText value="#{horDT.personal.codigo}" />
+                                    </p:column>
+                                    <p:column headerText="Hora inicia" style="font-size: 12px;">
+                                        <h:outputText value="#{horDT.horaInicial}">
+                                            <f:convertDateTime pattern="HH:mm" timeZone="America/Guayaquil"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Hora finaliza" style="font-size: 12px;">
+                                        <h:outputText value="#{horDT.horaFinal}" >
+                                            <f:convertDateTime pattern="HH:mm" timeZone="America/Guayaquil"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Atención" style="font-size: 12px;" width="50">
+                                        <h:outputText value="#{horDT.tiempo} mm." />
+                                    </p:column>
+
+                                </p:dataTable> 
+
+                                <h:panelGrid columns="5" >
+                                    <h:outputLabel value="Máximo de turnos:" style="font-size: 14px;"/>
+                                    <h:outputText value="#{asignarTurno.turnosD1vez}" style="font-size: 14px;color: green"/>
+                                    <p:spacer width="10" height="10" />
+                                    <h:outputLabel value="Turnos disponibles:" style="font-size: 14px;"/>
+                                    <h:outputText value="#{asignarTurno.msgTotalTurnos}" style="font-size: 14px;color: green"/>
+                                </h:panelGrid>
+
+                            </h:panelGrid>
+
+                        </p:panel>  
+                    </h:panelGrid>
+                </div>
+            </p:panel>
+            <p:panel >
+                <div align="center">
+
+                    <h:panelGrid width="900px" columns="4">
+                        <p:commandButton id="btnAsig" value="Turno" icon="ui-icon-circle-plus" 
+                                         update=":form :form:msgAsig :formAt :formAt:msgBtn :formAt:hc :formAt:edad :formAt:vt" 
+                                         disabled="#{asignarTurno.flagBtnAsignar}" onclick="PF('dlg1').show();"  style="font-size: 12px;" 
+                                         actionListener="#{asignarTurno.btnAsignar()}"/>
+
+                        <p:spacer width="5" height="5" />
+
+                        <h:outputLabel id="msgAsig" value="#{asignarTurno.msgGrabar}" rendered="#{asignarTurno.msgGrabar != null}"  style="color: red"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid width="900px" columns="2">
+                        <p:dataTable value="#{asignarTurno.listaHoras}" var="hora" rowIndexVar="index">
+                             <p:column headerText="Ord." width="30" style="font-size: 12px;">
+                                <h:outputText value="#{index + 1}" />
+                            </p:column>
+                            <p:column headerText="hora" style="font-size: 12px;" width="50">
+                                <h:outputText value="#{hora}" />
+                            </p:column>
+                        </p:dataTable>
+                            
+                        <p:dataTable id="turnoDT" var="turno" value="#{asignarTurno.listaTurnos}" rowIndexVar="index"
+                                     rowStyleClass="#{turno.estado eq 'A' ? 'colored' : null}"
+                                     selectionMode="single" selection="#{asignarTurno.selectTurnoCe}" rowKey="#{turno.numeroId}">
+
+                            <p:ajax event="rowSelect" listener="#{asignarTurno.onRowSelectTurno()}" />
+
+                            <p:column headerText="Ord." width="30" style="font-size: 12px;">
+                                <h:outputText value="#{index + 1}" />
+                            </p:column>
+                            <p:column headerText="H.C." style="font-size: 12px;" width="50">
+                                <h:outputText value="#{turno.pacientes.numeroHc}" />
+                            </p:column>
+
+                            <p:column headerText="Cédula" style="font-size: 12px;" width="70">
+                                <h:outputText value="#{turno.pacientes.cedula}" />
+                            </p:column>
+
+                            <p:column headerText="Apellidos" style="font-size: 12px;" width="150">
+                                <h:outputText value="#{turno.pacientes.apellidoPaterno} #{turno.pacientes.apellidoMaterno}" />
+                            </p:column>
+
+                            <p:column headerText="Nombres" style="font-size: 12px;" width="150">
+                                <h:outputText value="#{turno.pacientes.primerNombre} #{turno.pacientes.segundoNombre}" />
+                            </p:column>
+
+                            <p:column headerText="No." style="font-size: 12px;text-align: center" width="20">
+                                <h:outputText value="#{turno.numero}" />
+                            </p:column>
+
+                            <p:column headerText="Registro" style="font-size: 12px;text-align: center" width="100">
+                                <h:outputText value="#{turno.fechaCreacion}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="EST" type="date" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Estado" style="font-size: 12px;">
+                                <h:outputText value="#{turno.estado=='R'?'Reservado':turno.estado=='P'?'Pagado':turno.estado=='N'?'Anulado':turno.estado=='F'?'No Atendido':turno.estado=='A'?'Atendido':''}" />
+                            </p:column>
+                            <p:column headerText="Tipo Consulta" style="font-size: 12px;">
+                                <h:outputText value="#{turno.tipo=='P'?'Cons. 1ra. Vez':'Cons. Subsecuente'}" />
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:panelGrid>
+
+                </div> 
+            </p:panel>
+        </h:form>
+
+        <p:dialog header="Asignar Turno" widgetVar="dlg1" minHeight="250" style="font-size: 12px;">
+            <h:form id="formAt">
+                <h:panelGrid >
+                    <p:selectOneRadio id="pvcUnid" value="#{asignarTurno.buscarPor}" style="font-size: 12px;">
+                        <f:selectItem itemLabel="No. H.C." itemValue="nhc" />
+                        <f:selectItem itemLabel="Nro. Cédula" itemValue="ced" />
+                        <p:ajax event="change"  listener="#{asignarTurno.selectedAjaxChange()}" update="hc, ape, nom, edad, msgBtn, btnGrabar, hc1, ci1, hc2, ci2"/>
+                    </p:selectOneRadio>
+
+                </h:panelGrid>
+                <p:panelGrid columns="2" >
+                    <h:outputText value="H.C.:" />
+                    <p:inputText id="hc" value="#{asignarTurno.nroHc}"  >
+                        <p:ajax event="change" update=":form:msgs, hc1, ci1, isfa, pcn, ape, nom, edad, msgBtn, vt, btnGrabar, nat" 
+                                listener="#{asignarTurno.buscarAjaxBlur()}"/>
+                    </p:inputText>
+
+                    <h:outputText id="hc2" value="Nro. H.C.:" />
+                    <h:outputText id="hc1" value="#{asignarTurno.editPaciente.numeroHc}" />
+
+                    <h:outputText id="ci2" value="Nro. C.I.:" />
+                    <h:outputText id="ci1" value="#{asignarTurno.editPaciente.cedula}"  />
+
+                    <h:outputText value="ID Issfa:" />
+                    <h:outputText id="isfa" value="#{asignarTurno.editPaciente.idIssfa}"  />
+
+                    <h:outputText value="Paciente:" />
+                    <h:outputText id="pcn" value="#{asignarTurno.tipoPaciente}"  />
+
+                    <h:outputText value="Apellidos:" />
+                    <h:outputText id="ape" value="#{asignarTurno.editPaciente.apellidoPaterno} #{asignarTurno.editPaciente.apellidoMaterno}" />
+
+                    <h:outputText value="Nombres:" />
+                    <h:outputText id="nom" value="#{asignarTurno.editPaciente.primerNombre} #{asignarTurno.editPaciente.segundoNombre}" />
+
+                    <h:outputText value="Edad:" />
+                    <h:outputText id="edad" value="#{asignarTurno.edadPaciente} años"  />
+
+                    <h:outputLabel value="Valor Consulta:"/>
+                    <h:outputLabel id="vt" value="$ #{asignarTurno.valorTotal}" style="color: blue"/>
+
+                    <h:outputLabel value="Nro. Atención:"/>
+                    <h:outputLabel id="nat" value="$ #{asignarTurno.nroAtenciones}" style="color: blue"/>
+
+
+                    <p:outputLabel for="drv" value="Derivado?:" />
+                    <p:selectOneRadio id="drv" value="#{asignarTurno.pcnDerivado}" required="true" requiredMessage="Valor requerido">
+                        <f:selectItem itemLabel="No" itemValue="N" />
+                        <f:selectItem itemLabel="Si" itemValue="S" />
+                        <p:ajax event="change"  listener="#{asignarTurno.selectedAjaxChangeDerv()}" update="drvd1, drvd2"/>
+                    </p:selectOneRadio>
+
+                    <h:outputLabel id="drvd1" value="Observación:" />
+                    <p:inputText id="drvd2" value="#{asignarTurno.pcnDerivDet}" disabled="#{asignarTurno.flagInpText}"/>
+
+                </p:panelGrid>
+                <h:outputText value="&#160;" />
+                <h:panelGroup>
+                    <center>
+                        <h:outputLabel id="msgBtn" value="#{asignarTurno.msgBuscar}" style="color: red"/>
+                    </center>
+                </h:panelGroup>
+                <h:outputText value="&#160;" />
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar" value="Grabar" icon="ui-icon-check" ajax="false" 
+                                         disabled="#{asignarTurno.flagBtnAceptar}" update=":form:msgAsig"
+                                         style="margin:0; font-size: 14px" actionListener="#{asignarTurno.btnGrabarTurno()}"/>
+                    </center>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Pago" widgetVar="dlg3" minHeight="250" style="font-size: 12px;">
+            <h:form id="form3">
+                <p:outputPanel id="pagoDetalle" style="text-align:center;">
+                    <h:panelGrid id="pg3" columns="2" >
+                        <h:outputLabel value="Apellidos:"/>
+                        <h:outputLabel value="#{asignarTurno.selectTurnoCe.pacientes.apellidoPaterno} #{asignarTurno.selectTurnoCe.pacientes.apellidoMaterno}"/>
+                        <h:outputLabel value="Nombres:"/>
+                        <h:outputLabel value="#{asignarTurno.selectTurnoCe.pacientes.primerNombre} #{asignarTurno.selectTurnoCe.pacientes.segundoNombre}"/>
+
+                        <h:outputLabel value="Paciente:"/>
+                        <h:outputLabel id="tp" value="#{asignarTurno.tipoPaciente}"/>
+
+                        <h:outputLabel value="Valor total:"/>
+                        <h:outputLabel id="vl" value="$ #{asignarTurno.valorPago}" style="color: blue"/>
+
+                        <h:outputLabel value="Valor Pago:"/>
+                        <h:outputLabel id="vt" value="$ #{asignarTurno.valorTotal}" style="color: blue"/>
+
+                    </h:panelGrid>
+
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

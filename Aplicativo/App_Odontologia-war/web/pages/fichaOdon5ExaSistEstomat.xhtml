@@ -1,0 +1,187 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateFichaOdonto.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <p:panel header="5 EXAMEN DEL SISTEMA ESTOMATOGNÁTICO" style="background-color: #c2dfef;font-size: 16px">
+                <h:panelGroup>
+                    <center>
+                        <h:panelGrid columns="16" style="font-size: 12px;" border="1">
+                            <h:outputLabel value="1. Labios"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{examSistEstomat.paramPat(ae)}" update=":form1">
+                                <f:param name="pat" value="1"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="2. Mejillas"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{examSistEstomat.paramPat(ae)}" update=":form1">
+                                <f:param name="pat" value="2"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="3. Maxilar Superior"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{examSistEstomat.paramPat(ae)}" update=":form1">
+                                <f:param name="pat" value="3"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="4. Maxilar Inferior"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{examSistEstomat.paramPat(ae)}" update=":form1">
+                                <f:param name="pat" value="4"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="5 Lengua"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{examSistEstomat.paramPat(ae)}" update=":form1">
+                                <f:param name="pat" value="5"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="6. Paladar"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{examSistEstomat.paramPat(ae)}" update=":form1">
+                                <f:param name="pat" value="6"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="7 Piso"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{examSistEstomat.paramPat(ae)}" update=":form1">
+                                <f:param name="pat" value="7"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="8 Carrillos"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{examSistEstomat.paramPat(ae)}" update=":form1">
+                                <f:param name="pat" value="8"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="9 Glándulas Salivales"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{examSistEstomat.paramPat(ae)}" update=":form1">
+                                <f:param name="pat" value="9"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="10 Oro Faringe"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{examSistEstomat.paramPat(ae)}" update=":form1">
+                                <f:param name="pat" value="10"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="11 A. T. M."/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{examSistEstomat.paramPat(ae)}" update=":form1">
+                                <f:param name="pat" value="11"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="12 Ganglios"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{examSistEstomat.paramPat(ae)}" update=":form1">
+                                <f:param name="pat" value="12"/>
+                            </p:commandButton>
+
+                            <h:outputLabel value="13 Sin Patología"/>
+                            <p:commandButton icon="ui-icon-stop" oncomplete="PF('dlg1').show()" style="height: 15px;width: 15px" 
+                                             action="#{examSistEstomat.paramPat(ae)}" update=":form1">
+                                <f:param name="pat" value="13"/>
+                            </p:commandButton>
+
+                        </h:panelGrid>
+                    </center>
+                </h:panelGroup>  
+            </p:panel>
+
+            <p:panel style="background-color: #F8F9FC;">
+                <h:panelGroup>
+                    <center>
+                        <p:dataTable var="list" value="#{examSistEstomat.listSistEstomatognico}">
+                            <p:column headerText="Fecha" width="60" style="font-size: 12px">
+                                <h:outputText value="#{list.sieFecha}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Código" style="font-size: 12px;">
+                                <h:outputText value="#{list.OPatologias.patId} #{list.sieDescripcion}" />
+                            </p:column>
+                            <p:column headerText="Editar" style="width:82px;text-align: center;font-size: 12px">
+                                <p:commandButton update=":form2" oncomplete="PF('dlg2').show()" icon="ui-icon-pencil" widgetVar="10">
+                                    <f:setPropertyActionListener value="#{list}" target="#{examSistEstomat.selectSistemaEstomatognico}" />
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="Eliminar" style="width:82px;text-align: center;font-size: 12px">
+                                <p:commandButton update=":form3" oncomplete="PF('dlg3').show()" icon="ui-icon-trash" >
+                                    <f:setPropertyActionListener value="#{list}" target="#{examSistEstomat.selectSistemaEstomatognico}" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </center>
+                </h:panelGroup>
+            </p:panel>
+
+        </h:form>
+
+        <p:dialog header="Registro de Patología" widgetVar="dlg1" minHeight="250" style="font-size: 12px;">
+            <h:form id="form1">
+                <h:panelGrid columns="2" style="font-size: 12px;" >
+                    <h:outputLabel value="Nro. Patología:"/>
+                    <h:outputLabel value="#{examSistEstomat.nroPat}"/>
+
+                    <h:outputLabel value="Descripción:"/>
+                    <p:inputTextarea rows="2" cols="100" value="#{examSistEstomat.editSistemaEstomatognico.sieDescripcion}"
+                                     onblur="value = value.toUpperCase();" required="true" requiredMessage="Ingrese información de patología"/>
+                </h:panelGrid> 
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar" value="Grabar" icon="ui-icon-disk" ajax="false" 
+                                         style="margin:0; font-size: 14px" actionListener="#{examSistEstomat.btnGrabar()}"/>
+                    </center>
+                </h:panelGroup>
+            </h:form>
+
+        </p:dialog>
+
+        <p:dialog header="Edición" widgetVar="dlg2" minHeight="250" style="font-size: 12px;">
+            <h:form id="form2">
+                <h:panelGrid columns="2" style="font-size: 12px;" >
+                    <h:outputLabel value="Nro. Patología:"/>
+                    <h:outputLabel value="#{examSistEstomat.selectSistemaEstomatognico.OPatologias.patId}"/>
+
+                    <h:outputLabel value="Descripción:"/>
+                    <p:inputTextarea rows="2" cols="100" value="#{examSistEstomat.selectSistemaEstomatognico.sieDescripcion}" 
+                                     onblur="value = value.toUpperCase();" required="true" requiredMessage="Ingrese información de antecedente"/>
+                </h:panelGrid> 
+
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar" value="Grabar" icon="ui-icon-disk" ajax="false" 
+                                         style="margin:0; font-size: 14px" actionListener="#{examSistEstomat.btnGrabar()}"/>
+                    </center>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Eliminar" widgetVar="dlg3" minHeight="250" style="font-size: 12px;">
+            <h:form id="form3">
+                <h:panelGrid columns="2" style="font-size: 12px;" >
+                    <h:outputLabel value="Nro. Patología:"/>
+                    <h:outputLabel value="#{examSistEstomat.selectSistemaEstomatognico.OPatologias.patId}"/>
+
+                    <h:outputLabel value="Descripción:"/>
+                    <p:inputTextarea rows="2" cols="100" value="#{examSistEstomat.selectSistemaEstomatognico.sieDescripcion}" disabled="true"
+                                     onblur="value = value.toUpperCase();" />
+                </h:panelGrid> 
+
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton id="btnGrabar" value="Eliminar" icon="ui-icon-trash" ajax="false" 
+                                         style="margin:0; font-size: 14px" actionListener="#{examSistEstomat.btnGrabarDel()}"/>
+                    </center>
+                </h:panelGroup>
+
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

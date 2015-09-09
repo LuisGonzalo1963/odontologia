@@ -1,0 +1,266 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateAtencionEspecialidad.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <p:panel id="panelEnf" header="Tratamiento" style="background-color: #F8F9FC;font-size: 16px">
+                <p:dataTable id="cta" var="cta" value="#{atencionEspTto.listarCuentas}" 
+                             selectionMode="single" selection="#{atencionEspTto.selectCuentas}" rowKey="#{cta.cuentasPK}"
+                             style="text-align:left; float: left; margin-left: 10px; font-weight: bold;font-size: 12px"
+                             rowIndexVar="index" emptyMessage="No se encontraron resultados" >
+                    <p:ajax event="rowSelect" listener="#{atencionEspTto.onRowSelectCuenta()}" update=":form:btnNuevo :form:msgs"/>
+                    <p:column headerText="Fecha" width="60" style="font-size: 12px">
+                        <h:outputText value="#{cta.fecha}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Numero" style="font-size: 12px" width="50">
+                        <h:outputText value="#{cta.cuentasPK.numero}" />
+                    </p:column>
+
+                    <p:column headerText="Código" style="font-size: 12px" width="50">
+                        <h:outputText value="#{cta.crgCodigo}" />
+                    </p:column>
+
+                    <p:column headerText="Valor Unitario" style="font-size: 12px" width="50">
+                        <h:outputText value="#{cta.valor}" />
+                    </p:column>
+                    
+                     <p:column headerText="Cantidad" style="font-size: 12px" width="50">
+                         <h:outputText value="#{cta.cantidad}" />
+                    </p:column>
+
+                    <p:column headerText="Estado Pago " style="font-size: 12px" width="50">
+                        <h:outputText value="#{cta.estado == 'FCT'?'Pagado':cta.estado == 'PND'?'Pendiente':''}"/>
+                    </p:column>
+                    <p:column headerText="Observación" style="font-size: 12px">
+                        <h:outputText value="#{cta.observacion}" />
+                    </p:column>
+                </p:dataTable>
+
+                <p:spacer width="20" height="10" />
+
+                <h:panelGrid columns="3" cellpadding="0" cellspacing="0" border="0" >
+                    <p:commandButton id="btnNuevo" value="Registro" style="margin: 0; font-size: 12px" 
+                                     actionListener="#{atencionEspTto.newTrtValueChange(vce)}" 
+                                     title="Nueva Pedido" update=":formNewRx:panelNewRx" icon="ui-icon-check"
+                                     oncomplete="PF('newDialog').show()">
+                    </p:commandButton>
+
+                </h:panelGrid>
+
+                <p:spacer width="20" height="10" />
+
+                <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0" >
+                    <p:dataTable id="dTtto" var="trt" value="#{atencionEspTto.listarTratamientos}" 
+                                 style="text-align:left; float: left; margin-left: 10px; font-weight: bold;font-size: 12px"
+                                 rowIndexVar="index" emptyMessage="No se encontraron resultados" >
+                        <p:column headerText="Fecha" width="60" style="font-size: 12px">
+                            <h:outputText value="#{trt.trtFecha}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Número" style="font-size: 12px" width="50">
+                            <h:outputText value="#{trt.trtNroCuenta}" />
+                        </p:column>
+
+                        <p:column headerText="Diagnóstico y Complicaciones" style="font-size: 12px">
+                            <h:outputText value="#{trt.trtDiagnosCompl}" />
+                        </p:column>
+                        <p:column headerText="Procedimientos" style="font-size: 12px">
+                            <h:outputText value="#{trt.trtProcedimientos}" />
+                        </p:column>
+                        <p:column headerText="Prescripciones" style="font-size: 12px">
+                            <h:outputText value="#{trt.trtPrescripciones}" />
+                        </p:column>
+                        <p:column headerText="Código" width="50" style="font-size: 12px">
+                            <h:outputText value="#{trt.personal.codigo}" />
+                        </p:column>
+                        <p:column headerText="Realizado" width="50" style="font-size: 12px">
+                            <h:outputText value="#{trt.trtRealizado=='R'?'Si':'No'}" />
+                        </p:column>
+                        <p:column style="width:5%;text-align: center;font-size: 12px;">
+                            <p:commandButton id="btnEdit" title="Editar Tratamiento" update=":formEditTrt:panelEditTrt :form" icon="ui-icon-pencil"
+                                             oncomplete="PF('editDialogTrt').show()" rendered="#{trt.trtRealizado=='N'}">
+                                <f:setPropertyActionListener value="#{trt}" target="#{atencionEspTto.selectTratamiento}" />
+                            </p:commandButton>
+                        </p:column>
+
+
+                        <p:column style="width:5%;text-align: center;font-size: 12px;">
+                            <p:commandButton title="Imprimir Prescripción" update=":formPrintTrt:panelPrintTrt" icon="ui-icon-print"
+                                             oncomplete="PF('printDialogTrt').show()" >
+                                <f:setPropertyActionListener value="#{trt}" target="#{atencionEspTto.selectTratamiento}" />
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column style="width:5%;text-align: center;font-size: 12px;">
+                            <p:commandButton title="Confirmar" update=":formDelTrt:panelDelTrt" icon="ui-icon-check"
+                                             oncomplete="PF('delDialogTrt').show()" rendered="#{trt.trtRealizado=='N'}">
+                                <f:setPropertyActionListener value="#{trt}" target="#{atencionEspTto.selectTratamiento}" />
+                            </p:commandButton>
+                        </p:column> 
+
+                    </p:dataTable>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+
+        <p:dialog id="newDlg" header="Registrar Tratamiento" widgetVar="newDialog" resizable="false" 
+                  width="600" showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+            <h:form id="formNewRx">
+                <p:outputPanel id="panelNewRx" style="text-align:left;font-size: 12px">
+                    <h:panelGrid>
+                        <h:outputText  value="#{atencionEspTto.msgPago}" style="color: red"/> 
+                    </h:panelGrid>
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <h:outputText  value="Diagnóstico y Complicaciones:" />
+                        <p:inputTextarea id="dyc"  onblur="value = value.toUpperCase();" value="#{atencionEspTto.selectTratamiento.trtDiagnosCompl}"
+                                         rows="5" cols="50"
+                                         required="true" label="Diagnóstico y Complicaciones" maxlength="1000" autoResize="true" style="width:100%">
+                        </p:inputTextarea>
+                        <p:message for="dyc" />
+
+                        <h:outputText  value="Procedimientos:" />
+                        <p:inputTextarea id="prc"  onblur="value = value.toUpperCase();" value="#{atencionEspTto.selectTratamiento.trtProcedimientos}"
+                                         rows="5" cols="50" label="Procedimientos:" maxlength="1000" autoResize="true" style="width:100%">
+                        </p:inputTextarea>
+                        <p:message for="prc" />
+
+                        <h:outputText  value="Prescripciones:" />
+                        <p:inputTextarea id="pres"  onblur="value = value.toUpperCase();" value="#{atencionEspTto.selectTratamiento.trtPrescripciones}"
+                                         rows="5" cols="50" label="Prescripciones:" maxlength="1000" autoResize="true" style="width:100%">
+                        </p:inputTextarea>
+                        <p:message for="pres" />
+
+                    </h:panelGrid>
+                    <p:spacer height="5"/>
+                    <h:panelGroup>
+                        <center>
+                            <p:commandButton id="btnGrabarPerfil" value="Grabar" icon="ui-icon-disk" ajax="false"
+                                             process="@this,nom " style="margin:0; font-size: 14px" 
+                                             actionListener="#{atencionEspTto.grabarTratamiento()}" update=":formPrincipal:msgs"/>
+                        </center>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="editDlg" header="Edición Tratamiento" widgetVar="editDialogTrt" resizable="false" 
+                  width="600" showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+            <h:form id="formEditTrt">
+                <p:outputPanel id="panelEditTrt" style="text-align:left;font-size: 12px">
+                    <p:panelGrid  columns="3" style="width:100%">
+                        <h:outputText  value="Diagnóstico y Complicaciones:" />
+                        <p:inputTextarea id="dyc"  onblur="value = value.toUpperCase();" value="#{atencionEspTto.selectTratamiento.trtDiagnosCompl}"
+                                         required="true" label="Diagnóstico y Complicaciones" maxlength="1000" autoResize="true" style="width:100%">
+                        </p:inputTextarea>
+                        <p:message for="dyc" />
+
+                        <h:outputText  value="Procedimientos:" />
+                        <p:inputTextarea id="prc"  onblur="value = value.toUpperCase();" value="#{atencionEspTto.selectTratamiento.trtProcedimientos}"
+                                         label="Procedimientos:" maxlength="1000" autoResize="true" style="width:100%">
+                        </p:inputTextarea>
+                        <p:message for="prc" />
+
+                        <h:outputText  value="Prescripciones:" />
+                        <p:inputTextarea id="pres"  onblur="value = value.toUpperCase();" value="#{atencionEspTto.selectTratamiento.trtPrescripciones}"
+                                         label="Prescripciones:" maxlength="1000" autoResize="true" style="width:100%">
+                        </p:inputTextarea>
+                        <p:message for="pres" />
+
+                    </p:panelGrid>
+                    <p:spacer height="5"/>
+                    <h:panelGroup>
+                        <center>
+                            <p:commandButton id="btnGrabarPerfil" value="Grabar" icon="ui-icon-disk" ajax="false"
+                                             process="@this,nom " style="margin:0; font-size: 14px" 
+                                             actionListener="#{atencionEspTto.grabarTratamiento()}" update=":formPrincipal:msgs"/>
+                        </center>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="delDlgTrt" header="Confirmar" widgetVar="delDialogTrt" resizable="false" width="500" 
+                  showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+            <h:form id="formDelTrt">
+                <p:outputPanel id="panelDelTrt" style="text-align:left;font-size: 12px">
+                    <p:panelGrid   columns="2" style="width:100%" >
+                        <h:outputText value="¿Desea confirmar el procedimiento como realizado?." style="font-size: 14px;color: red"/>
+                    </p:panelGrid>
+                    <p:spacer height="10"/>
+                    <h:panelGroup>
+                        <center>
+                            <p:commandButton value="Aceptar" icon="ui-icon-check" ajax="false"
+                                             process="@this,nom " style="margin:0; font-size: 12px" 
+                                             actionListener="#{atencionEspTto.grabarEliminarDg()}" update=":formPrincipal:msgs"/>
+
+
+                        </center>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="printDlgTrt" header="Prescripción" widgetVar="printDialogTrt" resizable="false" width="800" 
+                  showEffect="fade" hideEffect="explode" style="text-align:left;font-size: 12px">
+            <h:form id="formPrintTrt">
+                <p:outputPanel id="panelPrintTrt" style="text-align:left;font-size: 12px">
+                    <h:panelGrid columns="1" style="width:100%" >
+                        <h:panelGroup>
+                            <center>
+                                <h:outputLabel value="HOSPITAL DE ESPECIALIDADES FF. AA. Nª 1"/>
+                            </center>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <center>
+                                <h:outputLabel value="PRESCRIPCIÓN MÉDICA"/>
+                            </center>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                    <p:spacer width="85" height="10" />
+                    <h:panelGrid columns="1" style="width:100%" >
+                        <h:outputLabel value="H.C. : #{atencionEspTto.selectTratamiento.OHistOdonto.pacientes.numeroHc} Paciente : #{atencionEspTto.selectTratamiento.OHistOdonto.pacientes.apellidoPaterno} #{atencionEspTto.selectTratamiento.OHistOdonto.pacientes.apellidoMaterno } #{atencionEspTto.selectTratamiento.OHistOdonto.pacientes.primerNombre} #{atencionEspTto.selectTratamiento.OHistOdonto.pacientes.segundoNombre}"/>
+                        <h:panelGrid columns="2" >
+                            <h:outputLabel value="Fecha Atención: "/>
+                            <h:outputLabel value="#{atencionEspTto.selectTratamiento.trtFecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="EST" type="date" />
+                            </h:outputLabel>
+                        </h:panelGrid>
+
+                        <p:spacer width="85" height="10" />
+                        <h:outputLabel value="Prescripción"/>
+                        <p:spacer width="15" height="10" />
+                        <p:inputTextarea value="#{atencionEspTto.selectTratamiento.trtPrescripciones}" 
+                                         style="font-size: 12px; width: 100%; height: 100%"  readonly="true" />
+                        <p:spacer width="10" height="100" />
+                        <h:panelGroup>
+                            <center>
+
+                                <h:outputLabel value="Dr. #{atencionEspTto.selectTratamiento.personal.nombres} #{atencionEspTto.selectTratamiento.personal.apellidos}"/>
+                            </center>
+                        </h:panelGroup>
+
+                        <p:spacer width="10" height="30" />
+                        <h:outputLabel value="Observación:"/>
+
+                    </h:panelGrid>
+
+                </p:outputPanel>
+
+            </h:form>
+            <h:form>
+                <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 10px" widgetVar="10">
+                    <p:printer target=":formPrintTrt" />
+                </p:commandButton>
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

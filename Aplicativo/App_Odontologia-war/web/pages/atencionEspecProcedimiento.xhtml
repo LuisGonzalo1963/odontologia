@@ -1,0 +1,319 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateAtencionEspecialidad.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" life="2000" />
+            <p:panel header="Diagnósticos" style="width: 600px;font-size: 12px;">
+                <f:facet name="actions">
+                    <p:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
+                                   onclick="PF('dlgDx1').show();" actionListener="#{atencionEspProc.btnActionListener(vce)}">
+                        <h:outputText styleClass="ui-icon ui-icon-circle-plus" />
+                    </p:commandLink>
+                </f:facet>
+                <p:dataTable id="listDxPcn" var="listDp" value="#{atencionEspProc.listDiagPaciente}">
+                    <p:column headerText="Código" style="font-size: 12px;" width="35">
+                        <h:outputText value="#{listDp.enfermedades.codigo}"  />
+                    </p:column>
+                    <p:column headerText="Descripción" style="font-size: 12px;">
+                        <h:outputText value="#{listDp.enfermedades.enfermedad}"  />
+                    </p:column>
+                    <p:column headerText="Tipo" style="font-size: 12px;" width="25">
+                        <h:outputText value="#{listDp.tipo}"  />
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+            <p:spacer height="5" />
+            <p:panel header="Solicitu de Rx" style="width: 400px;font-size: 12px;">
+                <p:commandButton id="btnRx" value="Rayos X" icon="ui-icon-circle-close"  style="font-size: 12px;"
+                                 onclick="PF('dlgRx1').show();"/>
+            </p:panel>
+            <p:spacer height="5" />
+            <p:panel header="Registrar Procedimientos" style="font-size: 14px;">
+                <h:panelGrid columns="6" >
+                    <h:outputLabel value="Nro. Afiliacion:" />
+                    <h:outputLabel value="#{atencionEspProc.sessionTurno.pacientes.idIssfa}" style="color: blue"/>
+
+                    <p:spacer width="10" height="10" />
+
+                    <h:outputLabel value="Tipo Pcn:" />
+                    <h:outputLabel value="#{atencionEspProc.prmPcn}" style="color: blue"/>
+
+                </h:panelGrid>
+                <p:panel id="p1" >
+
+                    <h:panelGrid columns="1">
+
+                        <p:commandButton  id="btnPr" value="Procedimiento" style="font-size: 12px;" icon="ui-icon-circle-plus" 
+                                          onclick="PF('dlgP1').show();" >
+                        </p:commandButton>
+
+                    </h:panelGrid>
+                </p:panel>
+
+                <h:panelGroup>
+                    <center>
+                        <h:panelGrid columns="2">
+
+                            <p:commandButton id="btnGraba" value="Generar Pago" icon="ui-icon-disk" disabled="#{atencionEspProc.flagbtnGraba}"
+                                             style="font-size: 12px;" actionListener="#{atencionEspProc.btnGrabarCuentas()}" update=":form:listDtPr"/>
+
+                        </h:panelGrid>
+
+                        <p:dataTable id="listDtPr" var="list" value="#{atencionEspProc.listaProcedimientos}">
+                            <p:column headerText="Fecha" style="font-size: 12px;">
+                                <h:outputText value="#{list.prcFecha}"  >
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Procedimiento" style="font-size: 12px;">
+                                <h:outputText value="#{list.prcProcedimiento}"  />
+                            </p:column>
+                            <p:column headerText="Diagnóstico" style="font-size: 12px;">
+                                <h:outputText value="#{list.prcDiagnostico}"  />
+                            </p:column>
+                            <p:column headerText="Nro.Atenciones" style="font-size: 12px;">
+                                <h:outputText value="#{list.prcTotAtenciones}"  />
+                            </p:column>
+                            <p:column headerText="Cantidad" style="font-size: 12px;">
+                                <h:outputText value="#{list.prcCantidad}"  />
+                            </p:column>
+
+                            <p:column headerText="Valor Unitario" style="font-size: 12px;">
+                                <h:outputText value="#{list.prcValor}"  />
+                            </p:column>
+
+                            <p:column headerText="Valor Total" style="font-size: 12px;">
+                                <h:outputText value="#{list.prcValor * list.prcCantidad}  "  />
+                            </p:column>
+
+                            <p:column headerText="Médico" style="font-size: 12px;">
+                                <h:outputText value="#{list.prsCodigo}"  />
+                            </p:column>
+
+                            <p:column headerText="" style="font-size: 12px;">
+                                <h:outputText value="#{list.prcTipo}"  />
+                            </p:column>
+
+                            <p:column headerText="" style="font-size: 12px;">
+                                <h:outputText value="#{list.prcDescripcion}"  />
+                            </p:column>
+
+                        </p:dataTable>
+                    </center>
+                </h:panelGroup>    
+            </p:panel>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
+            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                <p:graphicImage name="/images/ajax-loader.gif" />
+            </p:dialog>
+
+        </h:form>
+
+        <p:dialog header="Registrar Procedimiento" widgetVar="dlgP1" style="font-size: 12px;">
+            <h:form id="formP1">
+                <p:panel id="p11" >
+                    <p:spacer width="10" height="10" />
+
+                    <h:panelGrid id="pg" columns="3">
+                        <p:outputLabel value="Especialidad:" />
+                        <p:spacer width="95" height="10" />
+                        <p:selectOneMenu id="esp" filter="true" filterMatchMode="contains" value="#{atencionEspProc.codEspMedico}">
+                            <f:selectItem itemLabel="Seleccione..." itemValue="#{null}"  />
+                            <f:selectItems value="#{atencionEspProc.itemsListEspMedicos}"  />
+                            <p:ajax event="change" listener="#{atencionEspProc.selectedAjaxChangeEspec()}" update="p11, proc"/>
+                        </p:selectOneMenu> 
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="3" >
+
+                        <p:outputLabel value="Diagnóstico:" />
+                        <p:selectOneMenu id="ldgn" filter="true" filterMatchMode="contains" value="#{atencionEspProc.codDiag}" style="width:450px" disabled="#{atencionEspProc.flagPanelDatos}">
+                            <f:selectItem itemLabel="Seleccione..." itemValue="#{null}"  />
+                            <f:selectItems value="#{atencionEspProc.itemsListDiagPcn}"  />
+                            <p:ajax event="change" listener="#{atencionEspProc.selectedAjaxChangeDx()}" update="ap1,at1,vc1"/>
+                        </p:selectOneMenu>  
+                        <h:outputLabel />
+
+                        <p:outputLabel value="Procedimiento:" />
+                        <p:selectOneMenu id="proc" filter="true" filterMatchMode="contains" value="#{atencionEspProc.codCargo}" style="width:450px" disabled="#{atencionEspProc.flagPanelDatos}">
+                            <f:selectItem itemLabel="Seleccione..." itemValue="#{null}"  />
+                            <f:selectItems value="#{atencionEspProc.itemsListCargos}" />
+                            <p:ajax event="change"  listener="#{atencionEspProc.selectedAjaxChangeCr()}" update="wms,ap1,at1,vc1"/>
+                            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                        </p:selectOneMenu>  
+
+                        <p:ajaxStatus>
+                            <f:facet name="start">
+                                <p:graphicImage name="/images/ajax-loader.gif" />
+                            </f:facet>
+                        </p:ajaxStatus>
+
+                        <h:outputLabel value="Msg. WebService:" />
+                        <h:outputLabel id="wms" value="#{atencionEspProc.msgWebService}" style="color: red" />
+                        <h:outputLabel />
+
+                        <h:outputLabel value="Derivado?:" />
+                        <h:outputLabel value="#{atencionEspProc.selectPcnDerivados.pcdDerivado=='S'?'Si':'No'} #{atencionEspProc.selectPcnDerivados.pcdDetalle}" style="color: blue"/>
+                        <h:outputLabel />
+
+                        <h:outputLabel value="Aplica:" />
+                        <h:outputLabel id="ap1" value="#{atencionEspProc.selectCoberturaIssfa.cbi3erNivel=='A'?'Si':'No'}" style="color: red" />
+                        <h:outputLabel />
+
+                        <h:outputLabel value="Nro. Atenciones Restantes:" />
+                        <h:outputLabel id="at1" value="#{atencionEspProc.nroAtenciones}" style="color: blue"/>
+                        <h:outputLabel />
+                    </h:panelGrid>
+                    <h:panelGrid columns="3" >
+                        <h:panelGrid columns="11">
+                            <h:outputLabel value="Valor Unitario:" />
+                            <p:spacer width="85" height="10" />
+                            <h:outputLabel id="vc1" value="$ #{atencionEspProc.valCargo}" style="color: blue"/>
+                            <p:spacer width="30" height="10" />
+                            <h:outputLabel value="Cantidad:" />
+                            <p:spacer width="10" height="10" />
+                            <p:inputText id="cant" value="#{atencionEspProc.cantProcedimientos}" size="1" disabled="#{atencionEspProc.flagPanelDatos}">
+                                <p:ajax event="blur" listener="#{atencionEspProc.selectedAjaxChangeCant()}" update="vt1, cIsfa, cPcn, btnRegP1"/>
+                            </p:inputText>
+                            <p:spacer width="20" height="10" />
+                            <h:outputLabel value="Valor a pagar: $" />
+                            <p:spacer width="10" height="10" />
+                            <h:outputLabel id="vt1" value="#{atencionEspProc.valTotal}" style="color: blue"/>
+
+                        </h:panelGrid>
+
+                    </h:panelGrid>
+                    <h:panelGrid columns="5" >
+                        <h:outputText  value="Descripción:" />
+                        <p:spacer width="95" height="10" />
+                        <p:inputTextarea id="prc"  onblur="value = value.toUpperCase();" value="#{atencionEspProc.prcDescripcion}"
+                                         disabled="#{atencionEspProc.flagPanelDatos}"
+                                         rows="5" cols="50" label="Descripción" maxlength="4000" autoResize="true" style="width:100%">
+                        </p:inputTextarea>
+                        <p:message for="prc" />
+                        <h:panelGrid columns="2" style="background-color: beige">
+                            <h:outputText  value="Paga Issfa:" />
+                            <h:outputText id="cIsfa" value="#{atencionEspProc.cantIssfa}" />
+                            <h:outputText  value="Paga Paciente:" />
+                            <h:outputText id="cPcn" value="#{atencionEspProc.cantPaciente}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                    <h:panelGroup>
+                        <center>
+                            <h:panelGrid>
+                                <p:commandButton  id="btnRegP1" value="Añadir Procedimiento" actionListener="#{atencionEspProc.btnGrabarProcedimiento()}" ajax="false"
+                                                  icon="ui-icon-circle-plus" update=":form:listDtPr :form:msgs" disabled="#{atencionEspProc.flagbtnReg}" style="font-size: 12px;">
+                                    <!-- <p:confirm header="Confirmación" message="Verificar al Paciente si dispone del valor. Está seguro de registrar el procedimiento?" icon="ui-icon-alert" />   -->
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </center>
+                    </h:panelGroup>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Pedido de Rayos X" widgetVar="dlgRx1" style="font-size: 12px;">
+            <h:form id="formRx1">
+                <p:panel id="pRx1" >
+                    <h:panelGrid columns="2" style="font-size: 12px;" > 
+                        <p:outputLabel value="Diagnóstico:"/>
+                        <p:selectOneMenu id="ldgn" filter="true" filterMatchMode="contains" value="#{atencionEspProc.codDiag}" >
+                            <f:selectItem itemLabel="Seleccione..." itemValue="#{null}"  />
+                            <f:selectItems value="#{atencionEspProc.itemsListDiagPcn}"  />
+                            <p:ajax event="change" listener="#{atencionEspProc.selectedAjaxChangeDx()}"/>
+                        </p:selectOneMenu>  
+
+                        <p:outputLabel value="Procedimiento:" />
+                        <p:selectOneMenu filter="true" filterMatchMode="contains" id="produc2" style="width:440px"
+                                         value="#{atencionEspProc.codCargoRx}" >
+                            <f:selectItem itemLabel="Seleccione..." itemValue="#{null}"  />
+                            <f:selectItems value="#{atencionEspProc.itemsListRayosX}" />
+                            <p:ajax event="change"  listener="#{atencionEspProc.selectedAjaxChangeRxPr()}" update="obs,val, can, vt"/>
+                        </p:selectOneMenu> 
+
+                        <p:outputLabel/>
+                        <p:ajaxStatus>
+                            <f:facet name="start">
+                                <p:graphicImage name="/images/ajax-loader.gif" />
+                            </f:facet>
+                        </p:ajaxStatus>
+
+                        <h:outputLabel value="Observacion ISSFA:" />
+                        <h:outputLabel id="obs" value="#{PlanDxTEd.msgWebService}" style="color: red" />
+
+                        <h:outputLabel value="Valor:" />
+                        <h:outputLabel id="val" value=" $ #{atencionEspProc.valCargoRx}" style="color: red" />
+
+                        <h:outputLabel value="Cantidad:"/>
+                        <p:inputText id="can" value="#{atencionEspProc.cantRx}" size="1" 
+                                     required="true" requiredMessage="Valor requerido">
+                            <p:ajax event="change"  listener="#{atencionEspProc.selectedAjaxChangeCantRx()}" update="vt, btnGrabarRx"/>
+                        </p:inputText>
+
+                        <h:outputLabel value="Valor Total:" />
+                        <h:outputLabel id="vt" value=" $ #{atencionEspProc.valTotalRx}" style="color: red"/>
+
+                        <h:outputLabel value="Descripción:"/>
+                        <p:inputTextarea rows="2" cols="70" value="#{atencionEspProc.descripcionRx}" 
+                                         onblur="value = value.toUpperCase();" required="true" requiredMessage="Ingrese información..."/>
+                    </h:panelGrid> 
+
+                    <h:panelGroup>
+                        <center>
+                            <p:commandButton id="btnGrabarRx" value="Grabar" icon="ui-icon-disk" ajax="false" disabled="#{atencionEspProc.flagBtnGrabarRx}"
+                                             update=":form:msgs"  style="margin:0; font-size: 14px" actionListener="#{atencionEspProc.btnGrabarRx()}"/>
+                        </center>
+                    </h:panelGroup>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Registrar Diagnóstico" widgetVar="dlgDx1" style="font-size: 12px;">
+            <h:form id="form2">
+                <p:outputPanel id="panelNewDiag" style="text-align:left;font-size: 12px">
+
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <h:outputLabel value="Buscar Diagnóstico:"/>
+                        <p:inputText id="lse" value="#{atencionEspProc.buscarEnf}">
+                            <p:ajax event="change" listener="#{atencionEspProc.selectedAjaxChangeBuscarEnf()}" update=":form2:cieOneMenu"/>
+                        </p:inputText>
+                        <p:commandButton icon="ui-icon-search"/>
+
+                        <p:outputLabel for="cieOneMenu"  value="CIE:" />
+                        <p:selectOneMenu id="cieOneMenu" value="#{atencionEspProc.codDiag}"  style="font-size: 12px; width: 100%" effect="fade" 
+                                         required="true" requiredMessage="Cie obligatorio">
+                            <f:selectItem itemLabel="Select..." itemValue="" />
+                            <f:selectItems value="#{atencionEspProc.itemsListEnfOdonto}"  />    
+                        </p:selectOneMenu>
+                        <p:message for="cieOneMenu" />
+
+                        <p:outputLabel/>
+                        <p:selectOneRadio id="console" value="#{atencionEspProc.editDiagnostico.dgtTipo}">
+                            <f:selectItem itemLabel="PRESUNTIVO" itemValue="PRE" noSelectionOption="" />
+                            <f:selectItem itemLabel="DEFINITIVO" itemValue="DEF" />
+                        </p:selectOneRadio>
+                        <p:message for="console" />
+
+                    </h:panelGrid>
+                    <h:panelGroup>
+                        <center>
+                            <p:commandButton id="btnGrabarPerfil" value="Grabar" icon="ui-icon-disk" ajax="false"
+                                             process="@this,nom " style="margin:0; font-size: 14px" 
+                                             actionListener="#{atencionEspProc.btnGrabarDiagPcn()}" update=":form:msgs :form:ldgn :form:msgs"/>
+                        </center>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/templateFichaOdonto.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:panel id="panelEnf" header="9 SIMBOLOGÍA" style="background-color: #F8F9FC;font-size: 16px">
+                <h:panelGrid columns="17" style="text-align: left">
+                    <h:graphicImage value="#{resource['imagenSistema/d_sell_n.png']}" style="width: 20px; height:20px"/>
+                    <h:outputText value="Sellante necesario" style="font-size: 10px"/>
+                    <p:spacer width="5"/>
+                    <h:graphicImage value="#{resource['imagenSistema/d_sell_r.png']}" style="width: 20px; height:20px"/>
+                    <h:outputText value="Sellante realizado" style="font-size: 10px"/>
+                    <p:spacer width="5"/>
+                    <h:graphicImage value="#{resource['imagenSistema/d_ext.png']}" style="width: 20px; height:20px"/>
+                    <h:outputText value="Extracción indicada" style="font-size: 10px"/>
+                    <p:spacer width="5"/>
+                    <h:graphicImage value="#{resource['imagenSistema/d_perd.png']}" style="width: 20px; height:20px"/>
+                    <h:outputText value="Pérdida por caries" style="font-size: 10px"/>
+                    <p:spacer width="5"/>
+                    <h:graphicImage value="#{resource['imagenSistema/d_krnat.png']}" style="width: 20px; height:20px"/>
+                    <h:outputText value="Corona a tratarse" style="font-size: 10px"/>
+                    <p:spacer width="5"/>
+                    <h:graphicImage value="#{resource['imagenSistema/d_krnar.png']}" style="width: 20px; height:20px"/>
+                    <h:outputText value="Corona realizada" style="font-size: 10px"/>
+
+
+                    <h:graphicImage value="#{resource['imagenSistema/d_endt.png']}" style="width: 20px; height:20px"/>
+                    <h:outputText value="Endodoncia a tratarse" style="font-size: 10px"/>
+                    <p:spacer width="5"/>
+                    <h:graphicImage value="#{resource['imagenSistema/d_endr.png']}" style="width: 20px; height:20px"/>
+                    <h:outputText value="Endodoncia realizada" style="font-size: 10px"/>
+                    <p:spacer width="5"/>
+                    <h:graphicImage value="#{resource['imagenSistema/d_prttr.png']}" style="width: 20px; height:20px"/>
+                    <h:outputText value="Prótesis Total necesita" style="font-size: 10px"/>
+                    <p:spacer width="5"/>
+                    <h:graphicImage value="#{resource['imagenSistema/d_prtta.png']}" style="width: 20px; height:20px"/>
+                    <h:outputText value="Prótesis Total realizada" style="font-size: 10px"/>
+                    <p:spacer width="5"/>
+                    <h:graphicImage value="#{resource['imagenSistema/d_pfa.png']}" style="width: 20px; height:20px"/>
+                    <h:outputText value="Prótesis Fija a tratarse" style="font-size: 10px"/>
+                    <p:spacer width="5"/>
+                    <h:graphicImage value="#{resource['imagenSistema/d_pfr.png']}" style="width: 20px; height:20px"/>
+                    <h:outputText value="Prótesis Fija realizada" style="font-size: 10px"/>
+
+                    <h:graphicImage value="#{resource['imagenSistema/d_pra.png']}" style="width: 20px; height:20px"/>
+                    <h:outputText value="Prótesis Removible a tratarse" style="font-size: 10px"/>
+                    <p:spacer width="5"/>
+                    <h:graphicImage value="#{resource['imagenSistema/d_prr.png']}" style="width: 20px; height:20px"/>
+                    <h:outputText value="Prótesis Removible realizada" style="font-size: 10px"/>
+                    <p:spacer width="5"/>
+                    <h:graphicImage value="#{resource['imagenSistema/d_perd_x.png']}" style="width: 20px; height:20px"/>
+                    <h:outputText value="Pérdida otra causa" style="font-size: 10px"/>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

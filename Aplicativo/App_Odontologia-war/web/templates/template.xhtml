@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <meta name="author" content="Luis Guanoluiza" />
+                <meta name="Resource-type" content="Document"/>
+                <meta name="Revisit-after" content="7 days"/>
+                <meta name="robots" content="ALL"/>
+
+                <title>HE-1 ODONTOLOGIA</title>
+
+                <link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=cupertino" />
+
+            </f:facet>
+        </h:head>
+
+        <h:body>
+            <p:growl id="messages" showDetail="true" sticky="true" />
+
+            <p:idleMonitor timeout="600000">
+                <p:ajax event="idle" listener="#{acceso.onIdle}" update="messages" />
+                <p:ajax event="active" listener="#{acceso.onActive}" update="messages" />
+            </p:idleMonitor>
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="99" resizable="true" closable="true" collapsible="true">
+                    <ui:include src="header.xhtml"/>
+                </p:layoutUnit>
+
+         
+               
+
+                <p:layoutUnit position="center">
+                    <ui:insert name="content" id="contenido"/>                                
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>
+

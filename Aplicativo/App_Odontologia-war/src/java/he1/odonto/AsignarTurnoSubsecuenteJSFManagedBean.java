@@ -301,7 +301,7 @@ public class AsignarTurnoSubsecuenteJSFManagedBean extends Utilitario implements
         msgTurnosDisp = Short.toString(turnosDisp);
         //flagBtnAsignar = msgTotalTurnos.equalsIgnoreCase("0");
     }
-
+SDFDFDF
     // </editor-fold> 
     // <editor-fold defaultstate="collapsed" desc="/** totalizaTurnos">
     public short totalizaTurnos() {

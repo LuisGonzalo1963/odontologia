@@ -5,6 +5,9 @@
  */
 package he1.odonto;
 
+import he1.odonto.entities.OParametros;
+import he1.odonto.sessions.OParametrosFacade;
+import he1.sis.entities.CalendariosProcedimientos;
 import he1.sis.entities.Cargos;
 import he1.sis.entities.Cuentas;
 import he1.sis.entities.CuentasPK;
@@ -13,6 +16,7 @@ import he1.sis.entities.HorariosMedico;
 import he1.sis.entities.Pacientes;
 import he1.sis.entities.Personal;
 import he1.sis.entities.TurnosCe;
+import he1.sis.sessions.CalendariosProcedimientosFacade;
 import he1.sis.sessions.CargosFacade;
 import he1.sis.sessions.CuentasFacade;
 import he1.sis.sessions.DepartamentosFacade;
@@ -65,10 +69,15 @@ public class AsignarTurnoSubsecuenteJSFManagedBean extends Utilitario implements
     private CuentasFacade cuentasFacade;
     @EJB
     private DepartamentosFacade departamentosFacade;
+    @EJB
+    private OParametrosFacade parametrosFacade;
+    @EJB
+    private CalendariosProcedimientosFacade calendProcedFacade;
 
     private List<TurnosCe> listaTurnos;
     private List<HorariosMedico> listaHorario;
     private List<TurnosCe> listaTurnosPaciente;
+    private List<CalendariosProcedimientos> listaCalendProcedimientos;
 
 //    private final AtencionSecretarias selectedAtencSecretarias;
     private Departamentos selectDepartamentos;
@@ -82,6 +91,7 @@ public class AsignarTurnoSubsecuenteJSFManagedBean extends Utilitario implements
     private CuentasPK editCuentasPk;
     private Pacientes editPacientes;
     private HorariosMedico selectConsultorio;
+    private OParametros editOParametros;
 
     private Date selectFecha;
     private Date actualFecha;
@@ -89,10 +99,12 @@ public class AsignarTurnoSubsecuenteJSFManagedBean extends Utilitario implements
 
     private String fechaActual;
     private String diaActual;
-    private String msgTotalTurnos;
+    private String msgTurnosDisp;
+    private String msgTurnos1Vez;
     private String msgGrabar;
     private String tipoPaciente;
     private String horaTurno;
+    private String msgTotalProced;
 
     private BigDecimal valorPago;
     private BigDecimal edadPaciente;
@@ -102,6 +114,7 @@ public class AsignarTurnoSubsecuenteJSFManagedBean extends Utilitario implements
 
     private short sigTurno;
     private short subTurnos;
+     private short turnosD1vez;
 
     private boolean flagBtnAsignar;
     private boolean flagBtnAceptar;
@@ -120,6 +133,22 @@ public class AsignarTurnoSubsecuenteJSFManagedBean extends Utilitario implements
 
     public void setSelectFecha(Date selectFecha) {
         this.selectFecha = selectFecha;
+    }
+
+    public String getMsgTurnos1Vez() {
+        return msgTurnos1Vez;
+    }
+
+    public void setMsgTurnos1Vez(String msgTurnos1Vez) {
+        this.msgTurnos1Vez = msgTurnos1Vez;
+    }
+
+    public String getMsgTotalProced() {
+        return msgTotalProced;
+    }
+
+    public void setMsgTotalProced(String msgTotalProced) {
+        this.msgTotalProced = msgTotalProced;
     }
 
     public Pacientes getEditPacientes() {
@@ -186,13 +215,14 @@ public class AsignarTurnoSubsecuenteJSFManagedBean extends Utilitario implements
         this.edadPaciente = edadPaciente;
     }
 
-    public String getMsgTotalTurnos() {
-        return msgTotalTurnos;
+    public String getMsgTurnosDisp() {
+        return msgTurnosDisp;
     }
 
-    public void setMsgTotalTurnos(String msgTotalTurnos) {
-        this.msgTotalTurnos = msgTotalTurnos;
+    public void setMsgTurnosDisp(String msgTurnosDisp) {
+        this.msgTurnosDisp = msgTurnosDisp;
     }
+
 
     public List<TurnosCe> getListaTurnos() {
         return listaTurnos;
@@ -229,6 +259,13 @@ public class AsignarTurnoSubsecuenteJSFManagedBean extends Utilitario implements
         selectDepartamentos = AreaDptosUtil(loginPersonal, diaActual);
         selectConsultorio = ConsultorioUtil(loginPersonal, diaActual);
 
+        editOParametros = parametrosFacade.parametros(selectConsultorio.getPersonal().getCodigo());
+        if (editOParametros == null) {
+            ponerMensajeInfo("ATENCIÓN", "Médico no disponible");
+        } else {
+            listaCalendProcedimientos = calendProcedFacade.listByDiaConsultorio(diaActual, editOParametros.getParConsultorio());
+            msgTotalProced = Short.toString(totalizaTurnosProced());
+        }
         listaTurnos = turnosCeFacade.ListByFechaConsultorioControl(selectFecha, selectConsultorio.getPersonal());
         listaHorario = horariosMedicoFacade.listByDiaConsultorio(diaActual, selectConsultorio.getPersonal().getCodigo());
 
@@ -251,14 +288,17 @@ public class AsignarTurnoSubsecuenteJSFManagedBean extends Utilitario implements
     // </editor-fold> 
     // <editor-fold defaultstate="collapsed" desc="/** verificaTurnos">    
     public void verificaTurnos() {
-        porcSubs = selectDepartamentos.getPrcSubsecuente();
-        System.out.println("porcSubs " + porcSubs);
-        turnosDisponibles = totalizaTurnos();
-        System.out.println("totalizaTurnos " + turnosDisponibles);
-        turnosDSub = (short) Math.round(turnosDisponibles * porcSubs / 100);
+        double tot1raVez = totalizaTurnos();
+        turnosD1vez = (short) Math.round(tot1raVez * selectDepartamentos.getPrcInicial() / 100);
+        msgTurnos1Vez= Short.toString(turnosD1vez);
+        //porcSubs = selectDepartamentos.getPrcSubsecuente();
+        System.out.println("1raVez " + msgTurnos1Vez);
+        turnosDisponibles = totalizaTurnosProced();
+        System.out.println("totTurnosPrc " + turnosDisponibles);
+        //turnosDSub = (short) Math.round(turnosDisponibles * porcSubs / 100);
         short turnosReg = (short) (listaTurnos.size());
-        short turnosDisp = (short) (turnosDSub - turnosReg);
-        msgTotalTurnos = Short.toString(turnosDisp);
+        short turnosDisp = (short) (turnosDisponibles - turnosReg);
+        msgTurnosDisp = Short.toString(turnosDisp);
         //flagBtnAsignar = msgTotalTurnos.equalsIgnoreCase("0");
     }
 
@@ -278,8 +318,23 @@ public class AsignarTurnoSubsecuenteJSFManagedBean extends Utilitario implements
         return ttd;
     }
 
+    public short totalizaTurnosProced() {
+        int i = 0;
+        short t1 = 0, ttd = 0;
+        while (true) {
+            if (i == listaCalendProcedimientos.size()) {
+                break;
+            }
+            t1 = listaCalendProcedimientos.get(i).getNroProcedimientos();
+            ttd = (short) (ttd + t1);
+            i++;
+        }
+        return ttd;
+    }
+
     // </editor-fold> 
     // <editor-fold defaultstate="collapsed" desc="/** btnBuscarHc">
+
     public void btnBuscarHc() {
         editPacientes = pacientesFacade.findByHc(editPacientes.getNumeroHc());
         if (editPacientes != null) {
@@ -308,14 +363,16 @@ public class AsignarTurnoSubsecuenteJSFManagedBean extends Utilitario implements
             ponerMensajeInfo("ATENCION", "El paciente seleccionado ya se encuentra registrado...");
         } else {
 
-            subTurnos = totalizaTurnos();
-            System.out.println("turnosDisponib"+subTurnos);
+            //subTurnos = totalizaTurnos();
+            subTurnos = turnosD1vez;
+                    
+            System.out.println("turnosDisponib" + subTurnos);
             if (listaTurnos.isEmpty()) {
                 sigTurno = (short) (subTurnos + 1);
             } else {
                 sigTurno = (short) ((short) listaTurnos.size() + 1 + subTurnos);
             }
-            
+
             editTurnoCe = new TurnosCe();
 
             editTurnoCe.setPacientes(editPacientes);

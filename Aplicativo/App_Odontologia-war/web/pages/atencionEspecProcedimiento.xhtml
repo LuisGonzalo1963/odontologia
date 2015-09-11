@@ -57,10 +57,8 @@
                 <h:panelGroup>
                     <center>
                         <h:panelGrid columns="2">
-
                             <p:commandButton id="btnGraba" value="Generar Pago" icon="ui-icon-disk" disabled="#{atencionEspProc.flagbtnGraba}"
                                              style="font-size: 12px;" actionListener="#{atencionEspProc.btnGrabarCuentas()}" update=":form:listDtPr"/>
-
                         </h:panelGrid>
 
                         <p:dataTable id="listDtPr" var="list" value="#{atencionEspProc.listaProcedimientos}">
@@ -95,22 +93,24 @@
                             </p:column>
 
                             <p:column headerText="" style="font-size: 12px;">
-                                <h:outputText value="#{list.prcTipo}"  />
+                                <h:outputText value="#{list.prcTipo=='P'?'Pendiente':''}"  />
                             </p:column>
 
                             <p:column headerText="" style="font-size: 12px;">
                                 <h:outputText value="#{list.prcDescripcion}"  />
                             </p:column>
 
+                            <p:column style="width:5%;text-align: center;font-size: 12px;">
+                                <p:commandButton id="btnEdit" title="Eliminar Procedimiento" icon="ui-icon-trash"
+                                                 oncomplete="PF('dlgPrcDel').show()" update=":form3:panelDel" >
+                                    <f:setPropertyActionListener value="#{list}" target="#{atencionEspProc.selectProcedimientos}" />
+                                </p:commandButton>
+                            </p:column>
+
                         </p:dataTable>
                     </center>
                 </h:panelGroup>    
             </p:panel>
-
-            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-            </p:confirmDialog>
 
             <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
                 <p:graphicImage name="/images/ajax-loader.gif" />
@@ -315,5 +315,27 @@
                 </p:outputPanel>
             </h:form>
         </p:dialog>
+
+        <p:dialog header="Eliminar procedimiento" widgetVar="dlgPrcDel" style="font-size: 12px;">
+            <h:form id="form3">
+                <p:outputPanel id="panelDel">
+                    <h:panelGrid  >
+                        <h:outputLabel value="Desea eliminar el registro con la siguiente descripción?" style="color: red"/>
+                        <p:spacer height="5" />
+                        <h:outputLabel value="#{atencionEspProc.selectProcedimientos.prcDescripcion}"  />
+                    </h:panelGrid>
+                </p:outputPanel>
+                <p:spacer height="10"/>
+                <h:panelGroup>
+                    <center>
+                        <p:commandButton value="Aceptar" icon="ui-icon-disk" ajax="false"
+                                         process="@this" style="margin:0; font-size: 12px" 
+                                         actionListener="#{atencionEspProc.btnEliminarPrc()}" 
+                                         update=":form:listDtPr :form:msgs"/>
+                    </center>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
     </ui:define>
 </ui:composition>
